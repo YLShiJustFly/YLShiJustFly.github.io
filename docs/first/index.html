@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+        First - My New Hugo Site
+      </title>
+        <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    
+    <meta name="theme-color" content="#000000" />
+    
+    <meta http-equiv="window-target" content="_top" />
+    
+    
+    <meta name="description" content="vim配置plantuml实现流程图实时绘制并预览 1、依赖的第三方工具：graphviz 2、vim配置plantuml实时预览用到的插件 packer.nvim安装方式：  use {&amp;lsquo;tyru/open-browser.vim&amp;rsquo;, ft = {&amp;lsquo;plantuml&amp;rsquo;}, event = &amp;lsquo;BufEnter&amp;rsquo;} use {&amp;lsquo;sheerun/vim-polyglot&amp;rsquo;, ft = {&amp;lsquo;plantuml&amp;rsquo;, &amp;lsquo;markdown&amp;rsquo;}} use {&amp;lsquo;weirongxu/plantuml-previewer.vim&amp;rsquo;, ft = {&amp;lsquo;plantuml&amp;rsquo;}, event = &amp;lsquo;BufEnter&amp;rsquo;}  vim-plug安装方式：  Plug &amp;lsquo;sheerun/vim-polyglot Plug &amp;lsquo;tyru/open-browser.vim&amp;rsquo; Plug &amp;lsquo;weirongxu/plantuml-previewer.vim&amp;rsquo;  其中，vim-polyglot用来做语法高亮，plantuml-previewer.vim调用graphviz进行图片的渲染，open-browser.vim用来通过浏览器预览渲染出来的图。
+最近plantuml支持了不同theme进行图片的渲染，更多选择，总有一款适合你。
+3、安装完后需要做的配置  写一个bash脚本，文件名叫makeprg，内容如下：  #!/bin/bash java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/plantuml.jar -tsvg $@ makeprg放入系统$PATH路径下，供plantuml-previewer调用。  4、开始画我们第一个plantuml流程图 先看已经安装了哪些theme   nvim新建一个puml文件 nivm theme.puml
+  输入如下内容：
+  @startuml help themes @enduml  命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。
+  写我们的第一个流程图代码，指定要用的theme为bluegray。" />
+    <meta name="generator" content="Hugo 0.91.2 with theme pure" />
+    <title>First - My New Hugo Site</title>
+    
+    
+    <link rel="stylesheet" href="http://ylshijustfly.github.io/css/style.min.c58e22f1aa6179cd5cb60b9e08421a2b9a9c9fe9352d095e051b51aae209e5c0.css">
+    
+    <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css" async>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css" async>
+    <meta property="og:title" content="First" />
+<meta property="og:description" content="vim配置plantuml实现流程图实时绘制并预览 1、依赖的第三方工具：graphviz 2、vim配置plantuml实时预览用到的插件 packer.nvim安装方式：  use {&lsquo;tyru/open-browser.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;} use {&lsquo;sheerun/vim-polyglot&rsquo;, ft = {&lsquo;plantuml&rsquo;, &lsquo;markdown&rsquo;}} use {&lsquo;weirongxu/plantuml-previewer.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;}  vim-plug安装方式：  Plug &lsquo;sheerun/vim-polyglot Plug &lsquo;tyru/open-browser.vim&rsquo; Plug &lsquo;weirongxu/plantuml-previewer.vim&rsquo;  其中，vim-polyglot用来做语法高亮，plantuml-previewer.vim调用graphviz进行图片的渲染，open-browser.vim用来通过浏览器预览渲染出来的图。
+最近plantuml支持了不同theme进行图片的渲染，更多选择，总有一款适合你。
+3、安装完后需要做的配置  写一个bash脚本，文件名叫makeprg，内容如下：  #!/bin/bash java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/plantuml.jar -tsvg $@ makeprg放入系统$PATH路径下，供plantuml-previewer调用。  4、开始画我们第一个plantuml流程图 先看已经安装了哪些theme   nvim新建一个puml文件 nivm theme.puml
+  输入如下内容：
+  @startuml help themes @enduml  命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。
+  写我们的第一个流程图代码，指定要用的theme为bluegray。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://ylshijustfly.github.io/docs/first/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2022-03-12T13:29:25+08:00" />
+<meta property="article:modified_time" content="2022-03-12T13:29:25+08:00" />
+
+<meta itemprop="name" content="First">
+<meta itemprop="description" content="vim配置plantuml实现流程图实时绘制并预览 1、依赖的第三方工具：graphviz 2、vim配置plantuml实时预览用到的插件 packer.nvim安装方式：  use {&lsquo;tyru/open-browser.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;} use {&lsquo;sheerun/vim-polyglot&rsquo;, ft = {&lsquo;plantuml&rsquo;, &lsquo;markdown&rsquo;}} use {&lsquo;weirongxu/plantuml-previewer.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;}  vim-plug安装方式：  Plug &lsquo;sheerun/vim-polyglot Plug &lsquo;tyru/open-browser.vim&rsquo; Plug &lsquo;weirongxu/plantuml-previewer.vim&rsquo;  其中，vim-polyglot用来做语法高亮，plantuml-previewer.vim调用graphviz进行图片的渲染，open-browser.vim用来通过浏览器预览渲染出来的图。
+最近plantuml支持了不同theme进行图片的渲染，更多选择，总有一款适合你。
+3、安装完后需要做的配置  写一个bash脚本，文件名叫makeprg，内容如下：  #!/bin/bash java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/plantuml.jar -tsvg $@ makeprg放入系统$PATH路径下，供plantuml-previewer调用。  4、开始画我们第一个plantuml流程图 先看已经安装了哪些theme   nvim新建一个puml文件 nivm theme.puml
+  输入如下内容：
+  @startuml help themes @enduml  命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。
+  写我们的第一个流程图代码，指定要用的theme为bluegray。"><meta itemprop="datePublished" content="2022-03-12T13:29:25+08:00" />
+<meta itemprop="dateModified" content="2022-03-12T13:29:25+08:00" />
+<meta itemprop="wordCount" content="126">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="First"/>
+<meta name="twitter:description" content="vim配置plantuml实现流程图实时绘制并预览 1、依赖的第三方工具：graphviz 2、vim配置plantuml实时预览用到的插件 packer.nvim安装方式：  use {&lsquo;tyru/open-browser.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;} use {&lsquo;sheerun/vim-polyglot&rsquo;, ft = {&lsquo;plantuml&rsquo;, &lsquo;markdown&rsquo;}} use {&lsquo;weirongxu/plantuml-previewer.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;}  vim-plug安装方式：  Plug &lsquo;sheerun/vim-polyglot Plug &lsquo;tyru/open-browser.vim&rsquo; Plug &lsquo;weirongxu/plantuml-previewer.vim&rsquo;  其中，vim-polyglot用来做语法高亮，plantuml-previewer.vim调用graphviz进行图片的渲染，open-browser.vim用来通过浏览器预览渲染出来的图。
+最近plantuml支持了不同theme进行图片的渲染，更多选择，总有一款适合你。
+3、安装完后需要做的配置  写一个bash脚本，文件名叫makeprg，内容如下：  #!/bin/bash java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/plantuml.jar -tsvg $@ makeprg放入系统$PATH路径下，供plantuml-previewer调用。  4、开始画我们第一个plantuml流程图 先看已经安装了哪些theme   nvim新建一个puml文件 nivm theme.puml
+  输入如下内容：
+  @startuml help themes @enduml  命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。
+  写我们的第一个流程图代码，指定要用的theme为bluegray。"/>
+
+    <!--[if lte IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+      <![endif]-->
+
+    <!--[if lt IE 9]>
+        <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+      <![endif]-->
+  </head>
+
+  
+  
+
+  <body class="main-center" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header"><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="Type something..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+    
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/docs/first/"
+    >First</a
+  >
+</h1>
+
+      <div class="article-meta">
+        
+<span class="article-date">
+  <i class="icon icon-calendar-check"></i>&nbsp;
+<a href="http://ylshijustfly.github.io/docs/first/" class="article-date">
+  <time datetime="2022-03-12 13:29:25 &#43;0800 CST" itemprop="datePublished">2022-03-12</time>
+</a>
+</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i>&nbsp;<a href="/docs/first/#comments"
+            class="article-comment-link">Comments</a></span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <h2 id="vim配置plantuml实现流程图实时绘制并预览">vim配置plantuml实现流程图实时绘制并预览</h2>
+<h3 id="1依赖的第三方工具graphviz">1、依赖的第三方工具：graphviz</h3>
+<h3 id="2vim配置plantuml实时预览用到的插件">2、vim配置plantuml实时预览用到的插件</h3>
+<h4 id="packernvim安装方式">packer.nvim安装方式：</h4>
+<ul>
+<li>use {&lsquo;tyru/open-browser.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
+<li>use {&lsquo;sheerun/vim-polyglot&rsquo;, ft = {&lsquo;plantuml&rsquo;, &lsquo;markdown&rsquo;}}</li>
+<li>use {&lsquo;weirongxu/plantuml-previewer.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
+</ul>
+<h4 id="vim-plug安装方式">vim-plug安装方式：</h4>
+<ul>
+<li>Plug &lsquo;sheerun/vim-polyglot</li>
+<li>Plug &lsquo;tyru/open-browser.vim&rsquo;</li>
+<li>Plug &lsquo;weirongxu/plantuml-previewer.vim&rsquo;</li>
+</ul>
+<p>其中，vim-polyglot用来做语法高亮，plantuml-previewer.vim调用graphviz进行图片的渲染，open-browser.vim用来通过浏览器预览渲染出来的图。<br>
+最近plantuml支持了不同theme进行图片的渲染，更多选择，总有一款适合你。</p>
+<h3 id="3安装完后需要做的配置">3、安装完后需要做的配置</h3>
+<ol>
+<li>写一个bash脚本，文件名叫makeprg，内容如下：</li>
+</ol>
+<pre tabindex="0"><code>#!/bin/bash
+java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/plantuml.jar -tsvg $@
+</code></pre><ol start="2">
+<li>makeprg放入系统<code>$PATH</code>路径下，供plantuml-previewer调用。</li>
+</ol>
+<h3 id="4开始画我们第一个plantuml流程图">4、开始画我们第一个plantuml流程图</h3>
+<h4 id="先看已经安装了哪些theme">先看已经安装了哪些theme</h4>
+<ol>
+<li>
+<p>nvim新建一个puml文件
+nivm theme.puml</p>
+</li>
+<li>
+<p>输入如下内容：</p>
+</li>
+</ol>
+<pre tabindex="0"><code>@startuml
+help themes
+@enduml
+</code></pre><ol start="3">
+<li>
+<p>命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。<br>
+<img src="http://youseeicanfly.gitee.io/picturebed/plantuml/theme.png" alt="theme"></p>
+</li>
+<li>
+<p>写我们的第一个流程图代码，指定要用的theme为bluegray。</p>
+</li>
+</ol>
+<pre tabindex="0"><code>@startuml
+!theme bluegray
+start
+if (&quot;你想练葵花宝典&quot;) then (true)
+floating note right:修炼葵花宝典注意事项
+    if (&quot;你能接受自宫吗&quot;) then (no)
+        :&quot;很遗憾，你无法修炼&quot;;
+    else (yes)
+        if (&quot;你有葵花宝典秘籍吗&quot;) then (yes)
+            :&quot;恭喜你，可以修炼&quot;;
+        else (no)
+            :&quot;很遗憾，你无法修炼&quot;;
+        endif
+    endif
+else (false)
+    :&quot;不修炼&quot;;
+endif
+stop
+@enduml
+</code></pre><ol start="5">
+<li>
+<p>执行:PlantumlOpen生成流程图。<br>
+<img src="http://youseeicanfly.gitee.io/picturebed/plantuml/test_bluegray.png" alt="test"></p>
+</li>
+<li>
+<p>换成sandstone主题。</p>
+</li>
+</ol>
+<pre tabindex="0"><code>@startuml
+!theme sandstone
+start
+if (&quot;你想练葵花宝典&quot;) then (yes)
+floating note right:修炼葵花宝典注意事项
+    if (&quot;你能接受自宫吗&quot;) then (no)
+        :&quot;很遗憾，你无法修炼&quot;;
+    else (yes)
+        if (&quot;你有葵花宝典秘籍吗&quot;) then (yes)
+            :&quot;恭喜你，可以修炼&quot;;
+        else (no)
+            :&quot;很遗憾，你无法修炼&quot;;
+        endif
+    endif
+else (no)
+    :&quot;不修炼&quot;;
+endif
+stop
+@enduml
+</code></pre><p><img src="http://youseeicanfly.gitee.io/picturebed/plantuml/test_sandstone.png" alt="test"></p>
+
+    </div>
+    <div class="article-footer">
+    </div>
+  </article>
+<section id="comments">
+    <script src="https://utteranc.es/client.js" repo="YLShiJustFly/YLShiJustFly.github.io" issue-term="pathname" label="评论" theme="github-dark" crossorigin="anonymous" async></script>
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="http://ylshijustfly.github.io/about/" title="About"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;Older</span></a>
+            </li>
+            
+        </ul>
+        <div class="bar-right">
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+  <div class="copyright">
+    &copy;&lt;nil&gt;  -
+    2022
+    <div class="publishby">
+        Theme by <a href="https://github.com/senjianlu" target="_blank"> senjianlu </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script><script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script src="http://ylshijustfly.github.io/js/application.min.a94ab19cb63a95c8d7fbd7b85cab3ddeea8c369bdf75b9cab6708787ead123af.js"></script>
+<script src="http://ylshijustfly.github.io/js/plugin.min.19c5bcb2fb0789ab4f2b7834e5ceb5e92635645605bab902c1024b25f1502364.js"></script>
+
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            ROOT_URL: 'http:\/\/ylshijustfly.github.io\/',
+            CONTENT_URL: 'http:\/\/ylshijustfly.github.io\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="http://ylshijustfly.github.io/js/insight.min.4a2d52de4bfff73e0c688404fe3d17c9a3ae12d9888e1e1ac9c690e4890de2ded50fe55f2b819c2ba55435a76f396f3ea6805765f0b0af5635cdf74ea459eab0.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+
+  </body>
+</html>
