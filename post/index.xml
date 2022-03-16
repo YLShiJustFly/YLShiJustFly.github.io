@@ -16,5 +16,14 @@
       <description>传统画流程图的痛点 我们经常需要画流程图来表示代码逻辑或者基本框架等。但我们在绘画流程图的时候，经常会在对齐连接线这些和流程图表达的意义无关的</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>http://YLShiJustFly.github.io/post/beamer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://YLShiJustFly.github.io/post/beamer/</guid>
+      <description>beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，</description>
+    </item>
+    
   </channel>
 </rss>
