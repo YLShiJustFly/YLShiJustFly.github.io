@@ -31,18 +31,18 @@ java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/pl
 
 ### 4、开始画我们第一个plantuml流程图
 1. 先看已经安装了哪些theme  
-a） nvim新建一个puml文件
+  
+&emsp;&emsp;a） nvim新建一个puml文件
 ```
 nivm theme.puml
 ```
-  
-b） 输入如下内容：
+&emsp;&emsp;b） 输入如下内容：
 ```
 @startuml
 help themes
 @enduml
 ```
-c） 命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。  
+&emsp;&emsp;c） 命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。  
 ![theme](http://youseeicanfly.gitee.io/picturebed/plantuml/theme.png)
 
 2. 写我们的第一个流程图代码，指定要用的theme为bluegray。   

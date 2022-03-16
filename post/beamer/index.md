@@ -8,26 +8,28 @@
 ## 具体流程
 ### 1、依赖的第三方工具：开源的pdf阅读、编辑软件skim，latex编译及中文环境。
 #### a. 首先安装skim。
-这个软件支持brew方式安装，但现在的release版本有bug，正向跳转有问题，所以建议到官网下载补丁版。  
-安装好skim后，需要如下设置：  
+&emsp;&emsp;skim支持brew方式安装，但现在的release版本有bug，正向跳转有问题，所以建议到官网下载补丁版。  
+&emsp;&emsp;安装好skim后，需要如下设置：  
+  
 打开偏好设置->同步，选择自定义，  
-命令写：
+  
+命令写：  
     ```
 nvim
     ```
-   
+  
 参数写：  
     ```
 --headless -c "VimtexInverseSearch %l '%f'" 
     ```
 #### b. 然后安装latex及中文环境。
-这个软件使用brew install mactex --cask命令安装即可，装好后在~目录下新建配置文件.latexmkrc，内容为   
+&emsp;&emsp;使用brew install mactex --cask命令安装即可，装好后在~目录下新建配置文件.latexmkrc，内容为   
  ```
 $pdf_mode=5;
 $xelatex = "xelatex -synctex=1 -interaction=nonstopmode -file-line-error %O %S";
  ```
-这个配置文件主要作用是指定编译使用xeletex，并支持持续编译模式。  
-latex的beamer宏包有一些默认的主题，如果不满意，可以到网上下载第三方主题，拷贝到latex目录下，执行sudo texhash将主题等内容更新到latex库里。
+&nbsp;&emsp;&emsp;这个配置文件主要作用是指定编译使用xeletex，并支持持续编译模式。  
+&nbsp;&emsp;&emsp;latex的beamer宏包有一些默认的主题，如果不满意，可以到网上下载第三方主题，拷贝到latex目录下，执行sudo texhash将主题等内容更新到latex库里。
 
 ### 2、vim配置ppt实时编译及预览用到的插件只有一个，但需要搭配snippets软件使用，方便插入大段固定代码。
 
@@ -42,7 +44,7 @@ latex的beamer宏包有一些默认的主题，如果不满意，可以到网上
 - Plug 'SirVer/ultisnips'
 
 ### 3、安装完插件后需要做的配置
-注意：其他配置按vimtex github主页的说明即可，但要支持双向搜索，需要加如下设置：
+&nbsp;&emsp;&emsp;注意：其他配置按vimtex github主页的说明即可，但要支持双向搜索，需要加如下设置：
 ```
 let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'  
 let g:vimtex_view_general_options = '-g -r @line @pdf @tex'  
@@ -60,7 +62,7 @@ function! UpdateSkim() abort
     call jobstart(l:cmd + [line('.'), l:out, l:src_file_path])  
 endfunction
 ```
-这段代码调用了skim.app里的一个bash脚本，这个脚本实际调用了一段applescript脚本来支持定位到skim中的位置。
+&nbsp;&emsp;&emsp;这段代码调用了skim.app里的一个bash脚本，这个脚本实际调用了一段applescript脚本来支持定位到skim中的位置。
 ### 4、开始写我们的ppt
 ```
 
