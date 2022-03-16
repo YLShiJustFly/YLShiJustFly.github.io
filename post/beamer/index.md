@@ -15,6 +15,7 @@
     ```
 nvim
     ```
+   
 参数写：  
     ```
 --headless -c "VimtexInverseSearch %l '%f'" 
