@@ -49,7 +49,7 @@
 <meta itemprop="description" content="beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，">
 <meta itemprop="datePublished" content="2022-03-10T14:17:59+08:00" />
 <meta itemprop="dateModified" content="2022-03-10T14:17:59+08:00" />
-<meta itemprop="wordCount" content="1947">
+<meta itemprop="wordCount" content="1945">
 
 
 
@@ -179,7 +179,10 @@
 <h4 id="a-首先安装skim">a. 首先安装skim。</h4>
 <p>这个软件支持brew方式安装，但现在的release版本有bug，正向跳转有问题，所以建议到官网下载补丁版。<br>
 安装好skim后，需要如下设置：<br>
-打开偏好设置-&gt;同步，选择自定义，命令写nvim，参数写<br>
+打开偏好设置-&gt;同步，选择自定义，<br>
+命令写：
+<code>nvim</code>
+参数写：<br>
 <code>--headless -c &quot;VimtexInverseSearch %l '%f'&quot; </code></p>
 <h4 id="b-然后安装latex及中文环境">b. 然后安装latex及中文环境。</h4>
 <p>这个软件使用brew install mactex &ndash;cask命令安装即可，装好后在~目录下新建配置文件.latexmkrc，内容为</p>

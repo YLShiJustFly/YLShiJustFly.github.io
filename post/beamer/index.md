@@ -10,9 +10,14 @@
 #### a. 首先安装skim。
 这个软件支持brew方式安装，但现在的release版本有bug，正向跳转有问题，所以建议到官网下载补丁版。  
 安装好skim后，需要如下设置：  
-打开偏好设置->同步，选择自定义，命令写nvim，参数写  
+打开偏好设置->同步，选择自定义，  
+命令写：
     ```
-    --headless -c "VimtexInverseSearch %l '%f'" 
+nvim
+    ```
+参数写：  
+    ```
+--headless -c "VimtexInverseSearch %l '%f'" 
     ```
 #### b. 然后安装latex及中文环境。
 这个软件使用brew install mactex --cask命令安装即可，装好后在~目录下新建配置文件.latexmkrc，内容为   
