@@ -2,8 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://YLShiJustFly.github.io/post/about/</loc>
-    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
+    <loc>http://YLShiJustFly.github.io/about/</loc>
+    <lastmod>2022-03-16T10:57:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -30,6 +30,20 @@
   </url>
   
   <url>
+    <loc>http://YLShiJustFly.github.io/categories/plantuml/</loc>
+    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/post/plantuml/</loc>
+    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://YLShiJustFly.github.io/post/</loc>
     <lastmod>2022-03-10T14:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -38,13 +52,6 @@
   
   <url>
     <loc>http://YLShiJustFly.github.io/tags/</loc>
-    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://YLShiJustFly.github.io/categories/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D/</loc>
     <lastmod>2022-03-10T14:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

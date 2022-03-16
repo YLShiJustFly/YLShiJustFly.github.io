@@ -8,11 +8,11 @@
     <language>en</language>
     <lastBuildDate>Thu, 10 Mar 2022 14:17:59 +0800</lastBuildDate><atom:link href="http://YLShiJustFly.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>About</title>
-      <link>http://YLShiJustFly.github.io/post/about/</link>
+      <title>plantuml</title>
+      <link>http://YLShiJustFly.github.io/post/plantuml/</link>
       <pubDate>Thu, 10 Mar 2022 14:17:59 +0800</pubDate>
       
-      <guid>http://YLShiJustFly.github.io/post/about/</guid>
+      <guid>http://YLShiJustFly.github.io/post/plantuml/</guid>
       <description>传统画流程图的痛点 我们经常需要画流程图来表示代码逻辑或者基本框架等。但我们在绘画流程图的时候，经常会在对齐连接线这些和流程图表达的意义无关的</description>
     </item>
     
