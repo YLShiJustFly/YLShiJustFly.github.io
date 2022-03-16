@@ -1,3 +1,4 @@
+
 ## beamer和powerpoint的不同
     我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，且价格不菲，wps的画图功能能用，但需要保存成其他格式，比如pdf时。  
     是需要收费的。而基于latex的beamer宏包，我们可以使用编辑器写latex代码，用latex的编译工具编译成适合展示的ppt。当然ppt是pdf形式的，并且不太适合做  
