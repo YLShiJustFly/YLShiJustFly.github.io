@@ -1,9 +1,8 @@
 
 ## beamer和powerpoint的不同
-我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，且价格不菲，wps的画图功能能用，但需要保存成其他格式，比如pdf时。  
-是需要收费的。而基于latex的beamer宏包，我们可以使用编辑器写latex代码，用latex的编译工具编译成适合展示的ppt。当然ppt是pdf形式的，并且不太适合做  
-有复杂效果的ppt。
-本文旨在基于neovim和latex，使用latex的beamer宏包，搭建使用代码写ppt，并用skim实时预览的ppt制作环境，同时支持双向搜索跳转（即可以在vim中按快捷键跳转到  
+&emsp;&emsp;&nbsp;我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，且价格不菲，wps的画图功能能用，但需要保存成其他格式，比如pdf时，
+是需要收费的。而基于latex的beamer宏包，我们可以使用编辑器写latex代码，用latex的编译工具编译成适合展示的ppt。当然ppt是pdf形式的，并且不太适合做有复杂效果的ppt。  
+&emsp;&emsp;&nbsp;本文旨在基于neovim和latex，使用latex的beamer宏包，搭建使用代码写ppt，并用skim实时预览的ppt制作环境，同时支持双向搜索跳转（即可以在vim中按快捷键跳转到
 光标所在代码编译生成的ppt的对应页，同时支持在ppt中点击鼠标，定位到vim中对应代码）。
 
 ## 具体流程
@@ -11,7 +10,7 @@
 #### a. 首先安装skim。
 这个软件支持brew方式安装，但现在的release版本有bug，正向跳转有问题，所以建议到官网下载补丁版。  
 安装好skim后，需要如下设置：  
-打开偏好设置->同步，选择自定义，命令写nvim，参数写
+打开偏好设置->同步，选择自定义，命令写nvim，参数写  
     ```
     --headless -c "VimtexInverseSearch %l '%f'" 
     ```
@@ -21,7 +20,7 @@
 $pdf_mode=5;
 $xelatex = "xelatex -synctex=1 -interaction=nonstopmode -file-line-error %O %S";
  ```
-这个配置文件主要作用是指定编译使用xeletex，并支持持续编译模式。
+这个配置文件主要作用是指定编译使用xeletex，并支持持续编译模式。  
 latex的beamer宏包有一些默认的主题，如果不满意，可以到网上下载第三方主题，拷贝到latex目录下，执行sudo texhash将主题等内容更新到latex库里。
 
 ### 2、vim配置ppt实时编译及预览用到的插件只有一个，但需要搭配snippets软件使用，方便插入大段固定代码。

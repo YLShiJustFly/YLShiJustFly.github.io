@@ -170,17 +170,16 @@
 </div>
     <div class="post-content">
       <h2 id="beamer和powerpoint的不同">beamer和powerpoint的不同</h2>
-<p>我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，且价格不菲，wps的画图功能能用，但需要保存成其他格式，比如pdf时。<br>
-是需要收费的。而基于latex的beamer宏包，我们可以使用编辑器写latex代码，用latex的编译工具编译成适合展示的ppt。当然ppt是pdf形式的，并且不太适合做<br>
-有复杂效果的ppt。
-本文旨在基于neovim和latex，使用latex的beamer宏包，搭建使用代码写ppt，并用skim实时预览的ppt制作环境，同时支持双向搜索跳转（即可以在vim中按快捷键跳转到<br>
+<p>   我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，且价格不菲，wps的画图功能能用，但需要保存成其他格式，比如pdf时，
+是需要收费的。而基于latex的beamer宏包，我们可以使用编辑器写latex代码，用latex的编译工具编译成适合展示的ppt。当然ppt是pdf形式的，并且不太适合做有复杂效果的ppt。<br>
+   本文旨在基于neovim和latex，使用latex的beamer宏包，搭建使用代码写ppt，并用skim实时预览的ppt制作环境，同时支持双向搜索跳转（即可以在vim中按快捷键跳转到
 光标所在代码编译生成的ppt的对应页，同时支持在ppt中点击鼠标，定位到vim中对应代码）。</p>
 <h2 id="具体流程">具体流程</h2>
 <h3 id="1依赖的第三方工具开源的pdf阅读编辑软件skimlatex编译及中文环境">1、依赖的第三方工具：开源的pdf阅读、编辑软件skim，latex编译及中文环境。</h3>
 <h4 id="a-首先安装skim">a. 首先安装skim。</h4>
 <p>这个软件支持brew方式安装，但现在的release版本有bug，正向跳转有问题，所以建议到官网下载补丁版。<br>
 安装好skim后，需要如下设置：<br>
-打开偏好设置-&gt;同步，选择自定义，命令写nvim，参数写
+打开偏好设置-&gt;同步，选择自定义，命令写nvim，参数写<br>
 <code>--headless -c &quot;VimtexInverseSearch %l '%f'&quot; </code></p>
 <h4 id="b-然后安装latex及中文环境">b. 然后安装latex及中文环境。</h4>
 <p>这个软件使用brew install mactex &ndash;cask命令安装即可，装好后在~目录下新建配置文件.latexmkrc，内容为</p>
@@ -194,7 +193,7 @@
 $xelatex = &#34;xelatex -synctex=1 -interaction=nonstopmode -file-line-error %O %S&#34;;
 </code></pre></td></tr></table>
 </div>
-</div><p>这个配置文件主要作用是指定编译使用xeletex，并支持持续编译模式。
+</div><p>这个配置文件主要作用是指定编译使用xeletex，并支持持续编译模式。<br>
 latex的beamer宏包有一些默认的主题，如果不满意，可以到网上下载第三方主题，拷贝到latex目录下，执行sudo texhash将主题等内容更新到latex库里。</p>
 <h3 id="2vim配置ppt实时编译及预览用到的插件只有一个但需要搭配snippets软件使用方便插入大段固定代码">2、vim配置ppt实时编译及预览用到的插件只有一个，但需要搭配snippets软件使用，方便插入大段固定代码。</h3>
 <h4 id="apackernvim安装方式">a.packer.nvim安装方式：</h4>
