@@ -18,8 +18,8 @@
 - Plug 'tyru/open-browser.vim'
 - Plug 'weirongxu/plantuml-previewer.vim'
 
-其中，vim-polyglot用来做语法高亮，plantuml-previewer.vim调用graphviz进行图片的渲染，open-browser.vim用来通过浏览器预览渲染出来的图。  
-最近plantuml支持了不同theme进行图片的渲染，更多选择，总有一款适合你。
+&nbsp;&emsp;&emsp;其中，vim-polyglot用来做语法高亮，plantuml-previewer.vim调用graphviz进行图片的渲染，open-browser.vim用来通过浏览器预览渲染出来的图。  
+&nbsp;&emsp;&emsp;最近plantuml支持了不同theme进行图片的渲染，更多选择，总有一款适合你。
 
 ### 3、安装完插件后需要做的配置
 1. 写一个bash脚本，文件名叫makeprg，内容如下：
