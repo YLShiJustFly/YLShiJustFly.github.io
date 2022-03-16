@@ -57,6 +57,7 @@ endfunction
 这段代码调用了skim.app里的一个bash脚本，这个脚本实际调用了一段applescript脚本来支持定位到skim中的位置。
 ### 4、开始写我们的ppt
 ```
+
 \documentclass[aspectratio=169,fontset=windows,UTF-8,10pt,xcolor={usenames,dvipsnames,svgnames,x11names}]{beamer}
 \usepackage[space]{ctex}
 \usetheme{cleancode}
@@ -70,56 +71,64 @@ endfunction
 \begin{document}
 %首页
 {
-    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{"/Users/shiyaoliang/Documents/a.管控资料文件/c.ata/a.nvim/c.png/a.首页.png"}};}
+    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{"/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/a.首页.png"}};}
     \begin{frame}[fragile]
         \begin{center}
         \Large 
-            基于lsp和neovim的半隔离网络环境\\
-                     c++开发环境搭建
+            3.15消费者权益保护日\\
             \\[4\baselineskip]
         \small
-             钟吕---块存储
+               一个普通消费者
         \end{center}
     \end{frame}
 }
 
 %目录
-\section[Contents]{}
+\section[目录]{}
 \frame 
 {
     \frametitle{\secname}
-    %\tableofcontents[pausesections]
     \tableofcontents
+    %\tableofcontents[pausesections]
 }
 
 \AtBeginSection[] 
 {
     \frame<handout:0> 
     {
-        \frametitle{Contents}
+        \frametitle{目录}
         \tableofcontents[current,currentsection]
     }
 }
 
-\usebackgroundtemplate{\tikz[overlay,remember picture]\node[anchor=45]at ([xshift=10ex,yshift=-5ex] current page.45) {\includegraphics[height=0.1\paperheight,width=0.2\paperwidth]{"/Users/shiyaoliang/Documents/a.管控资料文件/c.ata/a.nvim/c.png/c.角标.png"}};}
-\section{lsp简介}
+\usebackgroundtemplate{\tikz[overlay,remember picture]\node[anchor=45]at ([xshift=10ex,yshift=-5ex] current page.45) {\includegraphics[height=0.5\paperheight,width=0.5\paperwidth]{"/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/c.角标.png"}};}
+\section{消费者 VS 黑心商家}
 \begin{frame}[fragile]
-    \frametitle{lsp简介}
-    \setlength{\parindent}{2em}
-    近两年基于language server protocol（后文简称lsp）的language server和language client都在持续发展，已经到了可以使用的程度。
-    这不仅使vscode的功能更加强大，也造福了其他功能可扩展的编辑器。
-    对于vim而言，受益于lsp，可以拥有和vscode完全一样的语法检测和定义跳转等的体验，并且更加轻量。
-    \\[1\baselineskip]
-    现在ata上关于lsp介绍的文章还很少，本文旨在基于vim的lsp，在开发机的半网络隔离环境下，搭建C++开发环境。
+\frametitle{消费者 VS 黑心商家}
+    \begin{table}[h]
+        \centering
+        \caption{对比}
+        \label{tab3}
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \diagbox{比较项}{人物} & 消费者 & 黑心商家  \\
+            \hline
+            资源             &  少      & 多 \\
+            \hline
+            强弱             &  弱势    & 强势 \\
+            \hline
+        \end{tabular}
+    \end{table}
 \end{frame}
 
 %尾页
 {
-    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{"/Users/shiyaoliang/Documents/a.管控资料文件/c.ata/a.nvim/c.png/b.尾页.png"}};}
+    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{"/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/a.首页.png"}};}
     \begin{frame}
     \end{frame}
 }
 \end{document}
+
 ```
 ### 5、按vimtex默认快捷键\<leader\>ll，开启编译并实时预览
 效果：

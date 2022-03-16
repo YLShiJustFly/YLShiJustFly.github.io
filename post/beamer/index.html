@@ -49,7 +49,7 @@
 <meta itemprop="description" content="beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，">
 <meta itemprop="datePublished" content="2022-03-10T14:17:59+08:00" />
 <meta itemprop="dateModified" content="2022-03-10T14:17:59+08:00" />
-<meta itemprop="wordCount" content="2057">
+<meta itemprop="wordCount" content="1947">
 
 
 
@@ -313,9 +313,19 @@ endfunction
 </span><span class="lnt">61
 </span><span class="lnt">62
 </span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">\documentclass[aspectratio=169,fontset=windows,UTF-8,10pt,xcolor={usenames,dvipsnames,svgnames,x11names}]{beamer}
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+\documentclass[aspectratio=169,fontset=windows,UTF-8,10pt,xcolor={usenames,dvipsnames,svgnames,x11names}]{beamer}
 \usepackage[space]{ctex}
 \usetheme{cleancode}
 \usetikzlibrary{shadows}
@@ -328,56 +338,64 @@ endfunction
 \begin{document}
 %首页
 {
-    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{&#34;/Users/shiyaoliang/Documents/a.管控资料文件/c.ata/a.nvim/c.png/a.首页.png&#34;}};}
+    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/a.首页.png&#34;}};}
     \begin{frame}[fragile]
         \begin{center}
         \Large 
-            基于lsp和neovim的半隔离网络环境\\
-                     c++开发环境搭建
+            3.15消费者权益保护日\\
             \\[4\baselineskip]
         \small
-             钟吕---块存储
+               一个普通消费者
         \end{center}
     \end{frame}
 }
 
 %目录
-\section[Contents]{}
+\section[目录]{}
 \frame 
 {
     \frametitle{\secname}
-    %\tableofcontents[pausesections]
     \tableofcontents
+    %\tableofcontents[pausesections]
 }
 
 \AtBeginSection[] 
 {
     \frame&lt;handout:0&gt; 
     {
-        \frametitle{Contents}
+        \frametitle{目录}
         \tableofcontents[current,currentsection]
     }
 }
 
-\usebackgroundtemplate{\tikz[overlay,remember picture]\node[anchor=45]at ([xshift=10ex,yshift=-5ex] current page.45) {\includegraphics[height=0.1\paperheight,width=0.2\paperwidth]{&#34;/Users/shiyaoliang/Documents/a.管控资料文件/c.ata/a.nvim/c.png/c.角标.png&#34;}};}
-\section{lsp简介}
+\usebackgroundtemplate{\tikz[overlay,remember picture]\node[anchor=45]at ([xshift=10ex,yshift=-5ex] current page.45) {\includegraphics[height=0.5\paperheight,width=0.5\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/c.角标.png&#34;}};}
+\section{消费者 VS 黑心商家}
 \begin{frame}[fragile]
-    \frametitle{lsp简介}
-    \setlength{\parindent}{2em}
-    近两年基于language server protocol（后文简称lsp）的language server和language client都在持续发展，已经到了可以使用的程度。
-    这不仅使vscode的功能更加强大，也造福了其他功能可扩展的编辑器。
-    对于vim而言，受益于lsp，可以拥有和vscode完全一样的语法检测和定义跳转等的体验，并且更加轻量。
-    \\[1\baselineskip]
-    现在ata上关于lsp介绍的文章还很少，本文旨在基于vim的lsp，在开发机的半网络隔离环境下，搭建C++开发环境。
+\frametitle{消费者 VS 黑心商家}
+    \begin{table}[h]
+        \centering
+        \caption{对比}
+        \label{tab3}
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \diagbox{比较项}{人物} &amp; 消费者 &amp; 黑心商家  \\
+            \hline
+            资源             &amp;  少      &amp; 多 \\
+            \hline
+            强弱             &amp;  弱势    &amp; 强势 \\
+            \hline
+        \end{tabular}
+    \end{table}
 \end{frame}
 
 %尾页
 {
-    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{&#34;/Users/shiyaoliang/Documents/a.管控资料文件/c.ata/a.nvim/c.png/b.尾页.png&#34;}};}
+    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/a.首页.png&#34;}};}
     \begin{frame}
     \end{frame}
 }
 \end{document}
+
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="5按vimtex默认快捷键leaderll开启编译并实时预览">5、按vimtex默认快捷键&lt;leader&gt;ll，开启编译并实时预览</h3>
