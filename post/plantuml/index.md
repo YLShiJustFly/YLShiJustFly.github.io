@@ -30,10 +30,12 @@ java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/pl
 2. makeprg放入系统`$PATH`路径下，供plantuml-previewer调用。
 
 ### 4、开始画我们第一个plantuml流程图
-1. 先看已经安装了哪些theme
+1. 先看已经安装了哪些theme  
 a） nvim新建一个puml文件
+```
 nivm theme.puml
-
+```
+  
 b） 输入如下内容：
 ```
 @startuml
