@@ -9,27 +9,6 @@
   </url>
   
   <url>
-    <loc>http://YLShiJustFly.github.io/posts/about/</loc>
-    <lastmod>2022-03-15T14:25:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://YLShiJustFly.github.io/posts/</loc>
-    <lastmod>2022-03-15T14:25:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://YLShiJustFly.github.io/</loc>
-    <lastmod>2022-03-15T14:25:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://YLShiJustFly.github.io/tags/beamer/</loc>
     <lastmod>2022-03-10T14:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -87,6 +66,13 @@
   
   <url>
     <loc>http://YLShiJustFly.github.io/post/beamer/</loc>
+    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/</loc>
     <lastmod>2022-03-10T14:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
