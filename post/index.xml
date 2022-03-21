@@ -6,7 +6,16 @@
     <description>Recent content in Posts on YLShi&#39;s Life and Work Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Mar 2022 14:17:59 +0800</lastBuildDate><atom:link href="http://YLShiJustFly.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Mar 2022 19:07:57 +0800</lastBuildDate><atom:link href="http://YLShiJustFly.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Macos</title>
+      <link>http://YLShiJustFly.github.io/post/macos/</link>
+      <pubDate>Mon, 21 Mar 2022 19:07:57 +0800</pubDate>
+      
+      <guid>http://YLShiJustFly.github.io/post/macos/</guid>
+      <description>记录我在 macOS 下常用到的工具。 键盘按键映射 Karabiner Elements&amp;mdash;免费。作为mac下功能最强大的按键映射工具，它支持simple模式和c</description>
+    </item>
+    
     <item>
       <title>Draw Flow Chart By PlantUML</title>
       <link>http://YLShiJustFly.github.io/post/plantuml/</link>
