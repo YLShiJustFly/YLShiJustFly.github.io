@@ -26,7 +26,7 @@
     </item>
     
     <item>
-      <title>Draw Flow Chart By PlantUML</title>
+      <title>vim&#43;markdown-preview.nvim绘制流程图</title>
       <link>http://YLShiJustFly.github.io/post/plantuml/</link>
       <pubDate>Thu, 10 Mar 2022 14:17:59 +0800</pubDate>
       
@@ -35,7 +35,7 @@
     </item>
     
     <item>
-      <title>Use beamer of latex to Make PPT</title>
+      <title>使用vim&#43;vimtex&#43;latex(beamer) 制作PPT</title>
       <link>http://YLShiJustFly.github.io/post/beamer/</link>
       <pubDate>Thu, 10 Mar 2022 14:17:59 +0800</pubDate>
       
