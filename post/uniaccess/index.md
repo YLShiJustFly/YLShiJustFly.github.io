@@ -33,14 +33,19 @@ mkdir -p /Users/xxx/myroot
 其中，myroot为随意的名字。  
 然后需要获取硬盘名。
 - 方法1，访达->应用程序->实用工具->磁盘工具，找到disk开头的字符，例如我的是disk1s1s1，最后的s1是快照号，舍去，得到磁盘名disk1s1。
-- 方法2，终端执行df -h，得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。
+- 方法2，终端执行
+  
+```
+df -h
+```
+  
+得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。
   
 &emsp;&emsp;&nbsp;然后终端执行
   
 ```
 sudo mount -o nobrowse -t apfs /dev/disk1s1 /Users/xxx/myroot
 ```
-
   
 其中，disk1s1是你的硬盘名。把磁盘挂载到用户有读写执行权限的/Users/xxx/myroot。然后执行
   
@@ -48,11 +53,19 @@ sudo mount -o nobrowse -t apfs /dev/disk1s1 /Users/xxx/myroot
 sudo bless --folder /Users/xxx/myroot/System/Library/CoreServices --bootefi --create-snapshot
 ```
   
-来恢复快照。重启。
+来恢复快照。
+  
+重启。
   
 切记：你的硬盘整个都挂载到了/Users/xxx/myroot下，不熟悉macos系统的话最好不要操作里面的文件。
 
-- 10.15系统及以前系统：终端执行sudo mount -uw / ，重新挂载根目录。
+- 10.15系统及以前系统：终端执行
+  
+```
+sudo mount -uw / 
+```
+  
+重新挂载根目录。
 
 4. 杀死UniAcess进程。
 找到UniAccess进程，我的是dvc打头的一个名字，终端执行

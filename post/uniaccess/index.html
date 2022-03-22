@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Mac版UniAccess卸载方法">
 <meta itemprop="description" content="为什么要卸载UniAcess? 很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源， 上网速度受到很大影响，甚"><meta itemprop="datePublished" content="2022-03-22T13:41:00+08:00" />
 <meta itemprop="dateModified" content="2022-03-22T13:41:00+08:00" />
-<meta itemprop="wordCount" content="1324">
+<meta itemprop="wordCount" content="1319">
 <meta itemprop="keywords" content="工具," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Mac版UniAccess卸载方法"/>
 <meta name="twitter:description" content="为什么要卸载UniAcess? 很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源， 上网速度受到很大影响，甚"/>
@@ -136,7 +136,7 @@
         <div class="post-category">
             <a href="/categories/macos/"> MacOS </a>
             </div>
-          <span class="more-meta"> 1324 words </span>
+          <span class="more-meta"> 1319 words </span>
           <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -206,8 +206,17 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 然后需要获取硬盘名。</p>
 <ul>
 <li>方法1，访达-&gt;应用程序-&gt;实用工具-&gt;磁盘工具，找到disk开头的字符，例如我的是disk1s1s1，最后的s1是快照号，舍去，得到磁盘名disk1s1。</li>
-<li>方法2，终端执行df -h，得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。</li>
+<li>方法2，终端执行</li>
 </ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">df -h
+</code></pre></td></tr></table>
+</div>
+</div><p>得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。</p>
 <p>   然后终端执行</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -226,11 +235,21 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo bless --folder /Users/xxx/myroot/System/Library/CoreServices --bootefi --create-snapshot
 </code></pre></td></tr></table>
 </div>
-</div><p>来恢复快照。重启。</p>
+</div><p>来恢复快照。</p>
+<p>重启。</p>
 <p>切记：你的硬盘整个都挂载到了/Users/xxx/myroot下，不熟悉macos系统的话最好不要操作里面的文件。</p>
 <ul>
-<li>10.15系统及以前系统：终端执行sudo mount -uw / ，重新挂载根目录。</li>
+<li>10.15系统及以前系统：终端执行</li>
 </ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo mount -uw / 
+</code></pre></td></tr></table>
+</div>
+</div><p>重新挂载根目录。</p>
 <ol start="4">
 <li>杀死UniAcess进程。
 找到UniAccess进程，我的是dvc打头的一个名字，终端执行</li>
