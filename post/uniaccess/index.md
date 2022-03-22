@@ -103,13 +103,13 @@ cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。1
 - 关机，按command+R进入恢复模式，执行
   
 ```
-csrutil enable
+sudo csrutil enable
 ```
   
 和：
   
 ```
-csrutil authenticated-root enable
+sudo csrutil authenticated-root enable
 ```
   
 重新开启sip。
