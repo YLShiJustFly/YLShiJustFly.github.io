@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Uniaccess - YLShi&#39;s Life and Work Space</title>
+  <title>Mac版UniAccess卸载方法 - YLShi&#39;s Life and Work Space</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -39,19 +39,19 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Uniaccess" />
+<meta property="og:title" content="Mac版UniAccess卸载方法" />
 <meta property="og:description" content="为什么要卸载UniAcess? 很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源， 上网速度受到很大影响，甚" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/uniaccess/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-03-22T13:41:00+08:00" />
 <meta property="article:modified_time" content="2022-03-22T13:41:00+08:00" />
 
-<meta itemprop="name" content="Uniaccess">
+<meta itemprop="name" content="Mac版UniAccess卸载方法">
 <meta itemprop="description" content="为什么要卸载UniAcess? 很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源， 上网速度受到很大影响，甚"><meta itemprop="datePublished" content="2022-03-22T13:41:00+08:00" />
 <meta itemprop="dateModified" content="2022-03-22T13:41:00+08:00" />
-<meta itemprop="wordCount" content="1431">
+<meta itemprop="wordCount" content="1324">
 <meta itemprop="keywords" content="工具," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Uniaccess"/>
+<meta name="twitter:title" content="Mac版UniAccess卸载方法"/>
 <meta name="twitter:description" content="为什么要卸载UniAcess? 很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源， 上网速度受到很大影响，甚"/>
 
 <!--[if lte IE 9]>
@@ -129,14 +129,14 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Uniaccess</h1>
+      <h1 class="post-title">Mac版UniAccess卸载方法</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2022-03-22 </span>
         <div class="post-category">
             <a href="/categories/macos/"> MacOS </a>
             </div>
-          <span class="more-meta"> 1431 words </span>
+          <span class="more-meta"> 1324 words </span>
           <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -166,50 +166,142 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <li>方法2，系统偏好设置-&gt;安全性与隐私-&gt;文件保险箱，点解锁-&gt;输入密码-&gt;关闭文件保险箱。</li>
 </ul>
 <ol start="2">
-<li>
-<p>完全关闭系统sip。
-关机，长按command+R进入恢复模式，选择用户，输入密码。点上面实用工具-&gt;终端，在终端中输入csrutil disable和csrutil authenticated-root disable，重启。</p>
-</li>
-<li>
-<p>获取修改UniAccess软件的权限。</p>
-</li>
+<li>完全关闭系统sip。
+关机，长按command+R进入恢复模式，选择用户，输入密码。点上面实用工具-&gt;终端，在终端中输入</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">csrutil disable
+</code></pre></td></tr></table>
+</div>
+</div><p>和：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">csrutil authenticated-root disable
+</code></pre></td></tr></table>
+</div>
+</div><p>重启。</p>
+<ol start="3">
+<li>获取修改UniAccess软件的权限。</li>
 </ol>
 <ul>
 <li>11.0.1系统
-进入系统，在终端中用户有权限操作的目录，比如/Users/xxx，其中xxx为用户名，下面新建一个目录，mkdir -p /Users/xxx/myroot，myroot为随意的名字。<br>
-然后需要获取硬盘名。</li>
+进入系统，在终端中用户有权限操作的目录，比如/Users/xxx，其中xxx为用户名，下面新建一个目录，</li>
 </ul>
-<ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">mkdir -p /Users/xxx/myroot
+</code></pre></td></tr></table>
+</div>
+</div><p>其中，myroot为随意的名字。<br>
+然后需要获取硬盘名。</p>
+<ul>
 <li>方法1，访达-&gt;应用程序-&gt;实用工具-&gt;磁盘工具，找到disk开头的字符，例如我的是disk1s1s1，最后的s1是快照号，舍去，得到磁盘名disk1s1。</li>
-<li>方法2，终端执行df -h，得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。
-   然后终端执行sudo mount -o nobrowse -t apfs /dev/disk1s1 /Users/xxx/myroot，disk1s1是你的硬盘名。把磁盘挂载到用户有读写执行权限的/Users/xxx/myroot。然后执行sudo bless &ndash;folder /Users/xxx/myroot/System/Library/CoreServices &ndash;bootefi &ndash;create-snapshot，恢复快照。重启。</li>
-</ol>
+<li>方法2，终端执行df -h，得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。</li>
+</ul>
+<p>   然后终端执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo mount -o nobrowse -t apfs /dev/disk1s1 /Users/xxx/myroot
+</code></pre></td></tr></table>
+</div>
+</div><p>其中，disk1s1是你的硬盘名。把磁盘挂载到用户有读写执行权限的/Users/xxx/myroot。然后执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo bless --folder /Users/xxx/myroot/System/Library/CoreServices --bootefi --create-snapshot
+</code></pre></td></tr></table>
+</div>
+</div><p>来恢复快照。重启。</p>
 <p>切记：你的硬盘整个都挂载到了/Users/xxx/myroot下，不熟悉macos系统的话最好不要操作里面的文件。</p>
 <ul>
 <li>10.15系统及以前系统：终端执行sudo mount -uw / ，重新挂载根目录。</li>
 </ul>
 <ol start="4">
-<li>
-<p>杀死UniAcess进程。
-找到UniAccess进程，我的是dvc打头的一个名字，终端执行pkill -9 dvc，把UniAcess进程杀掉。然后执行全局搜索并把结果写到随意一个文件：find / -type f | grep -i dvc &gt; a。里面应该有关于卸载时密码验证的文件，这些文件都要删掉的。为防止误删，把与UniAcess无关的行删掉，我的有adobe和iMovie的几个文件，把这些行删掉。然后终端执行rm -rf <code>cat a</code>，全部删掉。</p>
-</li>
-<li>
-<p>卸载UniAccess
-cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。10.15系统：在/根目录。我的是/Users/xxx/myroot/opt/LVUAAgentInstBaseRoot，找到卸载的可执行文件，我的是uninstall-exe。执行./uninstall-exe，不需要输入密码就可以卸载了。</p>
-</li>
-<li>
-<p>重新打开file vault和系统完整性保护。</p>
-</li>
-<li>
-<p>先清SMC和NVRAM。</p>
-</li>
-<li>
-<p>关机，按command+R进入恢复模式，执行csrutil enable和csrutil authenticated-root enable，重新开启sip。</p>
-</li>
-<li>
-<p>开机进入系统，重新打开file vault。</p>
-</li>
+<li>杀死UniAcess进程。
+找到UniAccess进程，我的是dvc打头的一个名字，终端执行</li>
 </ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">pkill -9 dvc
+</code></pre></td></tr></table>
+</div>
+</div><p>把UniAcess进程杀掉。然后执行全局搜索并把结果写到随意一个文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">find / -type f | grep -i dvc &gt; a。
+</code></pre></td></tr></table>
+</div>
+</div><p>里面应该有关于卸载时密码验证的文件，这些文件都要删掉的。为防止误删，把与UniAcess无关的行删掉，我的有adobe和iMovie的几个文件，把这些行删掉。然后终端执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">rm -rf `cat a`
+</code></pre></td></tr></table>
+</div>
+</div><p>全部删掉。</p>
+<ol start="5">
+<li>卸载UniAccess
+cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。10.15系统：在/根目录。我的是/Users/xxx/myroot/opt/LVUAAgentInstBaseRoot，找到卸载的可执行文件，我的是uninstall-exe。执行</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">./uninstall-exe
+</code></pre></td></tr></table>
+</div>
+</div><p>需要输入密码就可以卸载了。</p>
+<ol start="6">
+<li>重新打开file vault和系统完整性保护。</li>
+</ol>
+<ul>
+<li>先清SMC和NVRAM，这个网上教程很多。</li>
+<li>关机，按command+R进入恢复模式，执行</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">csrutil enable
+</code></pre></td></tr></table>
+</div>
+</div><p>和：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">csrutil authenticated-root enable，重新开启sip。
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>开机进入系统，重新打开file vault。</li>
+</ul>
 <p>需要先清SMC和NVRAM。然后可以执行csrutil authenticated-root enable和csrutil enable。进入系统后，可以重新打开文件保险箱。</p>
 
     </div>
