@@ -4,7 +4,7 @@
 在网站上进行展示。markdown对程序员来说，极为友好，现在许多个人的技术博客都会使用markdown作为开发语言，
 一些大的博客网站也支持markdown文本提交博文。  
 &nbsp;&emsp;&emsp;本文旨在基于neovim和浏览器（一般是Chrome，实际上支持各种浏览器），使用vim插件，
-搭建markdown，并实时预览的绘图环境。
+搭建markdown实时预览的开发环境。
 
 ## 具体流程
 ### 1、依赖的第三方工具：Exuberant ctags，Chrome

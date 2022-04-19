@@ -8,7 +8,7 @@
     <language>en</language>
     <lastBuildDate>Tue, 19 Apr 2022 10:39:58 +0800</lastBuildDate><atom:link href="http://YLShiJustFly.github.io/categories/neovim/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>vim&#43;markdown-preview.md搭建markdown实时预览开发环境</title>
+      <title>vim&#43;markdown-preview.nvim搭建markdown实时预览开发环境</title>
       <link>http://YLShiJustFly.github.io/post/markdown/</link>
       <pubDate>Tue, 19 Apr 2022 10:39:58 +0800</pubDate>
       
