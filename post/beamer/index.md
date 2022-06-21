@@ -83,7 +83,7 @@ endfunction
     \begin{frame}[fragile]
         \begin{center}
         \Large 
-            3.15消费者权益保护日\\
+            3.15消费者权益保护日
             \\[4\baselineskip]
         \small
                一个普通消费者
