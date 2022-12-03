@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.91.2 with theme even" />
+<meta name="generator" content="Hugo 0.107.0 with theme even" />
 
 
 <link rel="canonical" href="http://YLShiJustFly.github.io/post/uniaccess/" />
@@ -174,8 +174,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo csrutil disable
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo csrutil disable
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>和：</p>
 <div class="highlight"><div class="chroma">
@@ -183,8 +183,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo csrutil authenticated-root disable
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo csrutil authenticated-root disable
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>重启。</p>
 <ol start="3">
@@ -199,8 +199,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">mkdir -p /Users/xxx/myroot
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mkdir -p /Users/xxx/myroot
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>其中，myroot为随意的名字。</p>
 <p>然后需要获取硬盘名。</p>
@@ -213,8 +213,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">df -h
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">df -h
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。</p>
 <p>然后终端执行</p>
@@ -223,8 +223,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo mount -o nobrowse -t apfs /dev/disk1s1 /Users/xxx/myroot
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo mount -o nobrowse -t apfs /dev/disk1s1 /Users/xxx/myroot
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>其中，disk1s1是你的硬盘名。把磁盘挂载到用户有读写执行权限的/Users/xxx/myroot。然后执行</p>
 <div class="highlight"><div class="chroma">
@@ -232,8 +232,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo bless --folder /Users/xxx/myroot/System/Library/CoreServices --bootefi --create-snapshot
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo bless --folder /Users/xxx/myroot/System/Library/CoreServices --bootefi --create-snapshot
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>来恢复快照。</p>
 <p>重启。</p>
@@ -246,8 +246,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo mount -uw / 
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo mount -uw / 
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>重新挂载根目录。</p>
 <ol start="4">
@@ -259,8 +259,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">pkill -9 dvc
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">pkill -9 dvc
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>把UniAcess进程杀掉。然后执行全局搜索并把结果写到随意一个文件：</p>
 <div class="highlight"><div class="chroma">
@@ -268,8 +268,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">find / -type f | grep -i dvc &gt; a
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">find / -type f | grep -i dvc &gt; a
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>里面应该有关于卸载时密码验证的文件，这些文件都要删掉的。为防止误删，把与UniAcess无关的行删掉，我的有adobe和iMovie的几个文件，把这些行删掉。然后终端执行</p>
 <div class="highlight"><div class="chroma">
@@ -277,8 +277,8 @@ win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">rm -rf `cat a`
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">rm -rf `cat a`
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>全部删掉。</p>
 <ol start="5">
@@ -290,8 +290,8 @@ cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。1
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">./uninstall-exe
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">./uninstall-exe
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>需要输入密码就可以卸载了。</p>
 <ol start="6">
@@ -306,8 +306,8 @@ cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。1
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo csrutil enable
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo csrutil enable
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>和：</p>
 <div class="highlight"><div class="chroma">
@@ -315,8 +315,8 @@ cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。1
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo csrutil authenticated-root enable
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo csrutil authenticated-root enable
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>重新开启sip。</p>
 <ul>
@@ -418,7 +418,7 @@ cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。1
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

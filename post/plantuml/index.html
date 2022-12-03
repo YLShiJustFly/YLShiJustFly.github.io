@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.91.2 with theme even" />
+<meta name="generator" content="Hugo 0.107.0 with theme even" />
 
 
 <link rel="canonical" href="http://YLShiJustFly.github.io/post/plantuml/" />
@@ -174,14 +174,14 @@
 <h3 id="2vim配置plantuml实时预览用到的插件">2、vim配置plantuml实时预览用到的插件</h3>
 <h4 id="apackernvim安装方式">a）packer.nvim安装方式：</h4>
 <ul>
-<li>use {&lsquo;tyru/open-browser.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
+<li>use {&rsquo;tyru/open-browser.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
 <li>use {&lsquo;sheerun/vim-polyglot&rsquo;, ft = {&lsquo;plantuml&rsquo;, &lsquo;markdown&rsquo;}}</li>
 <li>use {&lsquo;weirongxu/plantuml-previewer.vim&rsquo;, ft = {&lsquo;plantuml&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
 </ul>
 <h4 id="bvim-plug安装方式">b）vim-plug安装方式：</h4>
 <ul>
 <li>Plug &lsquo;sheerun/vim-polyglot</li>
-<li>Plug &lsquo;tyru/open-browser.vim&rsquo;</li>
+<li>Plug &rsquo;tyru/open-browser.vim&rsquo;</li>
 <li>Plug &lsquo;weirongxu/plantuml-previewer.vim&rsquo;</li>
 </ul>
 <p>   其中，vim-polyglot用来做语法高亮，plantuml-previewer.vim调用graphviz进行图片的渲染，open-browser.vim用来通过浏览器预览渲染出来的图。<br>
@@ -196,9 +196,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span>java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/plantuml.jar -tsvg <span class="nv">$@</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>java -jar ~/.local/share/nvim/site/pack/packer/opt/plantuml-previewer.vim/lib/plantuml.jar -tsvg <span class="nv">$@</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="2">
 <li>makeprg放入系统<code>$PATH</code>路径下，供plantuml-previewer调用。</li>
@@ -213,8 +213,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">nivm theme.puml
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">nivm theme.puml
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>  b） 输入如下内容：</p>
 <div class="highlight"><div class="chroma">
@@ -224,10 +224,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">@startuml
-help themes
-@enduml
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@startuml
+</span></span><span class="line"><span class="cl">help themes
+</span></span><span class="line"><span class="cl">@enduml
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>  c） 命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。<br>
 <img src="http://youseeicanfly.gitee.io/picturebed/plantuml/theme.png" alt="theme"></p>
@@ -257,26 +257,26 @@ help themes
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">@startuml
-!theme bluegray
-start
-if (&#34;你想练葵花宝典&#34;) then (true)
-floating note right:修炼葵花宝典注意事项
-    if (&#34;你能接受自宫吗&#34;) then (no)
-        :&#34;很遗憾，你无法修炼&#34;;
-    else (yes)
-        if (&#34;你有葵花宝典秘籍吗&#34;) then (yes)
-            :&#34;恭喜你，可以修炼&#34;;
-        else (no)
-            :&#34;很遗憾，你无法修炼&#34;;
-        endif
-    endif
-else (false)
-    :&#34;不修炼&#34;;
-endif
-stop
-@enduml
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@startuml
+</span></span><span class="line"><span class="cl">!theme bluegray
+</span></span><span class="line"><span class="cl">start
+</span></span><span class="line"><span class="cl">if (&#34;你想练葵花宝典&#34;) then (true)
+</span></span><span class="line"><span class="cl">floating note right:修炼葵花宝典注意事项
+</span></span><span class="line"><span class="cl">    if (&#34;你能接受自宫吗&#34;) then (no)
+</span></span><span class="line"><span class="cl">        :&#34;很遗憾，你无法修炼&#34;;
+</span></span><span class="line"><span class="cl">    else (yes)
+</span></span><span class="line"><span class="cl">        if (&#34;你有葵花宝典秘籍吗&#34;) then (yes)
+</span></span><span class="line"><span class="cl">            :&#34;恭喜你，可以修炼&#34;;
+</span></span><span class="line"><span class="cl">        else (no)
+</span></span><span class="line"><span class="cl">            :&#34;很遗憾，你无法修炼&#34;;
+</span></span><span class="line"><span class="cl">        endif
+</span></span><span class="line"><span class="cl">    endif
+</span></span><span class="line"><span class="cl">else (false)
+</span></span><span class="line"><span class="cl">    :&#34;不修炼&#34;;
+</span></span><span class="line"><span class="cl">endif
+</span></span><span class="line"><span class="cl">stop
+</span></span><span class="line"><span class="cl">@enduml
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="3">
 <li>
@@ -310,26 +310,26 @@ stop
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">@startuml
-!theme sandstone
-start
-if (&#34;你想练葵花宝典&#34;) then (yes)
-floating note right:修炼葵花宝典注意事项
-    if (&#34;你能接受自宫吗&#34;) then (no)
-        :&#34;很遗憾，你无法修炼&#34;;
-    else (yes)
-        if (&#34;你有葵花宝典秘籍吗&#34;) then (yes)
-            :&#34;恭喜你，可以修炼&#34;;
-        else (no)
-            :&#34;很遗憾，你无法修炼&#34;;
-        endif
-    endif
-else (no)
-    :&#34;不修炼&#34;;
-endif
-stop
-@enduml
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@startuml
+</span></span><span class="line"><span class="cl">!theme sandstone
+</span></span><span class="line"><span class="cl">start
+</span></span><span class="line"><span class="cl">if (&#34;你想练葵花宝典&#34;) then (yes)
+</span></span><span class="line"><span class="cl">floating note right:修炼葵花宝典注意事项
+</span></span><span class="line"><span class="cl">    if (&#34;你能接受自宫吗&#34;) then (no)
+</span></span><span class="line"><span class="cl">        :&#34;很遗憾，你无法修炼&#34;;
+</span></span><span class="line"><span class="cl">    else (yes)
+</span></span><span class="line"><span class="cl">        if (&#34;你有葵花宝典秘籍吗&#34;) then (yes)
+</span></span><span class="line"><span class="cl">            :&#34;恭喜你，可以修炼&#34;;
+</span></span><span class="line"><span class="cl">        else (no)
+</span></span><span class="line"><span class="cl">            :&#34;很遗憾，你无法修炼&#34;;
+</span></span><span class="line"><span class="cl">        endif
+</span></span><span class="line"><span class="cl">    endif
+</span></span><span class="line"><span class="cl">else (no)
+</span></span><span class="line"><span class="cl">    :&#34;不修炼&#34;;
+</span></span><span class="line"><span class="cl">endif
+</span></span><span class="line"><span class="cl">stop
+</span></span><span class="line"><span class="cl">@enduml
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><img src="http://youseeicanfly.gitee.io/picturebed/plantuml/test_sandstone.png" alt="test"></p>
 
@@ -428,7 +428,7 @@ stop
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

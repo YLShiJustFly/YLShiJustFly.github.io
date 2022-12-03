@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.91.2 with theme even" />
+<meta name="generator" content="Hugo 0.107.0 with theme even" />
 
 
 <link rel="canonical" href="http://YLShiJustFly.github.io/post/markdown/" />
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="vim&#43;markdown-preview.nvim搭建markdown实时预览开发环境">
 <meta itemprop="description" content="为什么需要markdown markdown是一种语法极简单的标记语言，基于markdown的文本代码可以很方便的渲染成html文件， 在网站上"><meta itemprop="datePublished" content="2022-04-19T10:39:58+08:00" />
 <meta itemprop="dateModified" content="2022-04-19T10:39:58+08:00" />
-<meta itemprop="wordCount" content="2200">
+<meta itemprop="wordCount" content="2199">
 <meta itemprop="keywords" content="markdown," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="vim&#43;markdown-preview.nvim搭建markdown实时预览开发环境"/>
 <meta name="twitter:description" content="为什么需要markdown markdown是一种语法极简单的标记语言，基于markdown的文本代码可以很方便的渲染成html文件， 在网站上"/>
@@ -136,7 +136,7 @@
         <div class="post-category">
             <a href="/categories/neovim/"> neovim </a>
             </div>
-          <span class="more-meta"> 2200 words </span>
+          <span class="more-meta"> 2199 words </span>
           <span class="more-meta"> 5 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -175,7 +175,7 @@
 <h3 id="2vim配置实时预览用到的插件">2、vim配置实时预览用到的插件</h3>
 <h4 id="packernvim安装方式">packer.nvim安装方式：</h4>
 <ul>
-<li>use {&lsquo;tpope/vim-markdown&rsquo;, ft = {&lsquo;md&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
+<li>use {&rsquo;tpope/vim-markdown&rsquo;, ft = {&lsquo;md&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
 <li>use {&lsquo;iamcco/mathjax-support-for-mkdp&rsquo;, ft = {&lsquo;md&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
 <li>use {&lsquo;iamcco/markdown-preview.nvim&rsquo;, ft = {&lsquo;md&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
 <li>use {&lsquo;mzlogin/vim-markdown-toc&rsquo;, ft = {&lsquo;md&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
@@ -226,39 +226,39 @@ markdown-previewer.nvim进行文件的编译并通过浏览器预览。</p>
 </span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">function markdown()
-    vim.cmd [[packadd! vim-markdown]]
-    vim.cmd [[packadd! mathjax-support-for-mkdp]]
-    vim.cmd [[packadd! markdown-preview.nvim]]
-    vim.cmd [[packadd! vim-markdown-toc]]
-    vim.cmd [[packadd! markdown2ctags]]
-    vim.cmd [[packadd! vim-markdown-quote-syntax]]
-    vim.cmd [[
-        &#34;markdown配置
-        let g:vim_markdown_no_default_key_mappings = 1
-        let g:vim_markdown_folding_disabled=1
-        let g:vim_markdown_conceal=0
-        let g:vim_markdown_math = 1
-        let g:vim_markdown_frontmatter = 1
-        let g:vim_markdown_fenced_languages = [&#39;csharp=cs&#39;]
-        let g:vim_markdown_toc_autofit = 1
-        let g:mkdp_path_to_chrome = &#34;open -a google\\ chrome&#34;
-        let g:mkdp_markdown_css=&#39;&#39;
-        let g:mkdp_highlight_css=expand(&#39;~/.config/nvim/plugged/markdown-preview.nvim/highlight.js/src/styles/solarized-dark.css&#39;)
-        let g:mkdp_auto_close=1
-        let g:mkdp_echo_preview_url = 1
-        let g:vmt_auto_update_on_save = 0
-        let g:markdown_minlines = 100
-        autocmd bufnewfile,bufreadpost *.md set filetype=markdown
-        autocmd BufNewFile,BufReadPost *.wiki set filetype=markdown
-        autocmd filetype markdown nnoremap &lt;leader&gt;ma :&lt;c-u&gt;MarkdownPreview&lt;cr&gt;
-        autocmd filetype markdown nnoremap &lt;leader&gt;sm :&lt;c-u&gt;MarkdownPreviewStop&lt;cr&gt;
-        &#34;设置快捷键
-        autocmd FileType markdown nmap &lt;buffer&gt;&lt;silent&gt; &lt;leader&gt;mc :call mdip#MarkdownClipboardImage()&lt;CR&gt;
-    ]]
-end
-markdown()
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">function markdown()
+</span></span><span class="line"><span class="cl">    vim.cmd [[packadd! vim-markdown]]
+</span></span><span class="line"><span class="cl">    vim.cmd [[packadd! mathjax-support-for-mkdp]]
+</span></span><span class="line"><span class="cl">    vim.cmd [[packadd! markdown-preview.nvim]]
+</span></span><span class="line"><span class="cl">    vim.cmd [[packadd! vim-markdown-toc]]
+</span></span><span class="line"><span class="cl">    vim.cmd [[packadd! markdown2ctags]]
+</span></span><span class="line"><span class="cl">    vim.cmd [[packadd! vim-markdown-quote-syntax]]
+</span></span><span class="line"><span class="cl">    vim.cmd [[
+</span></span><span class="line"><span class="cl">        &#34;markdown配置
+</span></span><span class="line"><span class="cl">        let g:vim_markdown_no_default_key_mappings = 1
+</span></span><span class="line"><span class="cl">        let g:vim_markdown_folding_disabled=1
+</span></span><span class="line"><span class="cl">        let g:vim_markdown_conceal=0
+</span></span><span class="line"><span class="cl">        let g:vim_markdown_math = 1
+</span></span><span class="line"><span class="cl">        let g:vim_markdown_frontmatter = 1
+</span></span><span class="line"><span class="cl">        let g:vim_markdown_fenced_languages = [&#39;csharp=cs&#39;]
+</span></span><span class="line"><span class="cl">        let g:vim_markdown_toc_autofit = 1
+</span></span><span class="line"><span class="cl">        let g:mkdp_path_to_chrome = &#34;open -a google\\ chrome&#34;
+</span></span><span class="line"><span class="cl">        let g:mkdp_markdown_css=&#39;&#39;
+</span></span><span class="line"><span class="cl">        let g:mkdp_highlight_css=expand(&#39;~/.config/nvim/plugged/markdown-preview.nvim/highlight.js/src/styles/solarized-dark.css&#39;)
+</span></span><span class="line"><span class="cl">        let g:mkdp_auto_close=1
+</span></span><span class="line"><span class="cl">        let g:mkdp_echo_preview_url = 1
+</span></span><span class="line"><span class="cl">        let g:vmt_auto_update_on_save = 0
+</span></span><span class="line"><span class="cl">        let g:markdown_minlines = 100
+</span></span><span class="line"><span class="cl">        autocmd bufnewfile,bufreadpost *.md set filetype=markdown
+</span></span><span class="line"><span class="cl">        autocmd BufNewFile,BufReadPost *.wiki set filetype=markdown
+</span></span><span class="line"><span class="cl">        autocmd filetype markdown nnoremap &lt;leader&gt;ma :&lt;c-u&gt;MarkdownPreview&lt;cr&gt;
+</span></span><span class="line"><span class="cl">        autocmd filetype markdown nnoremap &lt;leader&gt;sm :&lt;c-u&gt;MarkdownPreviewStop&lt;cr&gt;
+</span></span><span class="line"><span class="cl">        &#34;设置快捷键
+</span></span><span class="line"><span class="cl">        autocmd FileType markdown nmap &lt;buffer&gt;&lt;silent&gt; &lt;leader&gt;mc :call mdip#MarkdownClipboardImage()&lt;CR&gt;
+</span></span><span class="line"><span class="cl">    ]]
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">markdown()
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="2">
 <li>写一个markdown文件。</li>
@@ -345,91 +345,89 @@ markdown()
 </span><span class="lnt">78
 </span><span class="lnt">79
 </span><span class="lnt">80
-</span><span class="lnt">81
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">    # 为什么要卸载UniAcess?
-    &amp;emsp;&amp;emsp;&amp;nbsp;很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源，
-    上网速度受到很大影响，甚至造成电脑卡顿。这个软件本身是个流氓软件，
-    win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac版的现在似乎搜不到。
-    现总结mac版的卸载方法如下，仅供参考。测试机macos是mac big sur版本。
-    1. 首先关闭电脑file vault。
-    - 方法1，终端输入sudo fdesetup disable，然后输入电脑密码。
-    - 方法2，系统偏好设置-&gt;安全性与隐私-&gt;文件保险箱，点解锁-&gt;输入密码-&gt;关闭文件保险箱。
-    2. 完全关闭系统sip。
-    关机，长按command+R进入恢复模式，选择用户，输入密码。点上面实用工具-&gt;终端，在终端中输入
-    ```
-    sudo csrutil disable
-    ```
-    和：
-    ```
-    sudo csrutil authenticated-root disable
-    ```
-    重启。
-    3. 获取修改UniAccess软件的权限。
-    - 11.0.1系统
-    进入系统，在终端中用户有权限操作的目录，比如/Users/xxx，其中xxx为用户名，下面新建一个目录，
-    ```
-    mkdir -p /Users/xxx/myroot
-    ```
-    其中，myroot为随意的名字。 
-    然后需要获取硬盘名。
-    - 方法1，访达-&gt;应用程序-&gt;实用工具-&gt;磁盘工具，找到disk开头的字符，例如我的是disk1s1s1，最后的s1是快照号，舍去，得到磁盘名disk1s1。
-    - 方法2，终端执行
-    ```
-    df -h
-    ```
-    得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。
-    然后终端执行
-    ```
-    sudo mount -o nobrowse -t apfs /dev/disk1s1 /Users/xxx/myroot
-    ```
-    其中，disk1s1是你的硬盘名。把磁盘挂载到用户有读写执行权限的/Users/xxx/myroot。然后执行
-    ```
-    sudo bless --folder /Users/xxx/myroot/System/Library/CoreServices --bootefi --create-snapshot
-    ```
-    来恢复快照。
-    重启。
-    切记：你的硬盘整个都挂载到了/Users/xxx/myroot下，不熟悉macos系统的话最好不要操作里面的文件。
-    - 10.15系统及以前系统：终端执行
-    ```
-    sudo mount -uw / 
-    ```
-    重新挂载根目录。
-    4. 杀死UniAcess进程。
-    找到UniAccess进程，我的是dvc打头的一个名字，终端执行
-    ```
-    pkill -9 dvc
-    ```
-    把UniAcess进程杀掉。然后执行全局搜索并把结果写到随意一个文件：
-    ```
-    find / -type f | grep -i dvc &gt; a
-    ```
-    里面应该有关于卸载时密码验证的文件，这些文件都要删掉的。为防止误删，把与UniAcess无关的行删掉，我的有adobe和iMovie的几个文件，把这些行删掉。然后终端执行
-    ```
-    rm -rf `cat a`
-    ```
-    全部删掉。
-    5. 卸载UniAccess
-    cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。10.15系统：在/根目录。我的是/Users/xxx/myroot/opt/LVUAAgentInstBaseRoot，找到卸载的可执行文件，我的是uninstall-exe。执行
-    ```
-    ./uninstall-exe
-    ```
-    需要输入密码就可以卸载了。
-    6. 重新打开file vault和系统完整性保护。
-    - 先清SMC和NVRAM，这个网上教程很多。
-    - 关机，按command+R进入恢复模式，执行
-    ```
-    sudo csrutil enable
-    ```
-    和：
-    ```
-    sudo csrutil authenticated-root enable
-    ```
-    重新开启sip。
-    - 开机进入系统，重新打开file vault。
-
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    # 为什么要卸载UniAcess?
+</span></span><span class="line"><span class="cl">    &amp;emsp;&amp;emsp;&amp;nbsp;很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源，
+</span></span><span class="line"><span class="cl">    上网速度受到很大影响，甚至造成电脑卡顿。这个软件本身是个流氓软件，
+</span></span><span class="line"><span class="cl">    win版和mac版卸载都很麻烦，win版网上能搜到卸载方法，但mac版的现在似乎搜不到。
+</span></span><span class="line"><span class="cl">    现总结mac版的卸载方法如下，仅供参考。测试机macos是mac big sur版本。
+</span></span><span class="line"><span class="cl">    1. 首先关闭电脑file vault。
+</span></span><span class="line"><span class="cl">    - 方法1，终端输入sudo fdesetup disable，然后输入电脑密码。
+</span></span><span class="line"><span class="cl">    - 方法2，系统偏好设置-&gt;安全性与隐私-&gt;文件保险箱，点解锁-&gt;输入密码-&gt;关闭文件保险箱。
+</span></span><span class="line"><span class="cl">    2. 完全关闭系统sip。
+</span></span><span class="line"><span class="cl">    关机，长按command+R进入恢复模式，选择用户，输入密码。点上面实用工具-&gt;终端，在终端中输入
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    sudo csrutil disable
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    和：
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    sudo csrutil authenticated-root disable
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    重启。
+</span></span><span class="line"><span class="cl">    3. 获取修改UniAccess软件的权限。
+</span></span><span class="line"><span class="cl">    - 11.0.1系统
+</span></span><span class="line"><span class="cl">    进入系统，在终端中用户有权限操作的目录，比如/Users/xxx，其中xxx为用户名，下面新建一个目录，
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    mkdir -p /Users/xxx/myroot
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    其中，myroot为随意的名字。 
+</span></span><span class="line"><span class="cl">    然后需要获取硬盘名。
+</span></span><span class="line"><span class="cl">    - 方法1，访达-&gt;应用程序-&gt;实用工具-&gt;磁盘工具，找到disk开头的字符，例如我的是disk1s1s1，最后的s1是快照号，舍去，得到磁盘名disk1s1。
+</span></span><span class="line"><span class="cl">    - 方法2，终端执行
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    df -h
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    得到最后一列是Mount在/根目录的磁盘名/dev/disk1s1s1，同样舍去s1，可以得到disk1s1。
+</span></span><span class="line"><span class="cl">    然后终端执行
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    sudo mount -o nobrowse -t apfs /dev/disk1s1 /Users/xxx/myroot
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    其中，disk1s1是你的硬盘名。把磁盘挂载到用户有读写执行权限的/Users/xxx/myroot。然后执行
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    sudo bless --folder /Users/xxx/myroot/System/Library/CoreServices --bootefi --create-snapshot
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    来恢复快照。
+</span></span><span class="line"><span class="cl">    重启。
+</span></span><span class="line"><span class="cl">    切记：你的硬盘整个都挂载到了/Users/xxx/myroot下，不熟悉macos系统的话最好不要操作里面的文件。
+</span></span><span class="line"><span class="cl">    - 10.15系统及以前系统：终端执行
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    sudo mount -uw / 
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    重新挂载根目录。
+</span></span><span class="line"><span class="cl">    4. 杀死UniAcess进程。
+</span></span><span class="line"><span class="cl">    找到UniAccess进程，我的是dvc打头的一个名字，终端执行
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    pkill -9 dvc
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    把UniAcess进程杀掉。然后执行全局搜索并把结果写到随意一个文件：
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    find / -type f | grep -i dvc &gt; a
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    里面应该有关于卸载时密码验证的文件，这些文件都要删掉的。为防止误删，把与UniAcess无关的行删掉，我的有adobe和iMovie的几个文件，把这些行删掉。然后终端执行
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    rm -rf `cat a`
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    全部删掉。
+</span></span><span class="line"><span class="cl">    5. 卸载UniAccess
+</span></span><span class="line"><span class="cl">    cd到你安装UniAcess的目录。11.0.1系统：在/Users/xxx/myroot/下面。10.15系统：在/根目录。我的是/Users/xxx/myroot/opt/LVUAAgentInstBaseRoot，找到卸载的可执行文件，我的是uninstall-exe。执行
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    ./uninstall-exe
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    需要输入密码就可以卸载了。
+</span></span><span class="line"><span class="cl">    6. 重新打开file vault和系统完整性保护。
+</span></span><span class="line"><span class="cl">    - 先清SMC和NVRAM，这个网上教程很多。
+</span></span><span class="line"><span class="cl">    - 关机，按command+R进入恢复模式，执行
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    sudo csrutil enable
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    和：
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    sudo csrutil authenticated-root enable
+</span></span><span class="line"><span class="cl">    ```
+</span></span><span class="line"><span class="cl">    重新开启sip。
+</span></span><span class="line"><span class="cl">    - 开机进入系统，重新打开file vault。
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="3">
 <li>输入快捷键&lt;leader&gt;ma，打开Chrome预览。<br>
@@ -527,7 +525,7 @@ markdown()
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

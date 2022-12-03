@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.91.2 with theme even" />
+<meta name="generator" content="Hugo 0.107.0 with theme even" />
 
 
 <link rel="canonical" href="http://YLShiJustFly.github.io/post/beamer/" />
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="使用vim&#43;vimtex&#43;latex(beamer) 制作PPT">
 <meta itemprop="description" content="beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，"><meta itemprop="datePublished" content="2022-03-10T14:17:59+08:00" />
 <meta itemprop="dateModified" content="2022-03-10T14:17:59+08:00" />
-<meta itemprop="wordCount" content="1938">
+<meta itemprop="wordCount" content="1937">
 <meta itemprop="keywords" content="latex,beamer," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用vim&#43;vimtex&#43;latex(beamer) 制作PPT"/>
 <meta name="twitter:description" content="beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，"/>
@@ -136,7 +136,7 @@
         <div class="post-category">
             <a href="/categories/neovim/"> neovim </a>
             </div>
-          <span class="more-meta"> 1938 words </span>
+          <span class="more-meta"> 1937 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -190,22 +190,22 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">$pdf_mode=5;
-$xelatex = &#34;xelatex -synctex=1 -interaction=nonstopmode -file-line-error %O %S&#34;;
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$pdf_mode=5;
+</span></span><span class="line"><span class="cl">$xelatex = &#34;xelatex -synctex=1 -interaction=nonstopmode -file-line-error %O %S&#34;;
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>   这个配置文件主要作用是指定编译使用xeletex，并支持持续编译模式。<br>
    latex的beamer宏包有一些默认的主题，如果不满意，可以到网上下载第三方主题，拷贝到latex目录下，执行sudo texhash将主题等内容更新到latex库里。</p>
 <h3 id="2vim配置ppt实时编译及预览用到的插件只有一个但需要搭配snippets软件使用方便插入大段固定代码">2、vim配置ppt实时编译及预览用到的插件只有一个，但需要搭配snippets软件使用，方便插入大段固定代码。</h3>
 <h4 id="apackernvim安装方式">a.packer.nvim安装方式：</h4>
 <ul>
-<li>use {&lsquo;lervag/vimtex&rsquo;, event = &lsquo;BufEnter&rsquo;}</li>
+<li>use {&rsquo;lervag/vimtex&rsquo;, event = &lsquo;BufEnter&rsquo;}</li>
 <li>use {&lsquo;honza/vim-snippets&rsquo;, event = &lsquo;BufEnter&rsquo;}</li>
-<li>use {&lsquo;SirVer/ultisnips&rsquo;, ft = {&lsquo;tex&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
+<li>use {&lsquo;SirVer/ultisnips&rsquo;, ft = {&rsquo;tex&rsquo;}, event = &lsquo;BufEnter&rsquo;}</li>
 </ul>
 <h4 id="bvim-plug安装方式">b.vim-plug安装方式：</h4>
 <ul>
-<li>Plug &lsquo;lervag/vimtex&rsquo;</li>
+<li>Plug &rsquo;lervag/vimtex&rsquo;</li>
 <li>Plug &lsquo;honza/vim-snippets&rsquo;</li>
 <li>Plug &lsquo;SirVer/ultisnips&rsquo;</li>
 </ul>
@@ -230,22 +230,22 @@ $xelatex = &#34;xelatex -synctex=1 -interaction=nonstopmode -file-line-error %O 
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">let g:vimtex_view_general_viewer = &#39;/Applications/Skim.app/Contents/SharedSupport/displayline&#39;  
-let g:vimtex_view_general_options = &#39;-g -r @line @pdf @tex&#39;  
-augroup vimtex_mac  
-    autocmd!  
-    autocmd User VimtexEventCompileSuccess call UpdateSkim()  
-augroup END  
-function! UpdateSkim() abort  
-    let l:out = b:vimtex.out()  
-    let l:src_file_path = expand(&#39;%:p&#39;)  
-    let l:cmd = [g:vimtex_view_general_viewer, &#39;-r&#39;]  
-    if !empty(system(&#39;pgrep Skim&#39;))  
-        call extend(l:cmd, [&#39;-g&#39;])  
-      endif  
-    call jobstart(l:cmd + [line(&#39;.&#39;), l:out, l:src_file_path])  
-endfunction
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">let g:vimtex_view_general_viewer = &#39;/Applications/Skim.app/Contents/SharedSupport/displayline&#39;  
+</span></span><span class="line"><span class="cl">let g:vimtex_view_general_options = &#39;-g -r @line @pdf @tex&#39;  
+</span></span><span class="line"><span class="cl">augroup vimtex_mac  
+</span></span><span class="line"><span class="cl">    autocmd!  
+</span></span><span class="line"><span class="cl">    autocmd User VimtexEventCompileSuccess call UpdateSkim()  
+</span></span><span class="line"><span class="cl">augroup END  
+</span></span><span class="line"><span class="cl">function! UpdateSkim() abort  
+</span></span><span class="line"><span class="cl">    let l:out = b:vimtex.out()  
+</span></span><span class="line"><span class="cl">    let l:src_file_path = expand(&#39;%:p&#39;)  
+</span></span><span class="line"><span class="cl">    let l:cmd = [g:vimtex_view_general_viewer, &#39;-r&#39;]  
+</span></span><span class="line"><span class="cl">    if !empty(system(&#39;pgrep Skim&#39;))  
+</span></span><span class="line"><span class="cl">        call extend(l:cmd, [&#39;-g&#39;])  
+</span></span><span class="line"><span class="cl">      endif  
+</span></span><span class="line"><span class="cl">    call jobstart(l:cmd + [line(&#39;.&#39;), l:out, l:src_file_path])  
+</span></span><span class="line"><span class="cl">endfunction
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>   这段代码调用了skim.app里的一个bash脚本，这个脚本实际调用了一段applescript脚本来支持定位到skim中的位置。</p>
 <h3 id="4开始写我们的ppt">4、开始写我们的ppt</h3>
@@ -322,82 +322,80 @@ endfunction
 </span><span class="lnt">69
 </span><span class="lnt">70
 </span><span class="lnt">71
-</span><span class="lnt">72
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">
-\documentclass[aspectratio=169,fontset=windows,UTF-8,10pt,xcolor={usenames,dvipsnames,svgnames,x11names}]{beamer}
-\usepackage[space]{ctex}
-\usetheme{cleancode}
-\usetikzlibrary{shadows}
-\usepackage{tikz}
-\usepackage{bookmark}
-\usepackage{diagbox}
-\usepackage[absolute,overlay,showboxes]{textpos}
-\usepackage{indentfirst} 
-
-\begin{document}
-%首页
-{
-    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/a.首页.png&#34;}};}
-    \begin{frame}[fragile]
-        \begin{center}
-        \Large 
-            3.15消费者权益保护日
-            \\[4\baselineskip]
-        \small
-               一个普通消费者
-        \end{center}
-    \end{frame}
-}
-
-%目录
-\section[目录]{}
-\frame 
-{
-    \frametitle{\secname}
-    \tableofcontents
-    %\tableofcontents[pausesections]
-}
-
-\AtBeginSection[] 
-{
-    \frame&lt;handout:0&gt; 
-    {
-        \frametitle{目录}
-        \tableofcontents[current,currentsection]
-    }
-}
-
-\usebackgroundtemplate{\tikz[overlay,remember picture]\node[anchor=45]at ([xshift=10ex,yshift=-5ex] current page.45) {\includegraphics[height=0.5\paperheight,width=0.5\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/c.角标.png&#34;}};}
-\section{消费者 VS 黑心商家}
-\begin{frame}[fragile]
-\frametitle{消费者 VS 黑心商家}
-    \begin{table}[h]
-        \centering
-        \caption{对比}
-        \label{tab3}
-        \begin{tabular}{|c|c|c|}
-            \hline
-            \diagbox{比较项}{人物} &amp; 消费者 &amp; 黑心商家  \\
-            \hline
-            资源             &amp;  少      &amp; 多 \\
-            \hline
-            强弱             &amp;  弱势    &amp; 强势 \\
-            \hline
-        \end{tabular}
-    \end{table}
-\end{frame}
-
-%尾页
-{
-    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/a.首页.png&#34;}};}
-    \begin{frame}
-    \end{frame}
-}
-\end{document}
-
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">\documentclass[aspectratio=169,fontset=windows,UTF-8,10pt,xcolor={usenames,dvipsnames,svgnames,x11names}]{beamer}
+</span></span><span class="line"><span class="cl">\usepackage[space]{ctex}
+</span></span><span class="line"><span class="cl">\usetheme{cleancode}
+</span></span><span class="line"><span class="cl">\usetikzlibrary{shadows}
+</span></span><span class="line"><span class="cl">\usepackage{tikz}
+</span></span><span class="line"><span class="cl">\usepackage{bookmark}
+</span></span><span class="line"><span class="cl">\usepackage{diagbox}
+</span></span><span class="line"><span class="cl">\usepackage[absolute,overlay,showboxes]{textpos}
+</span></span><span class="line"><span class="cl">\usepackage{indentfirst} 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">\begin{document}
+</span></span><span class="line"><span class="cl">%首页
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/a.首页.png&#34;}};}
+</span></span><span class="line"><span class="cl">    \begin{frame}[fragile]
+</span></span><span class="line"><span class="cl">        \begin{center}
+</span></span><span class="line"><span class="cl">        \Large 
+</span></span><span class="line"><span class="cl">            3.15消费者权益保护日
+</span></span><span class="line"><span class="cl">            \\[4\baselineskip]
+</span></span><span class="line"><span class="cl">        \small
+</span></span><span class="line"><span class="cl">               一个普通消费者
+</span></span><span class="line"><span class="cl">        \end{center}
+</span></span><span class="line"><span class="cl">    \end{frame}
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">%目录
+</span></span><span class="line"><span class="cl">\section[目录]{}
+</span></span><span class="line"><span class="cl">\frame 
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    \frametitle{\secname}
+</span></span><span class="line"><span class="cl">    \tableofcontents
+</span></span><span class="line"><span class="cl">    %\tableofcontents[pausesections]
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">\AtBeginSection[] 
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    \frame&lt;handout:0&gt; 
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        \frametitle{目录}
+</span></span><span class="line"><span class="cl">        \tableofcontents[current,currentsection]
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">\usebackgroundtemplate{\tikz[overlay,remember picture]\node[anchor=45]at ([xshift=10ex,yshift=-5ex] current page.45) {\includegraphics[height=0.5\paperheight,width=0.5\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/c.角标.png&#34;}};}
+</span></span><span class="line"><span class="cl">\section{消费者 VS 黑心商家}
+</span></span><span class="line"><span class="cl">\begin{frame}[fragile]
+</span></span><span class="line"><span class="cl">\frametitle{消费者 VS 黑心商家}
+</span></span><span class="line"><span class="cl">    \begin{table}[h]
+</span></span><span class="line"><span class="cl">        \centering
+</span></span><span class="line"><span class="cl">        \caption{对比}
+</span></span><span class="line"><span class="cl">        \label{tab3}
+</span></span><span class="line"><span class="cl">        \begin{tabular}{|c|c|c|}
+</span></span><span class="line"><span class="cl">            \hline
+</span></span><span class="line"><span class="cl">            \diagbox{比较项}{人物} &amp; 消费者 &amp; 黑心商家  \\
+</span></span><span class="line"><span class="cl">            \hline
+</span></span><span class="line"><span class="cl">            资源             &amp;  少      &amp; 多 \\
+</span></span><span class="line"><span class="cl">            \hline
+</span></span><span class="line"><span class="cl">            强弱             &amp;  弱势    &amp; 强势 \\
+</span></span><span class="line"><span class="cl">            \hline
+</span></span><span class="line"><span class="cl">        \end{tabular}
+</span></span><span class="line"><span class="cl">    \end{table}
+</span></span><span class="line"><span class="cl">\end{frame}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">%尾页
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    \usebackgroundtemplate{\tikz[overlay,remember picture]\node[opacity=1]at (current page.center){\includegraphics[height=\paperheight,width=\paperwidth]{&#34;/Users/shiyaoliang/source/b.myowndoucment/b.hugo/Documents/beamer/a.首页.png&#34;}};}
+</span></span><span class="line"><span class="cl">    \begin{frame}
+</span></span><span class="line"><span class="cl">    \end{frame}
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">\end{document}
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="5按vimtex默认快捷键leaderll开启编译并实时预览">5、按vimtex默认快捷键&lt;leader&gt;ll，开启编译并实时预览</h3>
 <p>效果：
@@ -502,7 +500,7 @@ endfunction
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 
