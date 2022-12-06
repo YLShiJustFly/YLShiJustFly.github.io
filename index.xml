@@ -2,63 +2,210 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>YLShi&#39;s Life and Work Space</title>
-    <link>http://YLShiJustFly.github.io/</link>
+    <link>https://ylshijustfly.github.io/</link>
     <description>Recent content on YLShi&#39;s Life and Work Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 19 Apr 2022 10:39:58 +0800</lastBuildDate><atom:link href="http://YLShiJustFly.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Apr 2022 10:39:58 +0800</lastBuildDate><atom:link href="https://ylshijustfly.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Markdown Demonstration</title>
+      <link>https://ylshijustfly.github.io/markdown_overview/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/markdown_overview/</guid>
+      <description>Testing every elements you can find in CommonMark. Quisque viverra a eros id auctor. Proin id nibh ut nisl dignissim pellentesque et ac mi. Nullam mattis urna quis consequat bibendum. Donec pretium dui elit, a semper purus tristique et. Mauris euismod nisl eu vehicula facilisis. Maecenas facilisis non massa non scelerisque. Integer malesuada cursus erat eu viverra. Duis ligula mi, eleifend vel justo id, laoreet porttitor ex. Etiam ultricies lacus</description>
+    </item>
+    
     <item>
       <title>vim&#43;markdown-preview.nvim搭建markdown实时预览开发环境</title>
-      <link>http://YLShiJustFly.github.io/post/markdown/</link>
+      <link>https://ylshijustfly.github.io/post/markdown/</link>
       <pubDate>Tue, 19 Apr 2022 10:39:58 +0800</pubDate>
       
-      <guid>http://YLShiJustFly.github.io/post/markdown/</guid>
+      <guid>https://ylshijustfly.github.io/post/markdown/</guid>
       <description>为什么需要markdown markdown是一种语法极简单的标记语言，基于markdown的文本代码可以很方便的渲染成html文件， 在网站上</description>
     </item>
     
     <item>
       <title>Mac版UniAccess卸载方法</title>
-      <link>http://YLShiJustFly.github.io/post/uniaccess/</link>
+      <link>https://ylshijustfly.github.io/post/uniaccess/</link>
       <pubDate>Tue, 22 Mar 2022 13:41:00 +0800</pubDate>
       
-      <guid>http://YLShiJustFly.github.io/post/uniaccess/</guid>
+      <guid>https://ylshijustfly.github.io/post/uniaccess/</guid>
       <description>为什么要卸载UniAcess? 很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源， 上网速度受到很大影响，甚</description>
     </item>
     
     <item>
-      <title>Macos下的效率工具</title>
-      <link>http://YLShiJustFly.github.io/post/macos/</link>
+      <title>macos下的效率工具</title>
+      <link>https://ylshijustfly.github.io/post/macos/</link>
       <pubDate>Mon, 21 Mar 2022 19:07:57 +0800</pubDate>
       
-      <guid>http://YLShiJustFly.github.io/post/macos/</guid>
+      <guid>https://ylshijustfly.github.io/post/macos/</guid>
       <description>我在macOS下常用到的效率工具。 键盘按键映射 Karabiner Elements&amp;mdash;免费。 作为mac下功能最强大的按键映射工具，它支持simple</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>http://YLShiJustFly.github.io/about/</link>
+      <link>https://ylshijustfly.github.io/about/</link>
       <pubDate>Wed, 16 Mar 2022 10:57:46 +0800</pubDate>
       
-      <guid>http://YLShiJustFly.github.io/about/</guid>
+      <guid>https://ylshijustfly.github.io/about/</guid>
       <description>this is private blog of YLShi Usually I use picture bed to display png, sometimes I also use base64 to present png in markdown, but it will cost a little long time to load the png when you visit the content first time. </description>
     </item>
     
     <item>
       <title>vim&#43;plantuml-previewer绘制流程图</title>
-      <link>http://YLShiJustFly.github.io/post/plantuml/</link>
+      <link>https://ylshijustfly.github.io/post/plantuml/</link>
       <pubDate>Thu, 10 Mar 2022 14:17:59 +0800</pubDate>
       
-      <guid>http://YLShiJustFly.github.io/post/plantuml/</guid>
+      <guid>https://ylshijustfly.github.io/post/plantuml/</guid>
       <description>传统画流程图的痛点 我们经常需要画流程图来表示代码逻辑或者基本框架等。但我们在绘画流程图的时候，经常会在对齐连接线这些和流程图表达的意义无关的</description>
     </item>
     
     <item>
       <title>使用vim&#43;vimtex&#43;latex(beamer) 制作PPT</title>
-      <link>http://YLShiJustFly.github.io/post/beamer/</link>
+      <link>https://ylshijustfly.github.io/post/beamer/</link>
       <pubDate>Thu, 10 Mar 2022 14:17:59 +0800</pubDate>
       
-      <guid>http://YLShiJustFly.github.io/post/beamer/</guid>
+      <guid>https://ylshijustfly.github.io/post/beamer/</guid>
       <description>beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，</description>
+    </item>
+    
+    <item>
+      <title>Theme Overview</title>
+      <link>https://ylshijustfly.github.io/theme_overview/</link>
+      <pubDate>Thu, 19 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/theme_overview/</guid>
+      <description>This site provides a demo for the Even theme for the Gutenberg static site generator. Even was designed by Vincent Prouillet and was based on the Even Hugo theme by olOwOlo. This demo site was built by Daniel Sockwell. Both the theme and this site are licensed under the MIT license, so you may freely use and redistribute either for commercial or non-commercial work.
+You can find the source code for this site in its GitHub repository and can find the source code for the theme in the Even repository.</description>
+    </item>
+    
+    <item>
+      <title>Tenth post</title>
+      <link>https://ylshijustfly.github.io/tenth_post/</link>
+      <pubDate>Tue, 10 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/tenth_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>Ninth post</title>
+      <link>https://ylshijustfly.github.io/ninth_post/</link>
+      <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/ninth_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>Eighth post</title>
+      <link>https://ylshijustfly.github.io/eigth_post/</link>
+      <pubDate>Sun, 08 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/eigth_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>Seventh post</title>
+      <link>https://ylshijustfly.github.io/seventh_post/</link>
+      <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/seventh_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>Sixth post</title>
+      <link>https://ylshijustfly.github.io/sixth_post/</link>
+      <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/sixth_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>Fifth post</title>
+      <link>https://ylshijustfly.github.io/fifth_post/</link>
+      <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/fifth_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>Fourth post</title>
+      <link>https://ylshijustfly.github.io/fourth_post/</link>
+      <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/fourth_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>Third post</title>
+      <link>https://ylshijustfly.github.io/third_post/</link>
+      <pubDate>Tue, 03 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/third_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>Second post</title>
+      <link>https://ylshijustfly.github.io/second_post/</link>
+      <pubDate>Mon, 02 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/second_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>First post</title>
+      <link>https://ylshijustfly.github.io/first_post/</link>
+      <pubDate>Sun, 01 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/first_post/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+    </item>
+    
+    <item>
+      <title>A first theme for Gutenberg</title>
+      <link>https://ylshijustfly.github.io/some-other-article/</link>
+      <pubDate>Mon, 25 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/some-other-article/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu feugiat sapien. Aenean ligula nunc, laoreet id sem in, interdum bibendum felis. Donec vel dui neque. Praesent ac sem ut justo volutpat rutrum a imperdiet tellus. Nam lobortis massa non hendrerit hendrerit. Vivamus porttitor dignissim turpis, eget aliquam urna tincidunt non. Aliquam et fringilla turpis. Nullam eros est, eleifend in ornare sed, hendrerit eget est. Aliquam tellus felis, suscipit vitae ex vel, fringilla tempus massa.</description>
+    </item>
+    
+    <item>
+      <title>What is Gutenberg</title>
+      <link>https://ylshijustfly.github.io/some-article/</link>
+      <pubDate>Sun, 24 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/some-article/</guid>
+      <description>Testing every elements you can find in CommonMark. Quisque viverra a eros id auctor. Proin id nibh ut nisl dignissim pellentesque et ac mi. Nullam mattis urna quis consequat bibendum. Donec pretium dui elit, a semper purus tristique et. Mauris euismod nisl eu vehicula facilisis. Maecenas facilisis non massa non scelerisque. Integer malesuada cursus erat eu viverra. Duis ligula mi, eleifend vel justo id, laoreet porttitor ex. Etiam ultricies lacus</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://ylshijustfly.github.io/pages/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ylshijustfly.github.io/pages/about/</guid>
+      <description>This site provides a demo for the Even theme for the Gutenberg static site generator. Even was designed by Vincent Prouillet and was based on the Even Hugo theme by olOwOlo. This demo site was built by Daniel Sockwell. Both the theme and this site are licensed under the MIT license, so you may freely use and redistribute either for commercial or non-commercial work.
+You can find the source code for this site in its GitHub repository and can find the source code for the theme in the Even repository.</description>
     </item>
     
   </channel>

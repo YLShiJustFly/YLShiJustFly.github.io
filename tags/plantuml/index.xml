@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>plantuml on YLShi&#39;s Life and Work Space</title>
-    <link>http://YLShiJustFly.github.io/tags/plantuml/</link>
+    <link>https://ylshijustfly.github.io/tags/plantuml/</link>
     <description>Recent content in plantuml on YLShi&#39;s Life and Work Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Mar 2022 14:17:59 +0800</lastBuildDate><atom:link href="http://YLShiJustFly.github.io/tags/plantuml/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Mar 2022 14:17:59 +0800</lastBuildDate><atom:link href="https://ylshijustfly.github.io/tags/plantuml/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>vim&#43;plantuml-previewer绘制流程图</title>
-      <link>http://YLShiJustFly.github.io/post/plantuml/</link>
+      <link>https://ylshijustfly.github.io/post/plantuml/</link>
       <pubDate>Thu, 10 Mar 2022 14:17:59 +0800</pubDate>
       
-      <guid>http://YLShiJustFly.github.io/post/plantuml/</guid>
+      <guid>https://ylshijustfly.github.io/post/plantuml/</guid>
       <description>传统画流程图的痛点 我们经常需要画流程图来表示代码逻辑或者基本框架等。但我们在绘画流程图的时候，经常会在对齐连接线这些和流程图表达的意义无关的</description>
     </item>
     
