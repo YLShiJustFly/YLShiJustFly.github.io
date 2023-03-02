@@ -1,10 +1,11 @@
 
+## 为什么写这篇文章
 &emsp;&emsp;&nbsp;我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。   
 &emsp;&emsp;&nbsp;最近开始迁到 obsidan 做笔记，完备的插件生态，颇有俯拾即是、左右逢源之感。  
 &emsp;&emsp;&nbsp;于是就想着编辑 markdown 都用 obsidian，故研究了一下使用 obsidian+git 插件+github Actions 替代原有工作流，在 obsidian 内完成从编写博文到部署到 github pages 的所有流程。  
    
    
-&emsp;&emsp;&nbsp;下面是配置流程：
+## 下面是配置流程：
 
 - github 侧的配置
 

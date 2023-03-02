@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="YLShi" /><meta name="description" content="我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，完备的插件生态，" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="YLShi" /><meta name="description" content="为什么写这篇文章 我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,19 +40,19 @@
 
 
 <meta property="og:title" content="Obsidian &#43; Git pages自动部署博客系统搭建 " />
-<meta property="og:description" content="我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，完备的插件生态，" />
+<meta property="og:description" content="为什么写这篇文章 我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/obsidian&#43;git-pages%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-03-02T14:17:59+08:00" />
 <meta property="article:modified_time" content="2023-03-02T14:17:59+08:00" />
 
 <meta itemprop="name" content="Obsidian &#43; Git pages自动部署博客系统搭建 ">
-<meta itemprop="description" content="我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，完备的插件生态，"><meta itemprop="datePublished" content="2023-03-02T14:17:59+08:00" />
+<meta itemprop="description" content="为什么写这篇文章 我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，"><meta itemprop="datePublished" content="2023-03-02T14:17:59+08:00" />
 <meta itemprop="dateModified" content="2023-03-02T14:17:59+08:00" />
-<meta itemprop="wordCount" content="703">
+<meta itemprop="wordCount" content="711">
 <meta itemprop="keywords" content="obsidian,blog," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Obsidian &#43; Git pages自动部署博客系统搭建 "/>
-<meta name="twitter:description" content="我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，完备的插件生态，"/>
+<meta name="twitter:description" content="为什么写这篇文章 我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -136,7 +136,7 @@
         <div class="post-category">
             <a href="/categories/obsidian/"> obsidian </a>
             </div>
-          <span class="more-meta"> 703 words </span>
+          <span class="more-meta"> 711 words </span>
           <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -145,14 +145,24 @@
     <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
-    <nav id="TableOfContents"></nav>
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#为什么写这篇文章">为什么写这篇文章</a></li>
+        <li><a href="#下面是配置流程">下面是配置流程：</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
   </div>
 </div>
     <div class="post-content">
-      <p>   我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。<br>
+      <h2 id="为什么写这篇文章">为什么写这篇文章</h2>
+<p>   我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。<br>
    最近开始迁到 obsidan 做笔记，完备的插件生态，颇有俯拾即是、左右逢源之感。<br>
    于是就想着编辑 markdown 都用 obsidian，故研究了一下使用 obsidian+git 插件+github Actions 替代原有工作流，在 obsidian 内完成从编写博文到部署到 github pages 的所有流程。</p>
-<p>   下面是配置流程：</p>
+<h2 id="下面是配置流程">下面是配置流程：</h2>
 <ul>
 <li>
 <p>github 侧的配置</p>
