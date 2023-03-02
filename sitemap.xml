@@ -93,35 +93,7 @@
   </url>
   
   <url>
-    <loc>http://YLShiJustFly.github.io/tags/blog/</loc>
-    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://YLShiJustFly.github.io/tags/latex/</loc>
-    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://YLShiJustFly.github.io/tags/obsidian/</loc>
-    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://YLShiJustFly.github.io/categories/obsidian/</loc>
-    <lastmod>2022-03-10T14:17:59+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://YLShiJustFly.github.io/post/obsidian&#43;git-pages%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2022-03-10T14:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -144,6 +116,30 @@
   <url>
     <loc>http://YLShiJustFly.github.io/post/beamer/</loc>
     <lastmod>2022-03-10T14:17:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/tags/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/tags/obsidian/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/categories/obsidian/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/post/obsidian&#43;git-pages%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
