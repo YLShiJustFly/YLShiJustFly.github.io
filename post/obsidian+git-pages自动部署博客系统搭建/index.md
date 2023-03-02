@@ -6,7 +6,7 @@
    
 &emsp;&emsp;&nbsp;下面是配置流程：
 
-1. github 侧的配置
+- github 侧的配置
 
 	1. 需要两个 repo，一个对应 hugo 项目目录，一个是 github pages 的 repo。
 ![image.png](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images/20230302104302.png)
@@ -87,7 +87,7 @@
 &emsp;&emsp;其中，`YLShiJustFly/YLShiJustFly.github.io` 为需要托管的 git pages 的 git repo 地址。`PERSONAL_TOKEN` 在 GitHub 账户下 `Setting -> Developer setting -> Personal access tokens` 下创建。注意生成的 `token` 只会显示一次，可以自己保存下来。  
 ![image.png](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images/20230302110308.png)
 
-2. obsidian 侧的配置
+- obsidian 侧的配置
 
 	1. 图床
 		1. 新建一个 picturebed repo，`Setting -> General -> Danger Zone -> visibility`需要设置成 public
@@ -106,7 +106,7 @@
        
    &emsp;&emsp;&nbsp;插件市场搜索 Obsidian Git，安装即可。
 
-3. 使用
+- 使用
    
 &emsp;&emsp;&nbsp;在Obsidian编译好文章，输入cmd+p呼出命令窗口，输入git，可以看到Obsidian支持的git命令。
 ![image.png](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images/20230302113431.png)
