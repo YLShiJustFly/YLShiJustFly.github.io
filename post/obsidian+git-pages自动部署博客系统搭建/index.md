@@ -5,7 +5,7 @@
 &emsp;&emsp;&nbsp;于是就想着编辑 markdown 都用 obsidian，故研究了一下使用 obsidian+git 插件+github Actions 替代原有工作流，在 obsidian 内完成从编写博文到部署到 github pages 的所有流程。  
    
    
-## 下面是配置流程：
+## 下面是配置流程
 
 - github 侧的配置
 
