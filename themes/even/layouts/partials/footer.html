@@ -18,7 +18,7 @@
   </span>
   <span class="division">|</span>
   <span class="theme-info">
-    {{ T "theme" }} - 
+    {{ T "theme" }} -
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
 
@@ -27,21 +27,26 @@
     {{ $spinner := "img/spinner.svg" | relURL -}}
     {{ if and .Site.Params.busuanzi.enable .Site.Params.busuanzi.sitePV -}}
       {{ $valueSpan := printf `<span id="busuanzi_value_site_pv"><img src="%s" alt="spinner.svg"/></span>` $spinner -}}
-      <span id="busuanzi_container_site_pv"> {{ printf (T "sitePV") $valueSpan | safeHTML }} </span>
+      <span id="busuanzi_container_site_pv">
+      本站总访问量<span id="busuanzi_value_site_pv"></span>次
+      </span>
       {{ if .Site.Params.busuanzi.siteUV }}<span class="division">|</span>{{ end }}
     {{- end }}
     {{ if and .Site.Params.busuanzi.enable .Site.Params.busuanzi.siteUV -}}
       {{ $valueSpan := printf `<span id="busuanzi_value_site_uv"><img src="%s" alt="spinner.svg"/></span>` $spinner -}}
-      <span id="busuanzi_container_site_uv"> {{ printf (T "siteUV") $valueSpan | safeHTML }} </span>
+      <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+      </span>
     {{- end }}
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   </div>
   {{- end }}
 
   <span class="copyright-year">
     {{- $current := now.Format "2006" }}
-    &copy; 
+    &copy;
     {{ if ne .Site.Params.since $current -}}
-      {{ .Site.Params.since }} - 
+      {{ .Site.Params.since }} -
     {{ end }}
     {{- $current -}}
     <span class="heart"><i class="iconfont icon-heart"></i></span><!--
