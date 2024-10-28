@@ -23,7 +23,6 @@
   </span>
 
   {{ if .Site.Params.busuanzi.enable -}}
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   <div class="busuanzi-footer">
     {{ $spinner := "img/spinner.svg" | relURL -}}
     {{ if and .Site.Params.busuanzi.enable .Site.Params.busuanzi.sitePV -}}
