@@ -61,14 +61,5 @@
       <description>beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，</description>
     </item>
     
-    <item>
-      <title></title>
-      <link>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/readme/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/readme/</guid>
-      <description>MGR Ceph Manager Module Designand Operation Ceph-CSI Ceph-CSI:Bridging Containers and Ceph </description>
-    </item>
-    
   </channel>
 </rss>
