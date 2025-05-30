@@ -32,7 +32,7 @@ You can implement flexible data reading by inheriting PyTorch's own Dataset clas
 
 The following shows the overall framework diagram. The S3 Connector and FS-S3 Connector shown below are both developed by AWS (details can be found in aws-connector-for-pytorch). The Amazon S3 Connector for PyTorch automatically optimizes S3 read and list requests to improve data loading and checkpoint performance for training workloads. Due to S3's universality, object storage systems that support S3 can directly use the Amazon S3 Connector for PyTorch. FS-S3 uses S3 at the bottom layer and can be exported through the file system, which is also a popular type of system currently, combining the advantages of both fs and s3. File-Store Connector is the system that PyTorch supports by default. In addition to these, there are also some public cloud's own Connectors.
 
-![An example](../../image/pytorch-connector.png)
+![image.png|600](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images20250530152049.png)
 
 - AWS S3 Connector Usage Example
 ```python
@@ -95,11 +95,11 @@ loader = torch.utils.data.DataLoader(map_dataset, batch_size=256, num_workers=32
 
 AI training mainly includes data collection & preprocessing storage; model development; model training; model inference phases. The general storage requirements for each phase are as follows. [This Baidu article provides a good introduction to this phase](https://developer.baidu.com/article/detail.html?id=417144)
 
-![An example](../../image/AIFlow-storage.jpg)
+![image.png|600](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images20250530151820.png)
 
 Here we focus on the relationship between training and storage: For training, there may be multiple iterations (epochs). Within each epoch, the dataset first needs to be shuffled randomly, then the shuffled data is divided into several batches. Each time a batch of data is read, one training iteration is performed. Checkpoints are also saved periodically for fast failure recovery:
 
-![An example](../../image/Ai-train.jpg)
+![image.png|600](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images20250530151958.png)
 
 So the storage requirements for AI training are roughly as follows:
 

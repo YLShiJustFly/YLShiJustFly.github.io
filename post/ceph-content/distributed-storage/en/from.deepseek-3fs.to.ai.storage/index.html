@@ -202,7 +202,7 @@ The star count in just 3 days after open-sourcing exceeded that of numerous open
 <p>Current mainstream AI training frameworks include PyTorch, TensorFlow, and PaddlePaddle. Here we use PyTorch as an example. PyTorch provides two data primitives: torch.utils.data.Dataset and torch.utils.data.DataLoader. PyTorch data loading is completed through Dataset+DataLoader, where Dataset defines the data format and data transformation forms, and DataLoader continuously reads batch data in an iterative manner.</p>
 <p>You can implement flexible data reading by inheriting PyTorch&rsquo;s own Dataset class. Various systems can implement data connections (Connectors) with PyTorch based on this.</p>
 <p>The following shows the overall framework diagram. The S3 Connector and FS-S3 Connector shown below are both developed by AWS (details can be found in aws-connector-for-pytorch). The Amazon S3 Connector for PyTorch automatically optimizes S3 read and list requests to improve data loading and checkpoint performance for training workloads. Due to S3&rsquo;s universality, object storage systems that support S3 can directly use the Amazon S3 Connector for PyTorch. FS-S3 uses S3 at the bottom layer and can be exported through the file system, which is also a popular type of system currently, combining the advantages of both fs and s3. File-Store Connector is the system that PyTorch supports by default. In addition to these, there are also some public cloud&rsquo;s own Connectors.</p>
-<p><img src="../../image/pytorch-connector.png" alt="An example"></p>
+<p><img src="https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images20250530152049.png" alt="image.png|600"></p>
 <ul>
 <li>AWS S3 Connector Usage Example</li>
 </ul>
@@ -317,9 +317,9 @@ The star count in just 3 days after open-sourcing exceeded that of numerous open
 </div>
 </div><h1 id="ai-training-phases-and-storage-requirements">AI Training Phases and Storage Requirements</h1>
 <p>AI training mainly includes data collection &amp; preprocessing storage; model development; model training; model inference phases. The general storage requirements for each phase are as follows. <a href="https://developer.baidu.com/article/detail.html?id=417144">This Baidu article provides a good introduction to this phase</a></p>
-<p><img src="../../image/AIFlow-storage.jpg" alt="An example"></p>
+<p><img src="https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images20250530151820.png" alt="image.png|600"></p>
 <p>Here we focus on the relationship between training and storage: For training, there may be multiple iterations (epochs). Within each epoch, the dataset first needs to be shuffled randomly, then the shuffled data is divided into several batches. Each time a batch of data is read, one training iteration is performed. Checkpoints are also saved periodically for fast failure recovery:</p>
-<p><img src="../../image/Ai-train.jpg" alt="An example"></p>
+<p><img src="https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images20250530151958.png" alt="image.png|600"></p>
 <p>So the storage requirements for AI training are roughly as follows:</p>
 <ol>
 <li>
