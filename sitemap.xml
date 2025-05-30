@@ -44,13 +44,6 @@
   </url>
   
   <url>
-    <loc>http://YLShiJustFly.github.io/post/kcephfs-caps/</loc>
-    <lastmod>2025-05-30T14:17:59+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/readme/</loc>
     <lastmod>2025-05-30T14:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>

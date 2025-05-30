@@ -26,15 +26,6 @@
     </item>
     
     <item>
-      <title>Ceph handle_cap_grant机制解析 </title>
-      <link>http://YLShiJustFly.github.io/post/kcephfs-caps/</link>
-      <pubDate>Fri, 30 May 2025 14:17:59 +0800</pubDate>
-      
-      <guid>http://YLShiJustFly.github.io/post/kcephfs-caps/</guid>
-      <description>handle_cap_grant handle_cap_grant 是 Ceph 分布式一致性机制的核心实现，负责： 处理 MDS 发送的能力授权/撤销消息 维护客户端缓存一致性 管理文件元数据同步 协调分布式锁机制 完整的流程图 1</description>
-    </item>
-    
-    <item>
       <title>Ceph MGR &amp;&amp; Ceph-CSI introduction </title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/readme/</link>
       <pubDate>Fri, 30 May 2025 14:17:59 +0800</pubDate>
