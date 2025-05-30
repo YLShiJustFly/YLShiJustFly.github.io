@@ -148,4 +148,22 @@
     <priority>0.5</priority>
   </url>
   
+  <url>
+    <loc>http://YLShiJustFly.github.io/post/from.deepseek-3fs.to.ai.storage/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/post/kcephfs-caps/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/post/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
 </urlset>
