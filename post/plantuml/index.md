@@ -43,7 +43,7 @@ help themes
 @enduml
 ```
 &emsp;&emsp;c） 命令模式输入:PlantumlOpen，得到已经安装的theme列表，后续要选择其中一种。  
-![theme](http://youseeicanfly.gitee.io/picturebed/plantuml/theme.png)
+![](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images/PixPin_2025-03-28_17-11-04.jpg)
 
 2. 写我们的第一个流程图代码，指定要用的theme为bluegray。   
 ```
@@ -68,7 +68,7 @@ stop
 @enduml
 ```
 3. 执行:PlantumlOpen生成流程图。  
-![test](http://youseeicanfly.gitee.io/picturebed/plantuml/test_bluegray.png)
+![](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images/PixPin_2025-03-28_16-25-21.jpg)
 
 3. 换成sandstone主题。  
 ```
@@ -92,4 +92,4 @@ endif
 stop
 @enduml
 ```
-![test](http://youseeicanfly.gitee.io/picturebed/plantuml/test_sandstone.png)
+![](https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images/PixPin_2025-03-28_16-29-25.jpg)
