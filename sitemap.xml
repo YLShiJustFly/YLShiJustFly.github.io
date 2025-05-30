@@ -154,10 +154,4 @@
     <priority>0.5</priority>
   </url>
   
-  <url>
-    <loc>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
 </urlset>

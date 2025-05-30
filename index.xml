@@ -79,16 +79,5 @@
       <description>MGR Ceph Manager Module Designand Operation Ceph-CSI Ceph-CSI:Bridging Containers and Ceph </description>
     </item>
     
-    <item>
-      <title></title>
-      <link>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/</guid>
-      <description>Rise to Prominence: 3FS In the past two months, DeepSeek&amp;rsquo;s popularity has skyrocketed. What particularly delights us storage professionals is that DeepSeek has brought distributed storage, which has long been hidden away, to the forefront.
-The GitHub attention that 3FS has received is unprecedented among open-source distributed storage projects, and there probably won&amp;rsquo;t be another like it.
-The star count in just 3 days after open-sourcing exceeded that of numerous open-source storage projects that have been cultivating for years.</description>
-    </item>
-    
   </channel>
 </rss>
