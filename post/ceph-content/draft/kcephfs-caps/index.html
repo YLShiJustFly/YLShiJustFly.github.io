@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>handle cap grant解析  - Friends&#39; Life and Work Space</title>
+  <title>Ceph handle_cap_grant机制解析  - Friends&#39; Life and Work Space</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -39,19 +39,19 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="handle cap grant解析 " />
+<meta property="og:title" content="Ceph handle_cap_grant机制解析 " />
 <meta property="og:description" content="handle_cap_grant handle_cap_grant 是 Ceph 分布式一致性机制的核心实现，负责： 处理 MDS 发送的能力授权/撤销消息 维护客户端缓存一致性 管理文件元数据同步 协调分布式锁机制 完整的流程图 1" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/draft/kcephfs-caps/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2025-05-30T14:17:59+08:00" />
 <meta property="article:modified_time" content="2025-05-30T14:17:59+08:00" />
 
-<meta itemprop="name" content="handle cap grant解析 ">
+<meta itemprop="name" content="Ceph handle_cap_grant机制解析 ">
 <meta itemprop="description" content="handle_cap_grant handle_cap_grant 是 Ceph 分布式一致性机制的核心实现，负责： 处理 MDS 发送的能力授权/撤销消息 维护客户端缓存一致性 管理文件元数据同步 协调分布式锁机制 完整的流程图 1"><meta itemprop="datePublished" content="2025-05-30T14:17:59+08:00" />
 <meta itemprop="dateModified" content="2025-05-30T14:17:59+08:00" />
 <meta itemprop="wordCount" content="7769">
 <meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="handle cap grant解析 "/>
+<meta name="twitter:title" content="Ceph handle_cap_grant机制解析 "/>
 <meta name="twitter:description" content="handle_cap_grant handle_cap_grant 是 Ceph 分布式一致性机制的核心实现，负责： 处理 MDS 发送的能力授权/撤销消息 维护客户端缓存一致性 管理文件元数据同步 协调分布式锁机制 完整的流程图 1"/>
 
 <!--[if lte IE 9]>
@@ -129,7 +129,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">handle cap grant解析 </h1>
+      <h1 class="post-title">Ceph handle_cap_grant机制解析 </h1>
 
       <div class="post-meta">
         <span class="post-time"> 2025-05-30 </span>
@@ -2681,13 +2681,13 @@
           <a href="/tags/ceph/">ceph</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/ceph-content/readme/">
+        <a class="prev" href="/post/ceph-content/distributed-storage/zh-cn/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Ceph简介 </span>
+            <span class="prev-text nav-default">3FS的一点思考 </span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/">
-            <span class="next-text nav-default">Thinking about 3FS </span>
+        <a class="next" href="/post/ceph-content/architecture-analysis/readme/">
+            <span class="next-text nav-default">Ceph MGR &amp;&amp; Ceph-CSI introduction </span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
