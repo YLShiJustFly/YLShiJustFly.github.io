@@ -37,13 +37,6 @@
   </url>
   
   <url>
-    <loc>http://YLShiJustFly.github.io/post/ceph-content/draft/kcephfs-caps/</loc>
-    <lastmod>2025-05-30T14:17:59+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/readme/</loc>
     <lastmod>2025-05-30T14:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -95,6 +88,13 @@
   <url>
     <loc>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/</loc>
     <lastmod>2025-05-30T14:17:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://YLShiJustFly.github.io/post/ceph-content/draft/kcephfs-caps/</loc>
+    <lastmod>2025-05-27T14:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
