@@ -81,14 +81,5 @@ The GitHub attention that 3FS has received is unprecedented among open-source di
 The star count in just 3 days after open-sourcing exceeded that of numerous open-source storage projects that have been cultivating for years.</description>
     </item>
     
-    <item>
-      <title></title>
-      <link>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/</guid>
-      <description>横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepSeek竟然把一向养在深闺无人识的分布式存储推到了台前</description>
-    </item>
-    
   </channel>
 </rss>
