@@ -17,15 +17,6 @@
     </item>
     
     <item>
-      <title>3FS的一点思考 </title>
-      <link>http://YLShiJustFly.github.io/post/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/</link>
-      <pubDate>Fri, 30 May 2025 14:17:59 +0800</pubDate>
-      
-      <guid>http://YLShiJustFly.github.io/post/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/</guid>
-      <description>横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepSeek竟然把一向养在深闺无人识的分布式存储推到了台前</description>
-    </item>
-    
-    <item>
       <title>Thinking about 3FS </title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/</link>
       <pubDate>Fri, 30 May 2025 14:17:59 +0800</pubDate>
