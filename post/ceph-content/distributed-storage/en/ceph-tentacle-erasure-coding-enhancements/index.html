@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="YLShi && WuHongSong" /><meta name="description" content="Vision and Objectives Core Goal: Optimize I/O performance for Erasure Coded pools to be similar to Replicated Pools
+<meta name="author" content="ceph-deep-dive" /><meta name="description" content="Vision and Objectives Core Goal: Optimize I/O performance for Erasure Coded pools to be similar to Replicated Pools
 Primary Objectives:
 Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with block and file storage Enabling &amp;ldquo;Optimised&amp;rdquo; EC Important Considerations Default State: All optimizations are turned off by default Per-Pool Configuration: Optimizations can be enabled for each pool individually ⚠️ Irreversible Operation: OPTIMIZATIONS CANNOT BE SWITCHED OFF once enabled Version Requirements: All OSDs, MONs, and MGRs must be upgraded to Tentacle or later Backward Compatibility: Compatible with old clients Configuration Methods Enable optimizations for a specific pool 1 ceph osd pool set &amp;lt;pool_name&amp;gt; allow_ec_optimizations true Enable optimizations by default for new pools 1 2 [mon] osd_pool_default_flag_ec_optimizations = true Key Technical Features Previously Implemented Core Features Partial Reads Partial Writes Note: Partial metadata – unwritten shards have no processing Parity Delta Writes Per-IO auto-switch between write methods Larger Default Chunk Size Direct Read Direct Write New Important Features 1." /><meta name="keywords" content="Hugo, theme, even" />
 
@@ -387,7 +387,7 @@ Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
-    <span class="item-content">YLShi && WuHongSong</span>
+    <span class="item-content">ceph-deep-dive</span>
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
@@ -459,7 +459,7 @@ Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with
   <span class="copyright-year">
     &copy; 
     2022 - 
-    2025<span class="heart"><i class="iconfont icon-heart"></i></span><span>YLShi && WuHongSong</span>
+    2025<span class="heart"><i class="iconfont icon-heart"></i></span><span>ceph-deep-dive</span>
   </span>
 </div>
 
