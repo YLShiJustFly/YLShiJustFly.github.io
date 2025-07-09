@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title> - Friends&#39; Life and Work Space</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="YLShi && WuHongSong" /><meta name="description" content="随着OSD的更替和集群的扩缩容，PG在OSD的分布会逐渐变的不均衡，导致各OSD的实际容量使用率出现差异，集群整体使用率降低。ceph bal" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.100.2 with theme even" />
+
+
+<link rel="canonical" href="http://YLShiJustFly.github.io/post/ceph-content/code-analysis/zh-cn/ceph-mgr-balancer%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="随着OSD的更替和集群的扩缩容，PG在OSD的分布会逐渐变的不均衡，导致各OSD的实际容量使用率出现差异，集群整体使用率降低。ceph bal" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/code-analysis/zh-cn/ceph-mgr-balancer%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/" /><meta property="article:section" content="post" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="随着OSD的更替和集群的扩缩容，PG在OSD的分布会逐渐变的不均衡，导致各OSD的实际容量使用率出现差异，集群整体使用率降低。ceph bal">
+
+<meta itemprop="wordCount" content="2169">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="随着OSD的更替和集群的扩缩容，PG在OSD的分布会逐渐变的不均衡，导致各OSD的实际容量使用率出现差异，集群整体使用率降低。ceph bal"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Friends&#39; Life and Work Space</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Friends&#39; Life and Work Space</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title"></h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 0001-01-01 </span>
+        
+          <span class="more-meta"> 2169 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#balancer模块运行流程">balancer模块运行流程</a>
+      <ul>
+        <li><a href="#实现方式">实现方式</a></li>
+        <li><a href="#版本">版本</a></li>
+        <li><a href="#影响范围">影响范围</a></li>
+      </ul>
+    </li>
+    <li><a href="#upmap模式运行流程">upmap模式运行流程</a></li>
+    <li><a href="#参数">参数</a>
+      <ul>
+        <li><a href="#时间参数">时间参数</a></li>
+        <li><a href="#upmap-关联的控制参数">upmap 关联的控制参数</a></li>
+        <li><a href="#crush-compat-关联的控制参数">crush-compat 关联的控制参数</a></li>
+      </ul>
+    </li>
+    <li><a href="#执行balancer">执行balancer</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>随着OSD的更替和集群的扩缩容，PG在OSD的分布会逐渐变的不均衡，导致各OSD的实际容量使用率出现差异，集群整体使用率降低。ceph balancer模块就是通过调整权重或者upmap指定pg映射来让pg分布均匀的模块，分为upmap模式和crush-compat模式，本文基于Pacific版本，主要分析和使用upmap模式的运行流程。</p>
+<h1 id="balancer模块运行流程">balancer模块运行流程</h1>
+<p>blancer模块执行流程概览：</p>
+<p><img src="../../image/mgr-balancer-1.jpg" alt=""></p>
+<p>ceph 的 balancer 分为 upmap 和 crush-compat两种模式，只能采用一种设置，对比两种模式 ：</p>
+<h2 id="实现方式">实现方式</h2>
+<p>crush-compat 会在 crush map 中生成单独的choose_args 列表，包含调整过后的权重集，依靠该列表调整数据的分布，执行 <code>ceph crush dump</code>可以查看， 例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    <span class="s2">&#34;choose_args&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;-1&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">            <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;bucket_id&#34;</span>: -1,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;weight_set&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                        0.1983489990234375,
+</span></span><span class="line"><span class="cl">                        0.1943206787109375,
+</span></span><span class="line"><span class="cl">                        0.1934051513671875
+</span></span><span class="line"><span class="cl">                    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">]</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">            <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;bucket_id&#34;</span>: -2,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;weight_set&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                        0.1983489990234375,
+</span></span><span class="line"><span class="cl">                        0.1943206787109375,
+</span></span><span class="line"><span class="cl">                        0.1934051513671875
+</span></span><span class="line"><span class="cl">                    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">]</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">            <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;bucket_id&#34;</span>: -3,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;weight_set&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                        0.1060638427734375,
+</span></span><span class="line"><span class="cl">                        0.09228515625
+</span></span><span class="line"><span class="cl">                    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">]</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">            <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;bucket_id&#34;</span>: -4,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;weight_set&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                        0.1060638427734375,
+</span></span><span class="line"><span class="cl">                        0.09228515625
+</span></span><span class="line"><span class="cl">                    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">]</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">            <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;bucket_id&#34;</span>: -5,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;weight_set&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                        0.096160888671875,
+</span></span><span class="line"><span class="cl">                        0.0981597900390625
+</span></span><span class="line"><span class="cl">                    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">]</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">            <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;bucket_id&#34;</span>: -6,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;weight_set&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                        0.096160888671875,
+</span></span><span class="line"><span class="cl">                        0.0981597900390625
+</span></span><span class="line"><span class="cl">                    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">]</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">            <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;bucket_id&#34;</span>: -7,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;weight_set&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                        0.0999908447265625,
+</span></span><span class="line"><span class="cl">                        0.093414306640625
+</span></span><span class="line"><span class="cl">                    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">]</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">            <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;bucket_id&#34;</span>: -8,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;weight_set&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                        0.0999908447265625,
+</span></span><span class="line"><span class="cl">                        0.093414306640625
+</span></span><span class="line"><span class="cl">                    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">]</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>upmap 模式会在 osd map 中生成 pg 的映射关系，例如第一条表示，将 PG 3.1e 从 OSD5 迁移到 OSD2 上：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_upmap_items 3.1e <span class="o">[</span>5,2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">pg_upmap_items 3.27 <span class="o">[</span>4,0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">pg_upmap_items 3.28 <span class="o">[</span>5,2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">pg_upmap_items 3.29 <span class="o">[</span>5,2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">pg_upmap_items 3.33 <span class="o">[</span>5,2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">pg_upmap_items 3.3e <span class="o">[</span>5,2<span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="版本">版本</h2>
+<ol>
+<li>crush-compat 模式兼容所有版本的客户端，客户端来请求OSDMap和CRUSH map，会使用choose_args结构（balancer调整后生成）中的权重。</li>
+<li>upmap 模式不支持 L 版本以下的客户端。</li>
+</ol>
+<h2 id="影响范围">影响范围</h2>
+<p>crush-compat 模式根据权重控制 OSD 分布，集群会根据该规则对 PG 做重映射，无法控制影响的 PG 范围。</p>
+<p>upmap 根据用户设置的可容忍最大 PG 偏离数和每周期最多可以调整多少个 PG 来控制 PG 重映射影响的范围。</p>
+<h1 id="upmap模式运行流程">upmap模式运行流程</h1>
+<p>打开 OSD 日志 <code>ceph tell mgr.* config set debug_osd 30/30</code>，对比 upmap 执行代码流程进行分析，蓝色为日志打印。</p>
+<p>图中的流程表示：在双副本存储池下，把 pg 3.28 的 up_set 从 [3,5] 改为 [3,2]，即把 pg 3.28 从 osd.5 移到 osd.2。</p>
+<p><img src="../../image/mgr-balancer-2.jpg" alt=""></p>
+<h1 id="参数">参数</h1>
+<h2 id="时间参数">时间参数</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mgr/balancer/begin_time: 开始的时间，格式为HM，例如 <span class="m">0000</span>                                       mgr/balancer/end_time：结束时间，格式为HM，例如 <span class="m">0100</span>                                           mgr/balancer/begin_weekday：拜几开始，可取值1、2、3、4、5、6、7，例如 <span class="m">2</span>
+</span></span><span class="line"><span class="cl">mgr/balancer/end_weekday：礼拜几结束，可取值1、2、3、4、5、6、7，例如 <span class="m">7</span>
+</span></span><span class="line"><span class="cl">mgr/balancer/sleep_interval：balancer休眠多少秒后执行调整操作，例如 <span class="m">180</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="upmap-关联的控制参数">upmap 关联的控制参数</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mgr/balancer/active：是否启用balancer模块，true/false，例如 <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">mgr/balancer/mode：balancer模式，分upmap和crush-compat，例如 upmap
+</span></span><span class="line"><span class="cl">mgr/balancer/upmap_max_deviation：允许偏离几个OSD，例如 <span class="m">5</span>                                     mgr/balancer/upmap_max_optimizations：每次开始balancer最多调优多少轮退出，例如 <span class="m">10</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="crush-compat-关联的控制参数">crush-compat 关联的控制参数</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mgr/balancer/crush_compat_max_iterations：按照指定步长最多可调整多少次，例如 <span class="m">25</span>                 mgr/balancer/crush_compat_metrics：参与score计算的指标，例如pgs,objects,bytes                 mgr/balancer/crush_compat_step：权重调整的步长，控制调整的权重精确度，例如0.500000               mgr/balancer/min_score：要调整到小于等于该score才表示调整完成，例如 0.020000                     mgr/balancer/mode：调整模式，例如crush-compat
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="执行balancer">执行balancer</h1>
+<p>设置<code>mgr/balancer/upmap_max_deviation</code>为2，等待balancer执行完成。</p>
+<p>调整前：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@ceph-01 ~<span class="o">]</span><span class="c1"># ceph osd df tree</span>
+</span></span><span class="line"><span class="cl">ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA     OMAP     META      AVAIL    %USE   VAR   PGS  STATUS  TYPE NAME       
+</span></span><span class="line"><span class="cl">-1         0.58612         -  <span class="m">600</span> GiB   <span class="m">81</span> GiB   <span class="m">74</span> GiB  <span class="m">408</span> MiB   6.4 GiB  <span class="m">519</span> GiB  13.50  1.00    -          root default    
+</span></span><span class="line"><span class="cl">-3         0.19537         -  <span class="m">200</span> GiB   <span class="m">27</span> GiB   <span class="m">25</span> GiB  <span class="m">139</span> MiB   2.1 GiB  <span class="m">173</span> GiB  13.56  1.00    -              host ceph-01
+</span></span><span class="line"><span class="cl"> <span class="m">2</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">11</span> GiB  9.7 GiB   <span class="m">72</span> MiB  <span class="m">1008</span> MiB   <span class="m">89</span> GiB  10.76  0.80   <span class="m">23</span>      up          osd.2   
+</span></span><span class="line"><span class="cl"> <span class="m">5</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">16</span> GiB   <span class="m">15</span> GiB   <span class="m">67</span> MiB   1.1 GiB   <span class="m">84</span> GiB  16.36  1.21   <span class="m">31</span>      up          osd.5   
+</span></span><span class="line"><span class="cl">-5         0.19537         -  <span class="m">200</span> GiB   <span class="m">30</span> GiB   <span class="m">27</span> GiB   <span class="m">92</span> MiB   2.8 GiB  <span class="m">170</span> GiB  15.09  1.12    -              host ceph-02
+</span></span><span class="line"><span class="cl"> <span class="m">1</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">15</span> GiB   <span class="m">13</span> GiB   <span class="m">37</span> MiB   1.5 GiB   <span class="m">85</span> GiB  14.84  1.10   <span class="m">28</span>      up          osd.1   
+</span></span><span class="line"><span class="cl"> <span class="m">4</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">15</span> GiB   <span class="m">14</span> GiB   <span class="m">55</span> MiB   1.3 GiB   <span class="m">85</span> GiB  15.35  1.14   <span class="m">29</span>      up          osd.4   
+</span></span><span class="line"><span class="cl">-7         0.19537         -  <span class="m">200</span> GiB   <span class="m">24</span> GiB   <span class="m">22</span> GiB  <span class="m">177</span> MiB   1.6 GiB  <span class="m">176</span> GiB  11.86  0.88    -              host ceph-03
+</span></span><span class="line"><span class="cl"> <span class="m">0</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">11</span> GiB  9.8 GiB  <span class="m">107</span> MiB   1.1 GiB   <span class="m">89</span> GiB  10.99  0.81   <span class="m">25</span>      up          osd.0   
+</span></span><span class="line"><span class="cl"> <span class="m">3</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">13</span> GiB   <span class="m">12</span> GiB   <span class="m">70</span> MiB   <span class="m">501</span> MiB   <span class="m">87</span> GiB  12.72  0.94   <span class="m">27</span>      up          osd.3   
+</span></span><span class="line"><span class="cl">                       TOTAL  <span class="m">600</span> GiB   <span class="m">81</span> GiB   <span class="m">74</span> GiB  <span class="m">408</span> MiB   6.4 GiB  <span class="m">519</span> GiB  13.50                                     
+</span></span><span class="line"><span class="cl">MIN/MAX VAR: 0.80/1.21  STDDEV: 2.15
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调整后：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@ceph-01 ~<span class="o">]</span><span class="c1"># ceph osd df tree</span>
+</span></span><span class="line"><span class="cl">ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA    OMAP     META     AVAIL    %USE   VAR   PGS  STATUS  TYPE NAME       
+</span></span><span class="line"><span class="cl">-1         0.58612         -  <span class="m">600</span> GiB   <span class="m">82</span> GiB  <span class="m">74</span> GiB  <span class="m">408</span> MiB  7.0 GiB  <span class="m">518</span> GiB  13.60  1.00    -          root default    
+</span></span><span class="line"><span class="cl">-3         0.19537         -  <span class="m">200</span> GiB   <span class="m">27</span> GiB  <span class="m">25</span> GiB  <span class="m">139</span> MiB  2.3 GiB  <span class="m">173</span> GiB  13.70  1.01    -              host ceph-01
+</span></span><span class="line"><span class="cl"> <span class="m">2</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">14</span> GiB  <span class="m">13</span> GiB   <span class="m">72</span> MiB  1.3 GiB   <span class="m">86</span> GiB  13.93  1.02   <span class="m">28</span>      up          osd.2   
+</span></span><span class="line"><span class="cl"> <span class="m">5</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">13</span> GiB  <span class="m">12</span> GiB   <span class="m">67</span> MiB  1.1 GiB   <span class="m">87</span> GiB  13.47  0.99   <span class="m">26</span>      up          osd.5   
+</span></span><span class="line"><span class="cl">-5         0.19537         -  <span class="m">200</span> GiB   <span class="m">28</span> GiB  <span class="m">25</span> GiB   <span class="m">92</span> MiB  2.8 GiB  <span class="m">172</span> GiB  14.17  1.04    -              host ceph-02
+</span></span><span class="line"><span class="cl"> <span class="m">1</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">14</span> GiB  <span class="m">13</span> GiB   <span class="m">37</span> MiB  1.5 GiB   <span class="m">86</span> GiB  14.23  1.05   <span class="m">27</span>      up          osd.1   
+</span></span><span class="line"><span class="cl"> <span class="m">4</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">14</span> GiB  <span class="m">13</span> GiB   <span class="m">55</span> MiB  1.3 GiB   <span class="m">86</span> GiB  14.10  1.04   <span class="m">27</span>      up          osd.4   
+</span></span><span class="line"><span class="cl">-7         0.19537         -  <span class="m">200</span> GiB   <span class="m">26</span> GiB  <span class="m">24</span> GiB  <span class="m">177</span> MiB  1.8 GiB  <span class="m">174</span> GiB  12.93  0.95    -              host ceph-03
+</span></span><span class="line"><span class="cl"> <span class="m">0</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">13</span> GiB  <span class="m">12</span> GiB  <span class="m">107</span> MiB  1.4 GiB   <span class="m">87</span> GiB  13.14  0.97   <span class="m">28</span>      up          osd.0   
+</span></span><span class="line"><span class="cl"> <span class="m">3</span>    hdd  0.09769   1.00000  <span class="m">100</span> GiB   <span class="m">13</span> GiB  <span class="m">12</span> GiB   <span class="m">70</span> MiB  <span class="m">501</span> MiB   <span class="m">87</span> GiB  12.72  0.94   <span class="m">27</span>      up          osd.3   
+</span></span><span class="line"><span class="cl">                       TOTAL  <span class="m">600</span> GiB   <span class="m">82</span> GiB  <span class="m">74</span> GiB  <span class="m">408</span> MiB  7.0 GiB  <span class="m">518</span> GiB  13.60                                     
+</span></span><span class="line"><span class="cl">MIN/MAX VAR: 0.94/1.05  STDDEV: 0.54
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>OSD 上的 PG 数量偏差已经小于等于设置的 2，CRUSH 规则没有被改变，OSD 的容量也变得均衡了。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">YLShi && WuHongSong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        0001-01-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/ceph-content/code-analysis/en/execution-flow-analysis-of-the-ceph-mgr-balancer-module-/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default"></span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/ceph-content/contributing/">
+            <span class="next-text nav-default"></span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="YLShiJustFly/YLShiJustFly.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:youseeicanfly@126.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.zhihu.com/people/tan-xi-liu-nian" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://YLShiJustFly.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2022 - 
+    2025<span class="heart"><i class="iconfont icon-heart"></i></span><span>YLShi && WuHongSong</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.191509a5c8442abdb6eb5020a332fd59bdd83a7e78a2d2241108df9113504292.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

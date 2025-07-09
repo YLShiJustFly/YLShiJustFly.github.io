@@ -1,0 +1,2561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title> - Friends&#39; Life and Work Space</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="YLShi && WuHongSong" /><meta name="description" content="Practical Guide: Ceph Command Tools Summary 📋 Common Tools (Summary Overview) Function Category Main Commands Verification Status Usage Frequency Application Scenarios Risk Level Cluster Monitoring ceph -s, ceph health(detail), ceph df, ceph -w ✅ Verified ⭐⭐⭐⭐⭐ Daily monitoring, troubleshooting 🟢 No risk I/O Monitoring ceph iostat(version dependent,N&#43;), ceph -w, ceph status ✅ Verified ⭐⭐⭐⭐ Performance monitoring 🟢 No risk OSD Management ceph osd tree, ceph osd status, ceph osd out/in ✅ Verified ⭐⭐⭐⭐ OSD maintenance, capacity management 🟡 Medium risk (queries safe) Monitor Management ceph mon stat, ceph quorum_status, ceph mon add/remove ✅ Verified ⭐⭐⭐ Cluster management, high availability 🔴 High risk (queries safe) Manager Management ceph mgr module enable/disable, ceph mgr stat ✅ Verified ⭐⭐⭐ Feature management, dashboard 🟡 Medium risk (queries safe) Pool Management ceph osd pool create/delete, ceph osd pool set ✅ Verified ⭐⭐⭐⭐ Storage planning, quota management 🔴 High risk (queries safe) PG Management ceph pg stat, ceph pg repair, ceph pg scrub ✅ Verified ⭐⭐⭐⭐ Data integrity, fault repair 🟡 Medium risk (queries safe) Authentication Management ceph auth list/create/del ✅ Verified ⭐⭐⭐ Security management, access control 🔴 High risk (queries safe) CRUSH Management ceph osd crush tree, crushtool, ceph osd crush rule ✅ Verified ⭐⭐ Data distribution, failure domains 🔴 High risk (queries safe) RBD Management rbd create/rm, rbd snap create, rbd map/unmap ✅ Verified ⭐⭐⭐⭐ Block storage, snapshot management 🟡 Medium risk CephFS Management ceph fs status, ceph mds stat, ceph fs dump, ceph mds fail ✅ Verified ⭐⭐⭐ File system, metadata 🟡 Medium risk (queries safe) RGW Management radosgw-admin user create, radosgw-admin bucket ✅ Verified ⭐⭐⭐ Object storage, user management 🟡 Medium risk (queries safe) Configuration Management ceph config set/get, ceph tell Not verified ⭐⭐⭐⭐ Parameter tuning, fault handling 🟡 Medium risk (queries safe) Performance Analysis ceph osd perf,rbd perf image iostat, cephfs-top ✅ Verified ⭐⭐⭐ Performance testing, bottleneck analysis 🟢 No risk Specialized Tools ceph-objectstore-tool, ceph-bluestore-tool ✅ Verified ⭐⭐ Data recovery, deep diagnostics 🔴 High risk (queries safe) Troubleshooting journalctl, ceph daemon dump, log analysis ✅ Verified ⭐⭐⭐⭐ Problem diagnosis, root cause analysis 🟢 No risk Backup Recovery ceph mon getmap, ceph auth export, data export ✅ Verified ⭐⭐ Disaster recovery, migration 🟡 Medium risk (queries safe) 🔧 1." /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.100.2 with theme even" />
+
+
+<link rel="canonical" href="http://YLShiJustFly.github.io/post/ceph-content/operation-skills/en/practical-guide-a-summary-of-commonly-used-tools-in-ceph/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Practical Guide: Ceph Command Tools Summary 📋 Common Tools (Summary Overview) Function Category Main Commands Verification Status Usage Frequency Application Scenarios Risk Level Cluster Monitoring ceph -s, ceph health(detail), ceph df, ceph -w ✅ Verified ⭐⭐⭐⭐⭐ Daily monitoring, troubleshooting 🟢 No risk I/O Monitoring ceph iostat(version dependent,N&#43;), ceph -w, ceph status ✅ Verified ⭐⭐⭐⭐ Performance monitoring 🟢 No risk OSD Management ceph osd tree, ceph osd status, ceph osd out/in ✅ Verified ⭐⭐⭐⭐ OSD maintenance, capacity management 🟡 Medium risk (queries safe) Monitor Management ceph mon stat, ceph quorum_status, ceph mon add/remove ✅ Verified ⭐⭐⭐ Cluster management, high availability 🔴 High risk (queries safe) Manager Management ceph mgr module enable/disable, ceph mgr stat ✅ Verified ⭐⭐⭐ Feature management, dashboard 🟡 Medium risk (queries safe) Pool Management ceph osd pool create/delete, ceph osd pool set ✅ Verified ⭐⭐⭐⭐ Storage planning, quota management 🔴 High risk (queries safe) PG Management ceph pg stat, ceph pg repair, ceph pg scrub ✅ Verified ⭐⭐⭐⭐ Data integrity, fault repair 🟡 Medium risk (queries safe) Authentication Management ceph auth list/create/del ✅ Verified ⭐⭐⭐ Security management, access control 🔴 High risk (queries safe) CRUSH Management ceph osd crush tree, crushtool, ceph osd crush rule ✅ Verified ⭐⭐ Data distribution, failure domains 🔴 High risk (queries safe) RBD Management rbd create/rm, rbd snap create, rbd map/unmap ✅ Verified ⭐⭐⭐⭐ Block storage, snapshot management 🟡 Medium risk CephFS Management ceph fs status, ceph mds stat, ceph fs dump, ceph mds fail ✅ Verified ⭐⭐⭐ File system, metadata 🟡 Medium risk (queries safe) RGW Management radosgw-admin user create, radosgw-admin bucket ✅ Verified ⭐⭐⭐ Object storage, user management 🟡 Medium risk (queries safe) Configuration Management ceph config set/get, ceph tell Not verified ⭐⭐⭐⭐ Parameter tuning, fault handling 🟡 Medium risk (queries safe) Performance Analysis ceph osd perf,rbd perf image iostat, cephfs-top ✅ Verified ⭐⭐⭐ Performance testing, bottleneck analysis 🟢 No risk Specialized Tools ceph-objectstore-tool, ceph-bluestore-tool ✅ Verified ⭐⭐ Data recovery, deep diagnostics 🔴 High risk (queries safe) Troubleshooting journalctl, ceph daemon dump, log analysis ✅ Verified ⭐⭐⭐⭐ Problem diagnosis, root cause analysis 🟢 No risk Backup Recovery ceph mon getmap, ceph auth export, data export ✅ Verified ⭐⭐ Disaster recovery, migration 🟡 Medium risk (queries safe) 🔧 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/operation-skills/en/practical-guide-a-summary-of-commonly-used-tools-in-ceph/" /><meta property="article:section" content="post" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Practical Guide: Ceph Command Tools Summary 📋 Common Tools (Summary Overview) Function Category Main Commands Verification Status Usage Frequency Application Scenarios Risk Level Cluster Monitoring ceph -s, ceph health(detail), ceph df, ceph -w ✅ Verified ⭐⭐⭐⭐⭐ Daily monitoring, troubleshooting 🟢 No risk I/O Monitoring ceph iostat(version dependent,N&#43;), ceph -w, ceph status ✅ Verified ⭐⭐⭐⭐ Performance monitoring 🟢 No risk OSD Management ceph osd tree, ceph osd status, ceph osd out/in ✅ Verified ⭐⭐⭐⭐ OSD maintenance, capacity management 🟡 Medium risk (queries safe) Monitor Management ceph mon stat, ceph quorum_status, ceph mon add/remove ✅ Verified ⭐⭐⭐ Cluster management, high availability 🔴 High risk (queries safe) Manager Management ceph mgr module enable/disable, ceph mgr stat ✅ Verified ⭐⭐⭐ Feature management, dashboard 🟡 Medium risk (queries safe) Pool Management ceph osd pool create/delete, ceph osd pool set ✅ Verified ⭐⭐⭐⭐ Storage planning, quota management 🔴 High risk (queries safe) PG Management ceph pg stat, ceph pg repair, ceph pg scrub ✅ Verified ⭐⭐⭐⭐ Data integrity, fault repair 🟡 Medium risk (queries safe) Authentication Management ceph auth list/create/del ✅ Verified ⭐⭐⭐ Security management, access control 🔴 High risk (queries safe) CRUSH Management ceph osd crush tree, crushtool, ceph osd crush rule ✅ Verified ⭐⭐ Data distribution, failure domains 🔴 High risk (queries safe) RBD Management rbd create/rm, rbd snap create, rbd map/unmap ✅ Verified ⭐⭐⭐⭐ Block storage, snapshot management 🟡 Medium risk CephFS Management ceph fs status, ceph mds stat, ceph fs dump, ceph mds fail ✅ Verified ⭐⭐⭐ File system, metadata 🟡 Medium risk (queries safe) RGW Management radosgw-admin user create, radosgw-admin bucket ✅ Verified ⭐⭐⭐ Object storage, user management 🟡 Medium risk (queries safe) Configuration Management ceph config set/get, ceph tell Not verified ⭐⭐⭐⭐ Parameter tuning, fault handling 🟡 Medium risk (queries safe) Performance Analysis ceph osd perf,rbd perf image iostat, cephfs-top ✅ Verified ⭐⭐⭐ Performance testing, bottleneck analysis 🟢 No risk Specialized Tools ceph-objectstore-tool, ceph-bluestore-tool ✅ Verified ⭐⭐ Data recovery, deep diagnostics 🔴 High risk (queries safe) Troubleshooting journalctl, ceph daemon dump, log analysis ✅ Verified ⭐⭐⭐⭐ Problem diagnosis, root cause analysis 🟢 No risk Backup Recovery ceph mon getmap, ceph auth export, data export ✅ Verified ⭐⭐ Disaster recovery, migration 🟡 Medium risk (queries safe) 🔧 1.">
+
+<meta itemprop="wordCount" content="4594">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Practical Guide: Ceph Command Tools Summary 📋 Common Tools (Summary Overview) Function Category Main Commands Verification Status Usage Frequency Application Scenarios Risk Level Cluster Monitoring ceph -s, ceph health(detail), ceph df, ceph -w ✅ Verified ⭐⭐⭐⭐⭐ Daily monitoring, troubleshooting 🟢 No risk I/O Monitoring ceph iostat(version dependent,N&#43;), ceph -w, ceph status ✅ Verified ⭐⭐⭐⭐ Performance monitoring 🟢 No risk OSD Management ceph osd tree, ceph osd status, ceph osd out/in ✅ Verified ⭐⭐⭐⭐ OSD maintenance, capacity management 🟡 Medium risk (queries safe) Monitor Management ceph mon stat, ceph quorum_status, ceph mon add/remove ✅ Verified ⭐⭐⭐ Cluster management, high availability 🔴 High risk (queries safe) Manager Management ceph mgr module enable/disable, ceph mgr stat ✅ Verified ⭐⭐⭐ Feature management, dashboard 🟡 Medium risk (queries safe) Pool Management ceph osd pool create/delete, ceph osd pool set ✅ Verified ⭐⭐⭐⭐ Storage planning, quota management 🔴 High risk (queries safe) PG Management ceph pg stat, ceph pg repair, ceph pg scrub ✅ Verified ⭐⭐⭐⭐ Data integrity, fault repair 🟡 Medium risk (queries safe) Authentication Management ceph auth list/create/del ✅ Verified ⭐⭐⭐ Security management, access control 🔴 High risk (queries safe) CRUSH Management ceph osd crush tree, crushtool, ceph osd crush rule ✅ Verified ⭐⭐ Data distribution, failure domains 🔴 High risk (queries safe) RBD Management rbd create/rm, rbd snap create, rbd map/unmap ✅ Verified ⭐⭐⭐⭐ Block storage, snapshot management 🟡 Medium risk CephFS Management ceph fs status, ceph mds stat, ceph fs dump, ceph mds fail ✅ Verified ⭐⭐⭐ File system, metadata 🟡 Medium risk (queries safe) RGW Management radosgw-admin user create, radosgw-admin bucket ✅ Verified ⭐⭐⭐ Object storage, user management 🟡 Medium risk (queries safe) Configuration Management ceph config set/get, ceph tell Not verified ⭐⭐⭐⭐ Parameter tuning, fault handling 🟡 Medium risk (queries safe) Performance Analysis ceph osd perf,rbd perf image iostat, cephfs-top ✅ Verified ⭐⭐⭐ Performance testing, bottleneck analysis 🟢 No risk Specialized Tools ceph-objectstore-tool, ceph-bluestore-tool ✅ Verified ⭐⭐ Data recovery, deep diagnostics 🔴 High risk (queries safe) Troubleshooting journalctl, ceph daemon dump, log analysis ✅ Verified ⭐⭐⭐⭐ Problem diagnosis, root cause analysis 🟢 No risk Backup Recovery ceph mon getmap, ceph auth export, data export ✅ Verified ⭐⭐ Disaster recovery, migration 🟡 Medium risk (queries safe) 🔧 1."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Friends&#39; Life and Work Space</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Friends&#39; Life and Work Space</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title"></h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 0001-01-01 </span>
+        
+          <span class="more-meta"> 4594 words </span>
+          <span class="more-meta"> 22 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#practical-guide-ceph-command-tools-summary">Practical Guide: Ceph Command Tools Summary</a>
+      <ul>
+        <li><a href="#-common-tools-summary-overview">📋 Common Tools (Summary Overview)</a></li>
+        <li><a href="#-1-cluster-status-monitoring">🔧 1. Cluster Status Monitoring</a>
+          <ul>
+            <li><a href="#11-overall-cluster-status">1.1 Overall Cluster Status</a></li>
+            <li><a href="#12-cluster-performance-monitoring">1.2 Cluster Performance Monitoring</a></li>
+          </ul>
+        </li>
+        <li><a href="#-2-osd-management">🗄️ 2. OSD Management</a>
+          <ul>
+            <li><a href="#21-basic-osd-operations">2.1 Basic OSD Operations</a></li>
+            <li><a href="#22-osd-maintenance-operations">2.2 OSD Maintenance Operations</a></li>
+            <li><a href="#23-osd-troubleshooting">2.3 OSD Troubleshooting</a></li>
+          </ul>
+        </li>
+        <li><a href="#-3-monitor-management">🏛️ 3. Monitor Management</a>
+          <ul>
+            <li><a href="#31-basic-monitor-operations">3.1 Basic Monitor Operations</a></li>
+            <li><a href="#32-monitor-maintenance">3.2 Monitor Maintenance</a></li>
+          </ul>
+        </li>
+        <li><a href="#-4-manager-management">👨‍💼 4. Manager Management</a>
+          <ul>
+            <li><a href="#41-basic-manager-operations">4.1 Basic Manager Operations</a></li>
+            <li><a href="#42-common-manager-modules">4.2 Common Manager Modules</a></li>
+          </ul>
+        </li>
+        <li><a href="#-5-pool-management">🗂️ 5. Pool Management</a>
+          <ul>
+            <li><a href="#51-basic-pool-operations">5.1 Basic Pool Operations</a></li>
+            <li><a href="#52-pool-parameter-configuration">5.2 Pool Parameter Configuration</a></li>
+          </ul>
+        </li>
+        <li><a href="#-6-placement-group-pg-management">📄 6. Placement Group (PG) Management</a>
+          <ul>
+            <li><a href="#61-pg-status-viewing">6.1 PG Status Viewing</a></li>
+            <li><a href="#62-pg-repair-operations">6.2 PG Repair Operations</a></li>
+          </ul>
+        </li>
+        <li><a href="#-7-authentication-management">🔐 7. Authentication Management</a>
+          <ul>
+            <li><a href="#71-user-management">7.1 User Management</a></li>
+            <li><a href="#72-permission-management">7.2 Permission Management</a></li>
+          </ul>
+        </li>
+        <li><a href="#-8-crush-map-management">🏗️ 8. CRUSH Map Management</a>
+          <ul>
+            <li><a href="#81-basic-crush-operations">8.1 Basic CRUSH Operations</a></li>
+            <li><a href="#82-crush-rule-management">8.2 CRUSH Rule Management</a></li>
+          </ul>
+        </li>
+        <li><a href="#-9-rbd-management">🎯 9. RBD Management</a>
+          <ul>
+            <li><a href="#91-basic-rbd-operations">9.1 Basic RBD Operations</a></li>
+            <li><a href="#92-advanced-rbd-operations">9.2 Advanced RBD Operations</a></li>
+          </ul>
+        </li>
+        <li><a href="#-10-cephfs-management">🌐 10. CephFS Management</a>
+          <ul>
+            <li><a href="#101-basic-cephfs-operations">10.1 Basic CephFS Operations</a></li>
+            <li><a href="#102-cephfs-client">10.2 CephFS Client</a></li>
+            <li><a href="#103-advanced-cephfs-management">10.3 Advanced CephFS Management</a></li>
+          </ul>
+        </li>
+        <li><a href="#-11-rgw-management">☁️ 11. RGW Management</a>
+          <ul>
+            <li><a href="#111-basic-rgw-operations">11.1 Basic RGW Operations</a></li>
+            <li><a href="#112-rgw-key-management">11.2 RGW Key Management</a></li>
+            <li><a href="#113-rgw-maintenance">11.3 RGW Maintenance</a></li>
+          </ul>
+        </li>
+        <li><a href="#-12-configuration-management">🔧 12. Configuration Management</a>
+          <ul>
+            <li><a href="#121-runtime-configuration">12.1 Runtime Configuration</a></li>
+            <li><a href="#122-temporary-configuration-adjustment">12.2 Temporary Configuration Adjustment</a></li>
+          </ul>
+        </li>
+        <li><a href="#-13-performance-analysis">📈 13. Performance Analysis</a>
+          <ul>
+            <li><a href="#131-rbd-performance-analysis">13.1 RBD Performance Analysis</a></li>
+            <li><a href="#132-cephfs-performance-analysis">13.2 CephFS Performance Analysis</a></li>
+            <li><a href="#133-osd-performance-analysis">13.3 OSD Performance Analysis</a></li>
+            <li><a href="#134-overall-cluster-performance-analysis">13.4 Overall Cluster Performance Analysis</a></li>
+          </ul>
+        </li>
+        <li><a href="#-14-ceph-specialized-tools">🛠️ 14. Ceph Specialized Tools</a>
+          <ul>
+            <li><a href="#141-data-recovery-and-diagnostic-tools">14.1 Data Recovery and Diagnostic Tools</a></li>
+            <li><a href="#142-monitoring-and-management-tools">14.2 Monitoring and Management Tools</a></li>
+            <li><a href="#143-data-migration-and-synchronization-tools">14.3 Data Migration and Synchronization Tools</a></li>
+          </ul>
+        </li>
+        <li><a href="#-15-troubleshooting">🚨 15. Troubleshooting</a>
+          <ul>
+            <li><a href="#151-log-viewing">15.1 Log Viewing</a></li>
+            <li><a href="#152-common-issue-troubleshooting">15.2 Common Issue Troubleshooting</a></li>
+          </ul>
+        </li>
+        <li><a href="#-16-backup-and-recovery">🔄 16. Backup and Recovery</a>
+          <ul>
+            <li><a href="#161-data-backup">16.1 Data Backup</a></li>
+            <li><a href="#162-disaster-recovery">16.2 Disaster Recovery</a></li>
+            <li><a href="#163-rbd-backup-and-recovery">16.3 RBD Backup and Recovery</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="practical-guide-ceph-command-tools-summary">Practical Guide: Ceph Command Tools Summary</h1>
+<h2 id="-common-tools-summary-overview">📋 Common Tools (Summary Overview)</h2>
+<table>
+<thead>
+<tr>
+<th>Function Category</th>
+<th>Main Commands</th>
+<th>Verification Status</th>
+<th>Usage Frequency</th>
+<th>Application Scenarios</th>
+<th>Risk Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cluster Monitoring</strong></td>
+<td><code>ceph -s</code>, <code>ceph health(detail)</code>, <code>ceph df</code>, <code>ceph -w</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>Daily monitoring, troubleshooting</td>
+<td>🟢 No risk</td>
+</tr>
+<tr>
+<td><strong>I/O Monitoring</strong></td>
+<td><code>ceph iostat</code>(version dependent,N+), <code>ceph -w</code>, <code>ceph status</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐⭐</td>
+<td>Performance monitoring</td>
+<td>🟢 No risk</td>
+</tr>
+<tr>
+<td><strong>OSD Management</strong></td>
+<td><code>ceph osd tree</code>, <code>ceph osd status</code>, <code>ceph osd out/in</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐⭐</td>
+<td>OSD maintenance, capacity management</td>
+<td>🟡 Medium risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>Monitor Management</strong></td>
+<td><code>ceph mon stat</code>, <code>ceph quorum_status</code>, <code>ceph mon add/remove</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐</td>
+<td>Cluster management, high availability</td>
+<td>🔴 High risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>Manager Management</strong></td>
+<td><code>ceph mgr module enable/disable</code>, <code>ceph mgr stat</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐</td>
+<td>Feature management, dashboard</td>
+<td>🟡 Medium risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>Pool Management</strong></td>
+<td><code>ceph osd pool create/delete</code>, <code>ceph osd pool set</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐⭐</td>
+<td>Storage planning, quota management</td>
+<td>🔴 High risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>PG Management</strong></td>
+<td><code>ceph pg stat</code>, <code>ceph pg repair</code>, <code>ceph pg scrub</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐⭐</td>
+<td>Data integrity, fault repair</td>
+<td>🟡 Medium risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>Authentication Management</strong></td>
+<td><code>ceph auth list/create/del</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐</td>
+<td>Security management, access control</td>
+<td>🔴 High risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>CRUSH Management</strong></td>
+<td><code>ceph osd crush tree</code>, <code>crushtool</code>, <code>ceph osd crush rule</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐</td>
+<td>Data distribution, failure domains</td>
+<td>🔴 High risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>RBD Management</strong></td>
+<td><code>rbd create/rm</code>, <code>rbd snap create</code>, <code>rbd map/unmap</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐⭐</td>
+<td>Block storage, snapshot management</td>
+<td>🟡 Medium risk</td>
+</tr>
+<tr>
+<td><strong>CephFS Management</strong></td>
+<td><code>ceph fs status</code>, <code>ceph mds stat</code>, <code>ceph fs dump</code>, <code>ceph mds fail</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐</td>
+<td>File system, metadata</td>
+<td>🟡 Medium risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>RGW Management</strong></td>
+<td><code>radosgw-admin user create</code>, <code>radosgw-admin bucket</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐</td>
+<td>Object storage, user management</td>
+<td>🟡 Medium risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>Configuration Management</strong></td>
+<td><code>ceph config set/get</code>, <code>ceph tell</code></td>
+<td>Not verified</td>
+<td>⭐⭐⭐⭐</td>
+<td>Parameter tuning, fault handling</td>
+<td>🟡 Medium risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>Performance Analysis</strong></td>
+<td><code>ceph osd perf</code>,<code>rbd perf image iostat</code>, cephfs-top</td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐</td>
+<td>Performance testing, bottleneck analysis</td>
+<td>🟢 No risk</td>
+</tr>
+<tr>
+<td><strong>Specialized Tools</strong></td>
+<td><code>ceph-objectstore-tool</code>, <code>ceph-bluestore-tool</code></td>
+<td>✅ Verified</td>
+<td>⭐⭐</td>
+<td>Data recovery, deep diagnostics</td>
+<td>🔴 High risk (queries safe)</td>
+</tr>
+<tr>
+<td><strong>Troubleshooting</strong></td>
+<td><code>journalctl</code>, <code>ceph daemon dump</code>, log analysis</td>
+<td>✅ Verified</td>
+<td>⭐⭐⭐⭐</td>
+<td>Problem diagnosis, root cause analysis</td>
+<td>🟢 No risk</td>
+</tr>
+<tr>
+<td><strong>Backup Recovery</strong></td>
+<td><code>ceph mon getmap</code>, <code>ceph auth export</code>, data export</td>
+<td>✅ Verified</td>
+<td>⭐⭐</td>
+<td>Disaster recovery, migration</td>
+<td>🟡 Medium risk (queries safe)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-1-cluster-status-monitoring">🔧 1. Cluster Status Monitoring</h2>
+<h3 id="11-overall-cluster-status">1.1 Overall Cluster Status</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View cluster status (most commonly used)</span>
+</span></span><span class="line"><span class="cl">ceph status
+</span></span><span class="line"><span class="cl">ceph -s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View cluster health status</span>
+</span></span><span class="line"><span class="cl">ceph health
+</span></span><span class="line"><span class="cl">ceph health detail
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Real-time cluster monitoring</span>
+</span></span><span class="line"><span class="cl">ceph -w
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View cluster storage usage</span>
+</span></span><span class="line"><span class="cl">ceph df
+</span></span><span class="line"><span class="cl">ceph df detail
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View cluster version information</span>
+</span></span><span class="line"><span class="cl">ceph version
+</span></span><span class="line"><span class="cl">ceph versions
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="12-cluster-performance-monitoring">1.2 Cluster Performance Monitoring</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View cluster I/O statistics</span>
+</span></span><span class="line"><span class="cl">ceph iostat
+</span></span><span class="line"><span class="cl">watch <span class="s2">&#34;ceph iostat&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View OSD performance statistics</span>
+</span></span><span class="line"><span class="cl">ceph osd perf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View slow requests</span>
+</span></span><span class="line"><span class="cl">ceph daemon osd.X dump_slow_requests
+</span></span><span class="line"><span class="cl">ceph daemon osd.X dump_historic_slow_ops
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># PG distribution analysis</span>
+</span></span><span class="line"><span class="cl">ceph pg dump <span class="p">|</span> grep ^pg <span class="p">|</span> awk <span class="s1">&#39;{print $1,$15}&#39;</span> <span class="p">|</span> sort
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-2-osd-management">🗄️ 2. OSD Management</h2>
+<h3 id="21-basic-osd-operations">2.1 Basic OSD Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View OSD status</span>
+</span></span><span class="line"><span class="cl">ceph osd stat
+</span></span><span class="line"><span class="cl">ceph osd dump
+</span></span><span class="line"><span class="cl">ceph osd tree
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View OSD usage</span>
+</span></span><span class="line"><span class="cl">ceph osd df
+</span></span><span class="line"><span class="cl">ceph osd df tree
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Start/stop OSD</span>
+</span></span><span class="line"><span class="cl">systemctl start ceph-osd@X
+</span></span><span class="line"><span class="cl">systemctl stop ceph-osd@X
+</span></span><span class="line"><span class="cl">systemctl restart ceph-osd@X
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Mark OSD as out/in</span>
+</span></span><span class="line"><span class="cl">ceph osd out X
+</span></span><span class="line"><span class="cl">ceph osd in X
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Mark OSD as down/up</span>
+</span></span><span class="line"><span class="cl">ceph osd down X
+</span></span><span class="line"><span class="cl">ceph osd up X
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="22-osd-maintenance-operations">2.2 OSD Maintenance Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Safely remove OSD (complete workflow)</span>
+</span></span><span class="line"><span class="cl">ceph osd out X                              <span class="c1"># Mark as out, start data migration</span>
+</span></span><span class="line"><span class="cl">ceph osd safe-to-destroy X                  <span class="c1"># Check if safe to remove</span>
+</span></span><span class="line"><span class="cl">ceph osd destroy X --yes-i-really-mean-it   <span class="c1"># Destroy OSD</span>
+</span></span><span class="line"><span class="cl">ceph osd crush remove osd.X                 <span class="c1"># Remove from CRUSH map</span>
+</span></span><span class="line"><span class="cl">ceph auth del osd.X                         <span class="c1"># Delete authentication info</span>
+</span></span><span class="line"><span class="cl">ceph osd rm X                               <span class="c1"># Remove from cluster</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Replace failed OSD</span>
+</span></span><span class="line"><span class="cl">ceph osd destroy X --yes-i-really-mean-it
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Reweight OSD</span>
+</span></span><span class="line"><span class="cl">ceph osd reweight X 0.8                     <span class="c1"># Temporary weight adjustment</span>
+</span></span><span class="line"><span class="cl">ceph osd crush reweight osd.X 2.0           <span class="c1"># Permanent weight adjustment</span>
+</span></span><span class="line"><span class="cl">ceph osd reweight-by-utilization            <span class="c1"># Auto adjust weight by utilization</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="23-osd-troubleshooting">2.3 OSD Troubleshooting</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View detailed OSD information</span>
+</span></span><span class="line"><span class="cl">ceph osd find X
+</span></span><span class="line"><span class="cl">ceph osd metadata X
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View OSD logs</span>
+</span></span><span class="line"><span class="cl">journalctl -u ceph-osd@X -f
+</span></span><span class="line"><span class="cl">journalctl -u ceph-osd@X --since <span class="s2">&#34;1 hour ago&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Repair OSD</span>
+</span></span><span class="line"><span class="cl">ceph osd scrub X
+</span></span><span class="line"><span class="cl">ceph osd deep-scrub X
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View PGs on OSD</span>
+</span></span><span class="line"><span class="cl">ceph pg ls-by-osd X
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># OSD performance diagnostics</span>
+</span></span><span class="line"><span class="cl">ceph daemon osd.X perf dump
+</span></span><span class="line"><span class="cl">ceph daemon osd.X dump_ops_in_flight
+</span></span><span class="line"><span class="cl">ceph daemon osd.X dump_blocked_ops
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-3-monitor-management">🏛️ 3. Monitor Management</h2>
+<h3 id="31-basic-monitor-operations">3.1 Basic Monitor Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View Monitor status</span>
+</span></span><span class="line"><span class="cl">ceph mon stat
+</span></span><span class="line"><span class="cl">ceph mon dump
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View Monitor quorum status</span>
+</span></span><span class="line"><span class="cl">ceph quorum_status
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Add Monitor</span>
+</span></span><span class="line"><span class="cl">ceph mon add &lt;mon-id&gt; &lt;mon-addr&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Remove Monitor</span>
+</span></span><span class="line"><span class="cl">ceph mon remove &lt;mon-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View Monitor map</span>
+</span></span><span class="line"><span class="cl">ceph mon getmap -o /tmp/monmap
+</span></span><span class="line"><span class="cl">monmaptool --print /tmp/monmap
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="32-monitor-maintenance">3.2 Monitor Maintenance</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Start/stop Monitor</span>
+</span></span><span class="line"><span class="cl">systemctl start ceph-mon@&lt;hostname&gt;
+</span></span><span class="line"><span class="cl">systemctl stop ceph-mon@&lt;hostname&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Compact Monitor database</span>
+</span></span><span class="line"><span class="cl">ceph tell mon.&lt;mon-id&gt; compact
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Monitor time synchronization</span>
+</span></span><span class="line"><span class="cl">ceph time-sync-status
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Monitor failure recovery</span>
+</span></span><span class="line"><span class="cl">ceph-mon --extract-monmap /tmp/monmap --mon-data /var/lib/ceph/mon/ceph-&lt;id&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-4-manager-management">👨‍💼 4. Manager Management</h2>
+<h3 id="41-basic-manager-operations">4.1 Basic Manager Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View Manager status</span>
+</span></span><span class="line"><span class="cl">ceph mgr stat
+</span></span><span class="line"><span class="cl">ceph mgr dump
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Enable/disable Manager modules</span>
+</span></span><span class="line"><span class="cl">ceph mgr module <span class="nb">enable</span> &lt;module&gt;
+</span></span><span class="line"><span class="cl">ceph mgr module disable &lt;module&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View available modules</span>
+</span></span><span class="line"><span class="cl">ceph mgr module ls
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Failover Manager</span>
+</span></span><span class="line"><span class="cl">ceph mgr fail &lt;mgr-id&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="42-common-manager-modules">4.2 Common Manager Modules</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Dashboard module</span>
+</span></span><span class="line"><span class="cl">ceph mgr module <span class="nb">enable</span> dashboard
+</span></span><span class="line"><span class="cl">ceph dashboard create-self-signed-cert
+</span></span><span class="line"><span class="cl">ceph dashboard ac-user-create &lt;username&gt; -i &lt;password-file&gt;
+</span></span><span class="line"><span class="cl">ceph dashboard ac-role-add-scope-perms admin read-write pool
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/dashboard/server_addr 0.0.0.0
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/dashboard/server_port <span class="m">8443</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Prometheus module</span>
+</span></span><span class="line"><span class="cl">ceph mgr module <span class="nb">enable</span> prometheus
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/prometheus/server_addr 0.0.0.0
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/prometheus/server_port <span class="m">9283</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Balancer module</span>
+</span></span><span class="line"><span class="cl">ceph mgr module <span class="nb">enable</span> balancer
+</span></span><span class="line"><span class="cl">ceph balancer mode upmap
+</span></span><span class="line"><span class="cl">ceph balancer on
+</span></span><span class="line"><span class="cl">ceph balancer status
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Alerts module</span>
+</span></span><span class="line"><span class="cl">ceph mgr module <span class="nb">enable</span> alerts
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-5-pool-management">🗂️ 5. Pool Management</h2>
+<h3 id="51-basic-pool-operations">5.1 Basic Pool Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create pool</span>
+</span></span><span class="line"><span class="cl">ceph osd pool create &lt;poolname&gt; &lt;pg_num&gt; <span class="o">[</span>pgp_num<span class="o">]</span>
+</span></span><span class="line"><span class="cl">ceph osd pool create rbd <span class="m">128</span> <span class="m">128</span> replicated
+</span></span><span class="line"><span class="cl">ceph osd pool create mypool <span class="m">64</span> <span class="m">64</span> erasure
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete pool</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mon mon_allow_pool_delete <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ceph osd pool delete &lt;poolname&gt; &lt;poolname&gt; --yes-i-really-really-mean-it
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View pools</span>
+</span></span><span class="line"><span class="cl">ceph osd lspools
+</span></span><span class="line"><span class="cl">ceph osd pool ls detail
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set pool quota</span>
+</span></span><span class="line"><span class="cl">ceph osd pool set-quota &lt;poolname&gt; max_objects <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">ceph osd pool set-quota &lt;poolname&gt; max_bytes 1TB
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View pool statistics</span>
+</span></span><span class="line"><span class="cl">ceph osd pool stats
+</span></span><span class="line"><span class="cl">ceph osd pool stats &lt;poolname&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="52-pool-parameter-configuration">5.2 Pool Parameter Configuration</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Set pool replica count</span>
+</span></span><span class="line"><span class="cl">ceph osd pool <span class="nb">set</span> &lt;poolname&gt; size <span class="m">3</span>
+</span></span><span class="line"><span class="cl">ceph osd pool <span class="nb">set</span> &lt;poolname&gt; min_size <span class="m">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set PG count</span>
+</span></span><span class="line"><span class="cl">ceph osd pool <span class="nb">set</span> &lt;poolname&gt; pg_num <span class="m">128</span>
+</span></span><span class="line"><span class="cl">ceph osd pool <span class="nb">set</span> &lt;poolname&gt; pgp_num <span class="m">128</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set pool type</span>
+</span></span><span class="line"><span class="cl">ceph osd pool <span class="nb">set</span> &lt;poolname&gt; crush_rule &lt;rule-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Enable/disable features</span>
+</span></span><span class="line"><span class="cl">ceph osd pool <span class="nb">set</span> &lt;poolname&gt; noscrub <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ceph osd pool <span class="nb">set</span> &lt;poolname&gt; nodeep-scrub <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Pool application tags</span>
+</span></span><span class="line"><span class="cl">ceph osd pool application <span class="nb">enable</span> &lt;poolname&gt; rbd
+</span></span><span class="line"><span class="cl">ceph osd pool application <span class="nb">enable</span> &lt;poolname&gt; cephfs
+</span></span><span class="line"><span class="cl">ceph osd pool application <span class="nb">enable</span> &lt;poolname&gt; rgw
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-6-placement-group-pg-management">📄 6. Placement Group (PG) Management</h2>
+<h3 id="61-pg-status-viewing">6.1 PG Status Viewing</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View PG status</span>
+</span></span><span class="line"><span class="cl">ceph pg stat
+</span></span><span class="line"><span class="cl">ceph pg dump
+</span></span><span class="line"><span class="cl">ceph pg dump --format json-pretty
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View abnormal PGs</span>
+</span></span><span class="line"><span class="cl">ceph pg dump_stuck
+</span></span><span class="line"><span class="cl">ceph pg dump_stuck inactive
+</span></span><span class="line"><span class="cl">ceph pg dump_stuck unclean
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View specific PG information</span>
+</span></span><span class="line"><span class="cl">ceph pg &lt;pgid&gt; query
+</span></span><span class="line"><span class="cl">ceph pg map &lt;pgid&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="62-pg-repair-operations">6.2 PG Repair Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Repair PG</span>
+</span></span><span class="line"><span class="cl">ceph pg repair &lt;pgid&gt;
+</span></span><span class="line"><span class="cl">ceph pg scrub &lt;pgid&gt;
+</span></span><span class="line"><span class="cl">ceph pg deep-scrub &lt;pgid&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Force repair inconsistent objects</span>
+</span></span><span class="line"><span class="cl">ceph pg force-recovery &lt;pgid&gt;
+</span></span><span class="line"><span class="cl">ceph pg force-backfill &lt;pgid&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View PG&#39;s OSDs</span>
+</span></span><span class="line"><span class="cl">ceph pg ls-by-pool &lt;poolname&gt;
+</span></span><span class="line"><span class="cl">ceph pg ls-by-primary &lt;osd-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># PG auto repair</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd osd_scrub_auto_repair <span class="nb">true</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-7-authentication-management">🔐 7. Authentication Management</h2>
+<h3 id="71-user-management">7.1 User Management</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View authentication information</span>
+</span></span><span class="line"><span class="cl">ceph auth list
+</span></span><span class="line"><span class="cl">ceph auth get client.admin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create user</span>
+</span></span><span class="line"><span class="cl">ceph auth get-or-create client.&lt;name&gt; mon <span class="s1">&#39;allow r&#39;</span> osd <span class="s1">&#39;allow rw pool=&lt;poolname&gt;&#39;</span>
+</span></span><span class="line"><span class="cl">ceph auth get-or-create client.rbd mon <span class="s1">&#39;profile rbd&#39;</span> osd <span class="s1">&#39;profile rbd pool=rbd&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete user</span>
+</span></span><span class="line"><span class="cl">ceph auth del client.&lt;name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Export/import keys</span>
+</span></span><span class="line"><span class="cl">ceph auth <span class="nb">export</span> client.&lt;name&gt; &gt; client.&lt;name&gt;.keyring
+</span></span><span class="line"><span class="cl">ceph auth import -i client.&lt;name&gt;.keyring
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="72-permission-management">7.2 Permission Management</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Modify user permissions</span>
+</span></span><span class="line"><span class="cl">ceph auth caps client.&lt;name&gt; mon <span class="s1">&#39;allow r&#39;</span> osd <span class="s1">&#39;allow rw pool=rbd&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View permissions</span>
+</span></span><span class="line"><span class="cl">ceph auth get client.&lt;name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate client configuration</span>
+</span></span><span class="line"><span class="cl">ceph config generate-minimal-conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Common permission templates</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Read-only user: mon &#39;allow r&#39; osd &#39;allow r&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># RBD user: mon &#39;profile rbd&#39; osd &#39;profile rbd pool=rbd&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># CephFS user: mon &#39;allow r&#39; mds &#39;allow rw&#39; osd &#39;allow rw pool=cephfs_data&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-8-crush-map-management">🏗️ 8. CRUSH Map Management</h2>
+<h3 id="81-basic-crush-operations">8.1 Basic CRUSH Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View CRUSH map</span>
+</span></span><span class="line"><span class="cl">ceph osd tree
+</span></span><span class="line"><span class="cl">ceph osd crush tree
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Export/import CRUSH map</span>
+</span></span><span class="line"><span class="cl">ceph osd getcrushmap -o crushmap.bin
+</span></span><span class="line"><span class="cl">crushtool -d crushmap.bin -o crushmap.txt
+</span></span><span class="line"><span class="cl">crushtool -c crushmap.txt -o crushmap-new.bin
+</span></span><span class="line"><span class="cl">ceph osd setcrushmap -i crushmap-new.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create/delete bucket</span>
+</span></span><span class="line"><span class="cl">ceph osd crush add-bucket &lt;bucket-name&gt; &lt;bucket-type&gt;
+</span></span><span class="line"><span class="cl">ceph osd crush remove &lt;bucket-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Move OSD to different location</span>
+</span></span><span class="line"><span class="cl">ceph osd crush move osd.X <span class="nv">host</span><span class="o">=</span>&lt;hostname&gt;
+</span></span><span class="line"><span class="cl">ceph osd crush move osd.X <span class="nv">rack</span><span class="o">=</span>&lt;rackname&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="82-crush-rule-management">8.2 CRUSH Rule Management</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View CRUSH rules</span>
+</span></span><span class="line"><span class="cl">ceph osd crush rule ls
+</span></span><span class="line"><span class="cl">ceph osd crush rule dump
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create CRUSH rule</span>
+</span></span><span class="line"><span class="cl">ceph osd crush rule create-simple &lt;rule-name&gt; &lt;root&gt; &lt;type&gt;
+</span></span><span class="line"><span class="cl">ceph osd crush rule create-replicated &lt;rule-name&gt; &lt;root&gt; &lt;failure-domain&gt; &lt;device-class&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete CRUSH rule</span>
+</span></span><span class="line"><span class="cl">ceph osd crush rule rm &lt;rule-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Test CRUSH mapping</span>
+</span></span><span class="line"><span class="cl">crushtool -i crushmap.bin --test --show-mappings --ruleset <span class="m">0</span> --num-rep <span class="m">3</span> --min-x <span class="m">0</span> --max-x <span class="m">100</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-9-rbd-management">🎯 9. RBD Management</h2>
+<h3 id="91-basic-rbd-operations">9.1 Basic RBD Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create RBD image</span>
+</span></span><span class="line"><span class="cl">rbd create --size <span class="m">1024</span> &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">rbd create --size 10G --image-feature layering,exclusive-lock mypool/myimage
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View RBD images</span>
+</span></span><span class="line"><span class="cl">rbd ls &lt;poolname&gt;
+</span></span><span class="line"><span class="cl">rbd info &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">rbd du &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete RBD image</span>
+</span></span><span class="line"><span class="cl">rbd rm &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">rbd trash mv &lt;poolname&gt;/&lt;image-name&gt;    <span class="c1"># Move to trash</span>
+</span></span><span class="line"><span class="cl">rbd trash restore &lt;poolname&gt;/&lt;image-id&gt;  <span class="c1"># Restore from trash</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Resize image</span>
+</span></span><span class="line"><span class="cl">rbd resize --size <span class="m">2048</span> &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">rbd resize --size 2G &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create snapshot</span>
+</span></span><span class="line"><span class="cl">rbd snap create &lt;poolname&gt;/&lt;image-name&gt;@&lt;snap-name&gt;
+</span></span><span class="line"><span class="cl">rbd snap ls &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">rbd snap rm &lt;poolname&gt;/&lt;image-name&gt;@&lt;snap-name&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="92-advanced-rbd-operations">9.2 Advanced RBD Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Clone image</span>
+</span></span><span class="line"><span class="cl">rbd snap protect &lt;poolname&gt;/&lt;parent-image&gt;@&lt;snap-name&gt;
+</span></span><span class="line"><span class="cl">rbd clone &lt;poolname&gt;/&lt;parent-image&gt;@&lt;snap-name&gt; &lt;poolname&gt;/&lt;child-image&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Flatten cloned image</span>
+</span></span><span class="line"><span class="cl">rbd flatten &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Export/import image</span>
+</span></span><span class="line"><span class="cl">rbd <span class="nb">export</span> &lt;poolname&gt;/&lt;image-name&gt; image.raw
+</span></span><span class="line"><span class="cl">rbd <span class="nb">export</span> --export-format <span class="m">2</span> &lt;poolname&gt;/&lt;image-name&gt; image.raw
+</span></span><span class="line"><span class="cl">rbd import image.raw &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Image mapping</span>
+</span></span><span class="line"><span class="cl">rbd map &lt;poolname&gt;/&lt;image-name&gt;
+</span></span><span class="line"><span class="cl">rbd unmap /dev/rbdX
+</span></span><span class="line"><span class="cl">rbd showmapped
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Image feature management</span>
+</span></span><span class="line"><span class="cl">rbd feature <span class="nb">enable</span> &lt;poolname&gt;/&lt;image-name&gt; exclusive-lock
+</span></span><span class="line"><span class="cl">rbd feature disable &lt;poolname&gt;/&lt;image-name&gt; deep-flatten
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-10-cephfs-management">🌐 10. CephFS Management</h2>
+<h3 id="101-basic-cephfs-operations">10.1 Basic CephFS Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create filesystem</span>
+</span></span><span class="line"><span class="cl">ceph fs new &lt;fs-name&gt; &lt;metadata-pool&gt; &lt;data-pool&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View filesystem</span>
+</span></span><span class="line"><span class="cl">ceph fs ls
+</span></span><span class="line"><span class="cl">ceph fs status &lt;fs-name&gt;
+</span></span><span class="line"><span class="cl">ceph fs get &lt;fs-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete filesystem</span>
+</span></span><span class="line"><span class="cl">ceph fs fail &lt;fs-name&gt;
+</span></span><span class="line"><span class="cl">ceph fs rm &lt;fs-name&gt; --yes-i-really-mean-it
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># MDS management</span>
+</span></span><span class="line"><span class="cl">ceph mds stat
+</span></span><span class="line"><span class="cl">ceph mds dump
+</span></span><span class="line"><span class="cl">ceph mds fail &lt;mds-id&gt;
+</span></span><span class="line"><span class="cl">ceph mds repaired &lt;mds-id&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="102-cephfs-client">10.2 CephFS Client</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Mount CephFS</span>
+</span></span><span class="line"><span class="cl">mount -t ceph &lt;mon-addr&gt;:/ /mnt/cephfs -o <span class="nv">name</span><span class="o">=</span>admin,secret<span class="o">=</span>&lt;key&gt;
+</span></span><span class="line"><span class="cl">mount -t ceph &lt;mon-addr&gt;:/ /mnt/cephfs -o <span class="nv">name</span><span class="o">=</span>admin,secretfile<span class="o">=</span>/etc/ceph/admin.secret
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Use ceph-fuse</span>
+</span></span><span class="line"><span class="cl">ceph-fuse /mnt/cephfs
+</span></span><span class="line"><span class="cl">ceph-fuse /mnt/cephfs -o allow_other
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View client connections</span>
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; client ls
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; session ls
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Evict client</span>
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; client evict <span class="nv">id</span><span class="o">=</span>&lt;client-id&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="103-advanced-cephfs-management">10.3 Advanced CephFS Management</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Subdirectory mounting</span>
+</span></span><span class="line"><span class="cl">mount -t ceph &lt;mon-addr&gt;:/subdir /mnt/subdir -o <span class="nv">name</span><span class="o">=</span>admin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Configure multiple filesystems</span>
+</span></span><span class="line"><span class="cl">ceph fs flag <span class="nb">set</span> enable_multiple <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Directory quotas</span>
+</span></span><span class="line"><span class="cl">setfattr -n ceph.quota.max_files -v <span class="m">10000</span> /mnt/cephfs/dir
+</span></span><span class="line"><span class="cl">setfattr -n ceph.quota.max_bytes -v <span class="m">1000000000</span> /mnt/cephfs/dir
+</span></span><span class="line"><span class="cl">getfattr -n ceph.quota.max_files /mnt/cephfs/dir
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-11-rgw-management">☁️ 11. RGW Management</h2>
+<h3 id="111-basic-rgw-operations">11.1 Basic RGW Operations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create user</span>
+</span></span><span class="line"><span class="cl">radosgw-admin user create --uid<span class="o">=</span>&lt;user-id&gt; --display-name<span class="o">=</span><span class="s2">&#34;&lt;display-name&gt;&#34;</span>
+</span></span><span class="line"><span class="cl">radosgw-admin user create --uid<span class="o">=</span>testuser --display-name<span class="o">=</span><span class="s2">&#34;Test User&#34;</span> --email<span class="o">=</span>test@example.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View users</span>
+</span></span><span class="line"><span class="cl">radosgw-admin user list
+</span></span><span class="line"><span class="cl">radosgw-admin user info --uid<span class="o">=</span>&lt;user-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete user</span>
+</span></span><span class="line"><span class="cl">radosgw-admin user rm --uid<span class="o">=</span>&lt;user-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Modify user</span>
+</span></span><span class="line"><span class="cl">radosgw-admin user modify --uid<span class="o">=</span>&lt;user-id&gt; --display-name<span class="o">=</span><span class="s2">&#34;New Name&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create subuser</span>
+</span></span><span class="line"><span class="cl">radosgw-admin subuser create --uid<span class="o">=</span>&lt;user-id&gt; --subuser<span class="o">=</span>&lt;subuser-id&gt; --access<span class="o">=</span>full
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="112-rgw-key-management">11.2 RGW Key Management</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create access key</span>
+</span></span><span class="line"><span class="cl">radosgw-admin key create --uid<span class="o">=</span>&lt;user-id&gt; --key-type<span class="o">=</span>s3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete access key</span>
+</span></span><span class="line"><span class="cl">radosgw-admin key rm --uid<span class="o">=</span>&lt;user-id&gt; --key-type<span class="o">=</span>s3 --access-key<span class="o">=</span>&lt;access-key&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate Swift key</span>
+</span></span><span class="line"><span class="cl">radosgw-admin key create --uid<span class="o">=</span>&lt;user-id&gt; --key-type<span class="o">=</span>swift --gen-secret
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="113-rgw-maintenance">11.3 RGW Maintenance</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Check bucket index</span>
+</span></span><span class="line"><span class="cl">radosgw-admin bucket check --bucket<span class="o">=</span>&lt;bucket-name&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Rebuild bucket index</span>
+</span></span><span class="line"><span class="cl">radosgw-admin bucket reshard --bucket<span class="o">=</span>&lt;bucket-name&gt; --num-shards<span class="o">=</span>&lt;num&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Garbage collection</span>
+</span></span><span class="line"><span class="cl">radosgw-admin gc list
+</span></span><span class="line"><span class="cl">radosgw-admin gc process
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View usage statistics</span>
+</span></span><span class="line"><span class="cl">radosgw-admin usage show --uid<span class="o">=</span>&lt;user-id&gt;
+</span></span><span class="line"><span class="cl">radosgw-admin usage show --show-log-entries<span class="o">=</span><span class="nb">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Bucket management</span>
+</span></span><span class="line"><span class="cl">radosgw-admin bucket list
+</span></span><span class="line"><span class="cl">radosgw-admin bucket stats --bucket<span class="o">=</span>&lt;bucket-name&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-12-configuration-management">🔧 12. Configuration Management</h2>
+<h3 id="121-runtime-configuration">12.1 Runtime Configuration</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View configuration</span>
+</span></span><span class="line"><span class="cl">ceph config dump
+</span></span><span class="line"><span class="cl">ceph config get &lt;daemon-type&gt;.&lt;daemon-id&gt; &lt;option&gt;
+</span></span><span class="line"><span class="cl">ceph config show &lt;daemon-type&gt;.&lt;daemon-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set configuration</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> &lt;daemon-type&gt; &lt;option&gt; &lt;value&gt;
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> global osd_pool_default_size <span class="m">3</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd osd_max_backfills <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Reset configuration</span>
+</span></span><span class="line"><span class="cl">ceph config rm &lt;daemon-type&gt; &lt;option&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View configuration history</span>
+</span></span><span class="line"><span class="cl">ceph config log
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="122-temporary-configuration-adjustment">12.2 Temporary Configuration Adjustment</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Temporary configuration (lost after restart)</span>
+</span></span><span class="line"><span class="cl">ceph tell &lt;daemon-type&gt;.&lt;id&gt; config <span class="nb">set</span> &lt;option&gt; &lt;value&gt;
+</span></span><span class="line"><span class="cl">ceph tell osd.* config <span class="nb">set</span> debug_osd <span class="m">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View configuration</span>
+</span></span><span class="line"><span class="cl">ceph tell &lt;daemon-type&gt;.&lt;id&gt; config show
+</span></span><span class="line"><span class="cl">ceph tell &lt;daemon-type&gt;.&lt;id&gt; config get &lt;option&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Batch configuration</span>
+</span></span><span class="line"><span class="cl">ceph tell osd.* config <span class="nb">set</span> osd_max_backfills <span class="m">1</span>
+</span></span><span class="line"><span class="cl">ceph tell mon.* config <span class="nb">set</span> debug_mon <span class="m">5</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-13-performance-analysis">📈 13. Performance Analysis</h2>
+<h3 id="131-rbd-performance-analysis">13.1 RBD Performance Analysis</h3>
+<h4 id="rbd-performance-testing-tools">RBD Performance Testing Tools</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Use rbd bench for performance testing</span>
+</span></span><span class="line"><span class="cl">rbd bench --io-type write --io-size 4K --io-threads <span class="m">16</span> --io-total 1G &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl">rbd bench --io-type <span class="nb">read</span> --io-size 4K --io-threads <span class="m">16</span> --io-total 1G &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl">rbd bench --io-type readwrite --io-size 4K --io-threads <span class="m">16</span> --io-total 1G &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Use fio for detailed performance testing</span>
+</span></span><span class="line"><span class="cl">fio --name<span class="o">=</span>rbd-test --ioengine<span class="o">=</span>rbd --pool<span class="o">=</span>&lt;pool&gt; --rbdname<span class="o">=</span>&lt;image&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --rw<span class="o">=</span>randwrite --bs<span class="o">=</span>4k --iodepth<span class="o">=</span><span class="m">32</span> --numjobs<span class="o">=</span><span class="m">4</span> --runtime<span class="o">=</span><span class="m">60</span> --group_reporting
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Test different block sizes</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> bs in 4k 8k 16k 32k 64k 128k<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Testing block size: </span><span class="nv">$bs</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    rbd bench --io-type write --io-size <span class="nv">$bs</span> --io-threads <span class="m">16</span> --io-total 512M &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sequential read/write test</span>
+</span></span><span class="line"><span class="cl">fio --name<span class="o">=</span>seq-write --ioengine<span class="o">=</span>rbd --pool<span class="o">=</span><span class="nb">test</span> --rbdname<span class="o">=</span>testimg <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --rw<span class="o">=</span>write --bs<span class="o">=</span>1M --iodepth<span class="o">=</span><span class="m">1</span> --numjobs<span class="o">=</span><span class="m">1</span> --runtime<span class="o">=</span><span class="m">60</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="rbd-performance-monitoring">RBD Performance Monitoring</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Real-time RBD I/O monitoring</span>
+</span></span><span class="line"><span class="cl">rbd perf image iostat
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View RBD image statistics</span>
+</span></span><span class="line"><span class="cl">rbd du &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl">rbd info &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Monitor client I/O patterns</span>
+</span></span><span class="line"><span class="cl">ceph daemon client.&lt;id&gt; perf dump
+</span></span><span class="line"><span class="cl">ceph daemon client.&lt;id&gt; perf histogram dump
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View RBD cache statistics</span>
+</span></span><span class="line"><span class="cl">ceph daemon client.&lt;id&gt; config show <span class="p">|</span> grep rbd_cache
+</span></span><span class="line"><span class="cl">ceph daemon client.&lt;id&gt; perf dump <span class="p">|</span> grep rbd_cache
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="rbd-performance-tuning-parameters">RBD Performance Tuning Parameters</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Client cache optimization</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_cache <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_cache_size <span class="m">134217728</span>           <span class="c1"># 128MB</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_cache_max_dirty <span class="m">100663296</span>      <span class="c1"># 96MB</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_cache_target_dirty <span class="m">67108864</span>    <span class="c1"># 64MB</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_cache_max_dirty_age 10.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Readahead optimization</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_readahead_trigger_requests <span class="m">10</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_readahead_max_bytes <span class="m">524288</span>     <span class="c1"># 512KB</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_readahead_disable_after_bytes <span class="m">52428800</span>  <span class="c1"># 50MB</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Concurrency optimization</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_concurrent_management_ops <span class="m">20</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> client rbd_op_threads <span class="m">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="132-cephfs-performance-analysis">13.2 CephFS Performance Analysis</h3>
+<h4 id="cephfs-performance-testing">CephFS Performance Testing</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Basic performance testing with dd</span>
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/mnt/cephfs/testfile <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">1000</span> <span class="nv">oflag</span><span class="o">=</span>direct
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/mnt/cephfs/testfile <span class="nv">of</span><span class="o">=</span>/dev/null <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">iflag</span><span class="o">=</span>direct
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Comprehensive performance testing with iozone</span>
+</span></span><span class="line"><span class="cl">iozone -a -s 1G -r 4k -r 64k -r 1M -i <span class="m">0</span> -i <span class="m">1</span> -i <span class="m">2</span> -f /mnt/cephfs/testfile
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Small file performance test</span>
+</span></span><span class="line"><span class="cl">mkdir /mnt/cephfs/small_files_test
+</span></span><span class="line"><span class="cl"><span class="nb">time</span> <span class="k">for</span> i in <span class="o">{</span>1..10000<span class="o">}</span><span class="p">;</span> <span class="k">do</span> touch /mnt/cephfs/small_files_test/file_<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Metadata performance test</span>
+</span></span><span class="line"><span class="cl"><span class="nb">time</span> find /mnt/cephfs -name <span class="s2">&#34;*.txt&#34;</span> <span class="p">|</span> wc -l
+</span></span><span class="line"><span class="cl"><span class="nb">time</span> ls -la /mnt/cephfs/large_directory/ <span class="p">|</span> wc -l
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Concurrent file operations test</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> i in <span class="o">{</span>1..10<span class="o">}</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="k">for</span> j in <span class="o">{</span>1..1000<span class="o">}</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        touch /mnt/cephfs/test_<span class="si">${</span><span class="nv">i</span><span class="si">}</span>_<span class="si">${</span><span class="nv">j</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">done</span><span class="o">)</span> <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl"><span class="nb">wait</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="cephfs-performance-monitoring">CephFS Performance Monitoring</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># MDS performance statistics</span>
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; perf dump
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; session ls
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; status
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; ops
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Client performance statistics</span>
+</span></span><span class="line"><span class="cl">ceph daemon client.&lt;id&gt; perf dump
+</span></span><span class="line"><span class="cl">ceph daemon client.&lt;id&gt; client_metadata
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View MDS load</span>
+</span></span><span class="line"><span class="cl">ceph fs status &lt;fsname&gt;
+</span></span><span class="line"><span class="cl">ceph mds metadata &lt;mds-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Monitor directory fragmentation</span>
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; dirfrag ls &lt;path&gt;
+</span></span><span class="line"><span class="cl">ceph daemon mds.&lt;id&gt; dirfrag split_info &lt;path&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="133-osd-performance-analysis">13.3 OSD Performance Analysis</h3>
+<h4 id="osd-performance-benchmarking">OSD Performance Benchmarking</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># OSD benchmark testing</span>
+</span></span><span class="line"><span class="cl">ceph tell osd.&lt;id&gt; bench <span class="m">1073741824</span> <span class="m">4194304</span>              <span class="c1"># 1GB test, 4MB block size</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Direct ceph-osd testing</span>
+</span></span><span class="line"><span class="cl">ceph-osd -i &lt;id&gt; --test-objectstore --test-objectstore-workload uniform_random
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Disk performance testing</span>
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/var/lib/ceph/osd/ceph-&lt;id&gt;/test <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">1000</span> <span class="nv">oflag</span><span class="o">=</span>direct
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/var/lib/ceph/osd/ceph-&lt;id&gt;/test <span class="nv">of</span><span class="o">=</span>/dev/null <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">iflag</span><span class="o">=</span>direct
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Network performance testing</span>
+</span></span><span class="line"><span class="cl">iperf3 -s    <span class="c1"># Run on target OSD node</span>
+</span></span><span class="line"><span class="cl">iperf3 -c &lt;target-osd-ip&gt; -t <span class="m">30</span> -P <span class="m">4</span>    <span class="c1"># Run on source node</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Use rados bench for testing</span>
+</span></span><span class="line"><span class="cl">rados bench -p &lt;pool&gt; <span class="m">60</span> write --no-cleanup
+</span></span><span class="line"><span class="cl">rados bench -p &lt;pool&gt; <span class="m">60</span> seq
+</span></span><span class="line"><span class="cl">rados bench -p &lt;pool&gt; <span class="m">60</span> rand
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; cleanup
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="detailed-osd-performance-monitoring">Detailed OSD Performance Monitoring</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># OSD performance counters</span>
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; perf dump
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; perf histogram dump
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># OSD operation statistics</span>
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_ops_in_flight
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_blocked_ops
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_op_pq_state
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># OSD storage statistics</span>
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; status
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; df
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Slow operation analysis</span>
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_slow_requests
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_historic_slow_ops
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># OSD recovery statistics</span>
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_recovery_reservations
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_backfill_reservations
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="134-overall-cluster-performance-analysis">13.4 Overall Cluster Performance Analysis</h3>
+<h4 id="cluster-level-performance-monitoring">Cluster-level Performance Monitoring</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Cluster I/O statistics</span>
+</span></span><span class="line"><span class="cl">ceph iostat
+</span></span><span class="line"><span class="cl">watch <span class="s2">&#34;ceph iostat&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># PG distribution analysis</span>
+</span></span><span class="line"><span class="cl">ceph pg dump <span class="p">|</span> grep ^pg <span class="p">|</span> awk <span class="s1">&#39;{print $1,$15}&#39;</span> <span class="p">|</span> sort
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Real-time performance monitoring script</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2"> - IOPS: </span><span class="k">$(</span>ceph iostat <span class="p">|</span> grep -E <span class="s1">&#39;read|write&#39;</span><span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2"> - Health: </span><span class="k">$(</span>ceph health<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    sleep <span class="m">5</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Cluster latency analysis</span>
+</span></span><span class="line"><span class="cl">ceph osd perf <span class="p">|</span> grep -E <span class="s2">&#34;apply_latency|commit_latency&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-14-ceph-specialized-tools">🛠️ 14. Ceph Specialized Tools</h2>
+<h3 id="141-data-recovery-and-diagnostic-tools">14.1 Data Recovery and Diagnostic Tools</h3>
+<h4 id="ceph-objectstore-tool-object-store-tool">ceph-objectstore-tool (Object Store Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List object store contents</span>
+</span></span><span class="line"><span class="cl">ceph-objectstore-tool --data-path /var/lib/ceph/osd/ceph-&lt;id&gt; --op list
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Export PG data</span>
+</span></span><span class="line"><span class="cl">ceph-objectstore-tool --data-path /var/lib/ceph/osd/ceph-&lt;id&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --op <span class="nb">export</span> --pgid &lt;pg-id&gt; --file /tmp/pg_export.dat
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Import PG data</span>
+</span></span><span class="line"><span class="cl">ceph-objectstore-tool --data-path /var/lib/ceph/osd/ceph-&lt;id&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --op import --file /tmp/pg_export.dat
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Remove corrupted object</span>
+</span></span><span class="line"><span class="cl">ceph-objectstore-tool --data-path /var/lib/ceph/osd/ceph-&lt;id&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --op remove --pgid &lt;pg-id&gt; --oid &lt;object-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Repair object store</span>
+</span></span><span class="line"><span class="cl">ceph-objectstore-tool --data-path /var/lib/ceph/osd/ceph-&lt;id&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --op fsck --debug
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View object information</span>
+</span></span><span class="line"><span class="cl">ceph-objectstore-tool --data-path /var/lib/ceph/osd/ceph-&lt;id&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --op info --pgid &lt;pg-id&gt; --oid &lt;object-id&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="ceph-kvstore-tool-key-value-store-tool">ceph-kvstore-tool (Key-Value Store Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List key-value pairs</span>
+</span></span><span class="line"><span class="cl">ceph-kvstore-tool bluestore-kv /var/lib/ceph/osd/ceph-&lt;id&gt; list
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Get specific key-value</span>
+</span></span><span class="line"><span class="cl">ceph-kvstore-tool bluestore-kv /var/lib/ceph/osd/ceph-&lt;id&gt; get &lt;prefix&gt; &lt;key&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Delete key-value pair</span>
+</span></span><span class="line"><span class="cl">ceph-kvstore-tool bluestore-kv /var/lib/ceph/osd/ceph-&lt;id&gt; rm &lt;prefix&gt; &lt;key&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Compact database</span>
+</span></span><span class="line"><span class="cl">ceph-kvstore-tool bluestore-kv /var/lib/ceph/osd/ceph-&lt;id&gt; compact
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Backup/restore key-value store</span>
+</span></span><span class="line"><span class="cl">ceph-kvstore-tool bluestore-kv /var/lib/ceph/osd/ceph-&lt;id&gt; backup /tmp/kv_backup
+</span></span><span class="line"><span class="cl">ceph-kvstore-tool bluestore-kv /var/lib/ceph/osd/ceph-&lt;id&gt; restore /tmp/kv_backup
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Statistics</span>
+</span></span><span class="line"><span class="cl">ceph-kvstore-tool bluestore-kv /var/lib/ceph/osd/ceph-&lt;id&gt; stats
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="ceph-bluestore-tool-bluestore-specific-tool">ceph-bluestore-tool (BlueStore Specific Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View BlueStore information</span>
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool show-label --dev /dev/sdX
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool prime-osd-dir --dev /dev/sdX --path /var/lib/ceph/osd/ceph-X
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Repair BlueStore</span>
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool fsck --path /var/lib/ceph/osd/ceph-&lt;id&gt;
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool repair --path /var/lib/ceph/osd/ceph-&lt;id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show BlueStore metadata</span>
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool show-label --dev /dev/sdX
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool show-label --path /var/lib/ceph/osd/ceph-&lt;id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># BlueStore space analysis</span>
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool bluefs-stats --path /var/lib/ceph/osd/ceph-&lt;id&gt;
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool bluefs-bdev-sizes --path /var/lib/ceph/osd/ceph-&lt;id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Allocator tools</span>
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool free-dump --path /var/lib/ceph/osd/ceph-&lt;id&gt;
+</span></span><span class="line"><span class="cl">ceph-bluestore-tool free-score --path /var/lib/ceph/osd/ceph-&lt;id&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="142-monitoring-and-management-tools">14.2 Monitoring and Management Tools</h3>
+<h4 id="crushtool-crush-mapping-tool">crushtool (CRUSH Mapping Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Compile/decompile CRUSH map</span>
+</span></span><span class="line"><span class="cl">ceph osd getcrushmap -o crushmap.bin
+</span></span><span class="line"><span class="cl">crushtool -d crushmap.bin -o crushmap.txt
+</span></span><span class="line"><span class="cl">crushtool -c crushmap.txt -o crushmap_new.bin
+</span></span><span class="line"><span class="cl">ceph osd setcrushmap -i crushmap_new.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Test CRUSH rules</span>
+</span></span><span class="line"><span class="cl">crushtool -i crushmap.bin --test --show-mappings --ruleset <span class="m">0</span> --num-rep <span class="m">3</span> --min-x <span class="m">0</span> --max-x <span class="m">100</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Analyze CRUSH weights</span>
+</span></span><span class="line"><span class="cl">crushtool -i crushmap.bin --show-choose-tries
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Verify CRUSH map</span>
+</span></span><span class="line"><span class="cl">crushtool -i crushmap.bin --check
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show CRUSH tree structure</span>
+</span></span><span class="line"><span class="cl">crushtool -i crushmap.bin --tree
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="monmaptool-monitor-mapping-tool">monmaptool (Monitor Mapping Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create Monitor map</span>
+</span></span><span class="line"><span class="cl">monmaptool --create --add &lt;mon-id&gt; &lt;mon-addr&gt; --fsid &lt;uuid&gt; monmap.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View Monitor map</span>
+</span></span><span class="line"><span class="cl">monmaptool --print monmap.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Add/remove Monitor</span>
+</span></span><span class="line"><span class="cl">monmaptool --add &lt;mon-id&gt; &lt;mon-addr&gt; monmap.bin
+</span></span><span class="line"><span class="cl">monmaptool --rm &lt;mon-id&gt; monmap.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate new fsid</span>
+</span></span><span class="line"><span class="cl">uuidgen
+</span></span><span class="line"><span class="cl">monmaptool --create --fsid <span class="k">$(</span>uuidgen<span class="k">)</span> monmap.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Extract from existing cluster</span>
+</span></span><span class="line"><span class="cl">ceph mon getmap -o monmap.bin
+</span></span><span class="line"><span class="cl">monmaptool --print monmap.bin
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="osdmaptool-osd-mapping-tool">osdmaptool (OSD Mapping Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Export OSD map</span>
+</span></span><span class="line"><span class="cl">ceph osd getmap -o osdmap.bin
+</span></span><span class="line"><span class="cl">osdmaptool osdmap.bin --print
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Test PG mapping</span>
+</span></span><span class="line"><span class="cl">osdmaptool osdmap.bin --test-map-pgs --pool &lt;pool-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create incremental map</span>
+</span></span><span class="line"><span class="cl">osdmaptool --createsimple <span class="m">3</span> osdmap.bin --with-default-pool
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Export specific epoch map</span>
+</span></span><span class="line"><span class="cl">ceph osd getmap &lt;epoch&gt; -o osdmap_&lt;epoch&gt;.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Show OSD tree</span>
+</span></span><span class="line"><span class="cl">osdmaptool osdmap.bin --tree
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="143-data-migration-and-synchronization-tools">14.3 Data Migration and Synchronization Tools</h3>
+<h4 id="rados-object-storage-client">rados (Object Storage Client)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Basic object operations</span>
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; put &lt;object&gt; &lt;file&gt;
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; get &lt;object&gt; &lt;file&gt;
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; ls
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; rm &lt;object&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Batch operations</span>
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; ls <span class="p">|</span> xargs -I <span class="o">{}</span> rados -p &lt;pool&gt; rm <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Benchmark testing</span>
+</span></span><span class="line"><span class="cl">rados bench -p &lt;pool&gt; <span class="m">60</span> write --no-cleanup
+</span></span><span class="line"><span class="cl">rados bench -p &lt;pool&gt; <span class="m">60</span> seq
+</span></span><span class="line"><span class="cl">rados bench -p &lt;pool&gt; <span class="m">60</span> rand
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Cleanup benchmark data</span>
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; cleanup
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Object attribute operations</span>
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; setxattr &lt;object&gt; &lt;attr&gt; &lt;value&gt;
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; getxattr &lt;object&gt; &lt;attr&gt;
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; listxattr &lt;object&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Watch object changes</span>
+</span></span><span class="line"><span class="cl">rados -p &lt;pool&gt; watch &lt;object&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="rbd-mirror-rbd-mirror-tool">rbd-mirror (RBD Mirror Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Enable mirroring</span>
+</span></span><span class="line"><span class="cl">rbd mirror pool <span class="nb">enable</span> &lt;pool&gt; pool
+</span></span><span class="line"><span class="cl">rbd mirror pool <span class="nb">enable</span> &lt;pool&gt; image
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Configure mirroring</span>
+</span></span><span class="line"><span class="cl">rbd mirror image <span class="nb">enable</span> &lt;pool&gt;/&lt;image&gt; snapshot
+</span></span><span class="line"><span class="cl">rbd mirror image <span class="nb">enable</span> &lt;pool&gt;/&lt;image&gt; journal
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View mirror status</span>
+</span></span><span class="line"><span class="cl">rbd mirror pool status &lt;pool&gt;
+</span></span><span class="line"><span class="cl">rbd mirror image status &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Force resync</span>
+</span></span><span class="line"><span class="cl">rbd mirror image resync &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Failover</span>
+</span></span><span class="line"><span class="cl">rbd mirror image promote &lt;pool&gt;/&lt;image&gt;
+</span></span><span class="line"><span class="cl">rbd mirror image demote &lt;pool&gt;/&lt;image&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="ceph-crash-crash-reporting-tool">ceph-crash (Crash Reporting Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View crash reports</span>
+</span></span><span class="line"><span class="cl">ceph crash ls
+</span></span><span class="line"><span class="cl">ceph crash info &lt;crash-id&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Archive crash reports</span>
+</span></span><span class="line"><span class="cl">ceph crash archive &lt;crash-id&gt;
+</span></span><span class="line"><span class="cl">ceph crash archive-all
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate crash report</span>
+</span></span><span class="line"><span class="cl">ceph crash post -i &lt;crash-dump-file&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Crash statistics</span>
+</span></span><span class="line"><span class="cl">ceph crash stat
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="ceph-volume-volume-management-tool">ceph-volume (Volume Management Tool)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create OSD with LVM</span>
+</span></span><span class="line"><span class="cl">ceph-volume lvm create --data /dev/sdb
+</span></span><span class="line"><span class="cl">ceph-volume lvm create --data /dev/sdb --block.wal /dev/nvme0n1p1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Separate prepare and activate</span>
+</span></span><span class="line"><span class="cl">ceph-volume lvm prepare --data /dev/sdb --osd-id <span class="m">0</span>
+</span></span><span class="line"><span class="cl">ceph-volume lvm activate <span class="m">0</span> &lt;osd-uuid&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View LVM information</span>
+</span></span><span class="line"><span class="cl">ceph-volume lvm list
+</span></span><span class="line"><span class="cl">ceph-volume lvm list /dev/sdb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Simple method to create OSD</span>
+</span></span><span class="line"><span class="cl">ceph-volume simple scan /dev/sdb
+</span></span><span class="line"><span class="cl">ceph-volume simple activate &lt;osd-id&gt; &lt;osd-uuid&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-15-troubleshooting">🚨 15. Troubleshooting</h2>
+<h3 id="151-log-viewing">15.1 Log Viewing</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View service logs</span>
+</span></span><span class="line"><span class="cl">journalctl -u ceph-mon@&lt;hostname&gt; -f
+</span></span><span class="line"><span class="cl">journalctl -u ceph-osd@&lt;id&gt; -f
+</span></span><span class="line"><span class="cl">journalctl -u ceph-mds@&lt;hostname&gt; -f
+</span></span><span class="line"><span class="cl">journalctl -u ceph-mgr@&lt;hostname&gt; -f
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View logs by time range</span>
+</span></span><span class="line"><span class="cl">journalctl -u ceph-osd@&lt;id&gt; --since <span class="s2">&#34;2023-01-01 00:00:00&#34;</span> --until <span class="s2">&#34;2023-01-01 23:59:59&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Adjust log levels</span>
+</span></span><span class="line"><span class="cl">ceph tell osd.* config <span class="nb">set</span> debug_osd <span class="m">10</span>
+</span></span><span class="line"><span class="cl">ceph tell mon.* config <span class="nb">set</span> debug_mon <span class="m">10</span>
+</span></span><span class="line"><span class="cl">ceph tell mds.* config <span class="nb">set</span> debug_mds <span class="m">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View real-time errors</span>
+</span></span><span class="line"><span class="cl">tail -f /var/log/ceph/ceph.log <span class="p">|</span> grep -i error
+</span></span><span class="line"><span class="cl">tail -f /var/log/ceph/ceph-osd.*.log <span class="p">|</span> grep -i slow
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="152-common-issue-troubleshooting">15.2 Common Issue Troubleshooting</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># PG inconsistency issues</span>
+</span></span><span class="line"><span class="cl">ceph health detail <span class="p">|</span> grep inconsistent
+</span></span><span class="line"><span class="cl">ceph pg &lt;pgid&gt; query
+</span></span><span class="line"><span class="cl">ceph pg repair &lt;pgid&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># OSD full issues</span>
+</span></span><span class="line"><span class="cl">ceph osd df <span class="p">|</span> grep -E <span class="s2">&#34;(95|96|97|98|99)%&#34;</span>
+</span></span><span class="line"><span class="cl">ceph osd reweight-by-utilization
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Slow request issues</span>
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_slow_requests
+</span></span><span class="line"><span class="cl">ceph daemon osd.&lt;id&gt; dump_historic_slow_ops
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd debug_osd <span class="m">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Clock synchronization issues</span>
+</span></span><span class="line"><span class="cl">ceph time-sync-status
+</span></span><span class="line"><span class="cl">ntpq -p
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Disk space issues</span>
+</span></span><span class="line"><span class="cl">ceph df
+</span></span><span class="line"><span class="cl">ceph osd df
+</span></span><span class="line"><span class="cl">df -h /var/lib/ceph/osd/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="-16-backup-and-recovery">🔄 16. Backup and Recovery</h2>
+<h3 id="161-data-backup">16.1 Data Backup</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Export Monitor map</span>
+</span></span><span class="line"><span class="cl">ceph mon getmap -o monmap.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Export OSD map</span>
+</span></span><span class="line"><span class="cl">ceph osd getmap -o osdmap.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Export CRUSH map</span>
+</span></span><span class="line"><span class="cl">ceph osd getcrushmap -o crushmap.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Backup ceph.conf and keys</span>
+</span></span><span class="line"><span class="cl">cp /etc/ceph/ceph.conf /backup/
+</span></span><span class="line"><span class="cl">cp /etc/ceph/ceph.client.admin.keyring /backup/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Backup authentication information</span>
+</span></span><span class="line"><span class="cl">ceph auth <span class="nb">export</span> &gt; /backup/ceph_auth.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Backup pool information</span>
+</span></span><span class="line"><span class="cl">ceph osd pool ls detail &gt; /backup/pools.txt
+</span></span><span class="line"><span class="cl">ceph pg dump &gt; /backup/pg_dump.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="162-disaster-recovery">16.2 Disaster Recovery</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Recover data from single OSD</span>
+</span></span><span class="line"><span class="cl">ceph-objectstore-tool --data-path /var/lib/ceph/osd/ceph-X <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --export-remove --pgid &lt;pgid&gt; --file /tmp/pg_export
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Rebuild Monitor</span>
+</span></span><span class="line"><span class="cl">ceph-mon --mkfs -i &lt;mon-id&gt; --monmap monmap.bin --keyring mon.keyring
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Restore authentication information</span>
+</span></span><span class="line"><span class="cl">ceph auth import -i /backup/ceph_auth.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Restore CRUSH map</span>
+</span></span><span class="line"><span class="cl">ceph osd setcrushmap -i /backup/crushmap.bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># OSD data recovery</span>
+</span></span><span class="line"><span class="cl">ceph-objectstore-tool --data-path /var/lib/ceph/osd/ceph-X <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --op import --file /tmp/pg_export
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="163-rbd-backup-and-recovery">16.3 RBD Backup and Recovery</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># RBD snapshot backup</span>
+</span></span><span class="line"><span class="cl">rbd snap create &lt;pool&gt;/&lt;image&gt;@backup-<span class="k">$(</span>date +%Y%m%d<span class="k">)</span>
+</span></span><span class="line"><span class="cl">rbd <span class="nb">export</span> &lt;pool&gt;/&lt;image&gt;@&lt;snapshot&gt; /backup/image_backup.raw
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># RBD incremental backup</span>
+</span></span><span class="line"><span class="cl">rbd export-diff &lt;pool&gt;/&lt;image&gt;@&lt;snap1&gt; &lt;pool&gt;/&lt;image&gt;@&lt;snap2&gt; /backup/diff.raw
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># RBD recovery</span>
+</span></span><span class="line"><span class="cl">rbd import /backup/image_backup.raw &lt;pool&gt;/&lt;new-image&gt;
+</span></span><span class="line"><span class="cl">rbd import-diff /backup/diff.raw &lt;pool&gt;/&lt;image&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p><strong>This document is continuously updated. Please check for the latest version regularly. Any questions or suggestions are welcome.</strong></p>
+<p><em>Last updated: June 2025</em></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">YLShi && WuHongSong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        0001-01-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/ceph-content/draft/casps/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default"></span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/ceph-content/operation-skills/zh-cn/ceph%E9%9B%86%E7%BE%A4%E5%B7%A1%E6%A3%80%E8%84%9A%E6%9C%AC/">
+            <span class="next-text nav-default"></span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="YLShiJustFly/YLShiJustFly.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:youseeicanfly@126.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.zhihu.com/people/tan-xi-liu-nian" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://YLShiJustFly.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2022 - 
+    2025<span class="heart"><i class="iconfont icon-heart"></i></span><span>YLShi && WuHongSong</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.191509a5c8442abdb6eb5020a332fd59bdd83a7e78a2d2241108df9113504292.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
