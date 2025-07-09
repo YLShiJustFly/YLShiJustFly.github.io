@@ -1,4 +1,3 @@
-# Analysis of IO Commit Latency Spike in Ceph Cluster
 
 ## Symptom
 - **Environment**: After abnormal node reboot in Ceph cluster
