@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title> - Friends&#39; Life and Work Space</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="ceph-deep-dive" /><meta name="description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
+Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices." /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.100.2 with theme even" />
+
+
+<link rel="canonical" href="http://YLShiJustFly.github.io/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
+Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/" /><meta property="article:section" content="post" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
+Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices.">
+
+<meta itemprop="wordCount" content="4210">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
+Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Friends&#39; Life and Work Space</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Friends&#39; Life and Work Space</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title"></h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 0001-01-01 </span>
+        
+          <span class="more-meta"> 4210 words </span>
+          <span class="more-meta"> 20 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#version-overview">Version Overview</a></li>
+        <li><a href="#version-feature-comparison-summary">Version Feature Comparison Summary</a>
+          <ul>
+            <li><a href="#maturity-driven-version-selection-guide">Maturity-Driven Version Selection Guide</a></li>
+            <li><a href="#feature-driven-version-selection-guide">Feature-Driven Version Selection Guide</a></li>
+          </ul>
+        </li>
+        <li><a href="#feature-first-introduction-and-maturity-analysis">Feature First Introduction and Maturity Analysis</a>
+          <ul>
+            <li><a href="#important-feature-lifecycle-timeline">Important Feature Lifecycle Timeline</a></li>
+          </ul>
+        </li>
+        <li><a href="#nautilus-n-version">Nautilus (N Version)</a>
+          <ul>
+            <li><a href="#release-status">Release Status</a></li>
+            <li><a href="#main-highlights">Main Highlights</a></li>
+            <li><a href="#important-updates-and-fixes">Important Updates and Fixes</a></li>
+          </ul>
+        </li>
+        <li><a href="#octopus">Octopus</a>
+          <ul>
+            <li><a href="#release-status-1">Release Status</a></li>
+            <li><a href="#core-themes">Core Themes</a></li>
+            <li><a href="#main-highlights-1">Main Highlights</a></li>
+            <li><a href="#important-fixes-and-security-updates">Important Fixes and Security Updates</a></li>
+          </ul>
+        </li>
+        <li><a href="#pacific">Pacific</a>
+          <ul>
+            <li><a href="#release-status-2">Release Status</a></li>
+            <li><a href="#main-highlights-2">Main Highlights</a></li>
+            <li><a href="#important-changes">Important Changes</a></li>
+            <li><a href="#important-notes">Important Notes</a></li>
+          </ul>
+        </li>
+        <li><a href="#quincy">Quincy</a>
+          <ul>
+            <li><a href="#release-status-3">Release Status</a></li>
+            <li><a href="#main-highlights-3">Main Highlights</a></li>
+          </ul>
+        </li>
+        <li><a href="#reef">Reef</a>
+          <ul>
+            <li><a href="#release-status-4">Release Status</a></li>
+            <li><a href="#main-highlights-4">Main Highlights</a></li>
+          </ul>
+        </li>
+        <li><a href="#squid">Squid</a>
+          <ul>
+            <li><a href="#release-status-5">Release Status</a></li>
+            <li><a href="#main-highlights-5">Main Highlights</a></li>
+            <li><a href="#important-fixes">Important Fixes</a></li>
+          </ul>
+        </li>
+        <li><a href="#references">References</a>
+          <ul>
+            <li><a href="#official-documentation">Official Documentation</a></li>
+            <li><a href="#technical-articles">Technical Articles</a></li>
+            <li><a href="#technical-talks">Technical Talks</a></li>
+          </ul>
+        </li>
+        <li><a href="#special-note">Special Note</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)</p>
+<h2 id="version-overview">Version Overview</h2>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Codename</th>
+<th>Release Date</th>
+<th>Lifecycle Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v14.2.x</td>
+<td>Nautilus</td>
+<td>2019</td>
+<td>EOL</td>
+</tr>
+<tr>
+<td>v15.2.x</td>
+<td>Octopus</td>
+<td>2020</td>
+<td>EOL</td>
+</tr>
+<tr>
+<td>v16.2.x</td>
+<td>Pacific</td>
+<td>2021</td>
+<td>EOL</td>
+</tr>
+<tr>
+<td>v17.2.x</td>
+<td>Quincy</td>
+<td>2022</td>
+<td>EOL</td>
+</tr>
+<tr>
+<td>v18.2.x</td>
+<td>Reef</td>
+<td>2023</td>
+<td>Stable Maintenance</td>
+</tr>
+<tr>
+<td>v19.2.x</td>
+<td>Squid</td>
+<td>2024</td>
+<td>Current Stable</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="version-feature-comparison-summary">Version Feature Comparison Summary</h2>
+<h3 id="maturity-driven-version-selection-guide">Maturity-Driven Version Selection Guide</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Nautilus</th>
+<th>Octopus</th>
+<th>Pacific</th>
+<th>Quincy</th>
+<th>Reef</th>
+<th>Squid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Deployment Method</strong></td>
+<td>ceph-deploy</td>
+<td><strong>cephadm introduced</strong></td>
+<td>cephadm</td>
+<td>cephadm mature</td>
+<td>cephadm</td>
+<td>cephadm</td>
+</tr>
+<tr>
+<td><strong>Storage Engine</strong></td>
+<td>BlueStore</td>
+<td>BlueStore</td>
+<td>BlueStore</td>
+<td>BlueStore</td>
+<td><strong>FileStore removed</strong></td>
+<td>BlueStore optimized</td>
+</tr>
+<tr>
+<td><strong>Configuration Management</strong></td>
+<td><strong>Centralized introduced</strong></td>
+<td>Centralized</td>
+<td>Centralized</td>
+<td>Centralized</td>
+<td>Centralized</td>
+<td>Centralized</td>
+</tr>
+<tr>
+<td><strong>Network Protocol</strong></td>
+<td><strong>msgr2 introduced</strong></td>
+<td>msgr2 stable</td>
+<td>msgr2</td>
+<td>msgr2</td>
+<td>msgr2</td>
+<td>msgr2</td>
+</tr>
+<tr>
+<td><strong>PG Management</strong></td>
+<td><strong>autoscale introduced</strong></td>
+<td>autoscale</td>
+<td>autoscale</td>
+<td>autoscale</td>
+<td>autoscale</td>
+<td>autoscale</td>
+</tr>
+<tr>
+<td><strong>Scheduler</strong></td>
+<td>Traditional</td>
+<td>Improved</td>
+<td><strong>mclock introduced</strong></td>
+<td><strong>mclock default</strong></td>
+<td>mclock</td>
+<td>mclock optimized</td>
+</tr>
+<tr>
+<td><strong>CephFS Multi-FS</strong></td>
+<td><strong>First support</strong></td>
+<td>Feature enhanced</td>
+<td><strong>Mirroring perfected</strong></td>
+<td>Management optimized</td>
+<td>Management optimized</td>
+<td>Dashboard integrated</td>
+</tr>
+<tr>
+<td><strong>Multi-site</strong></td>
+<td>Basic</td>
+<td><strong>RBD mirroring</strong></td>
+<td><strong>CephFS mirroring</strong></td>
+<td>Perfected</td>
+<td>Enhanced</td>
+<td>Enhanced</td>
+</tr>
+<tr>
+<td><strong>Dashboard</strong></td>
+<td>Basic</td>
+<td>Improved</td>
+<td>Improved</td>
+<td>Improved</td>
+<td><strong>Refactored</strong></td>
+<td><strong>Refactored</strong></td>
+</tr>
+<tr>
+<td><strong>Containerization</strong></td>
+<td>None</td>
+<td><strong>cephadm preview</strong></td>
+<td><strong>cephadm mature</strong></td>
+<td>cephadm complete</td>
+<td>cephadm</td>
+<td>cephadm</td>
+</tr>
+</tbody>
+</table>
+<h4 id="feature-maturity-marking-legend">Feature Maturity Marking Legend</h4>
+<ul>
+<li><strong>Bold text</strong>: Important milestones for features in this version (first introduction/stability achieved/major improvements)</li>
+<li>Normal text: Features remain stable or have minor improvements in this version</li>
+<li>Italic text: Features are deprecated or being prepared for removal in this version</li>
+</ul>
+<h3 id="feature-driven-version-selection-guide">Feature-Driven Version Selection Guide</h3>
+<table>
+<thead>
+<tr>
+<th>Required Feature</th>
+<th>Minimum Version</th>
+<th>Stable Recommended Version</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Centralized Configuration Management</td>
+<td>Nautilus</td>
+<td>Octopus+</td>
+<td>Basic functionality available, upgrade recommended for stability</td>
+</tr>
+<tr>
+<td>PG autoscaling</td>
+<td>Nautilus</td>
+<td>Pacific+</td>
+<td>Production environments recommend manual control</td>
+</tr>
+<tr>
+<td>msgr2 Security Protocol</td>
+<td>Nautilus</td>
+<td>Octopus+</td>
+<td>Recommended for new deployments</td>
+</tr>
+<tr>
+<td>cephadm Container Management</td>
+<td>Octopus</td>
+<td>Pacific+</td>
+<td>Tech preview → production ready</td>
+</tr>
+<tr>
+<td>CephFS Multi-filesystem</td>
+<td>Nautilus</td>
+<td>Pacific+</td>
+<td>Basic support → production ready</td>
+</tr>
+<tr>
+<td>CephFS Mirroring/DR</td>
+<td>Octopus</td>
+<td>Pacific+</td>
+<td>Feature introduction → production stable</td>
+</tr>
+<tr>
+<td>mclock QoS Scheduling</td>
+<td>Pacific</td>
+<td>Quincy+</td>
+<td>Introduction → default enabled</td>
+</tr>
+<tr>
+<td>Full Containerized Deployment</td>
+<td>Pacific</td>
+<td>Quincy+</td>
+<td>Basic support → complete ecosystem</td>
+</tr>
+<tr>
+<td>Advanced Dashboard</td>
+<td>Reef</td>
+<td>Squid+</td>
+<td>Refactored → complete</td>
+</tr>
+<tr>
+<td>FileStore Replacement</td>
+<td>Any version</td>
+<td>Reef+</td>
+<td>FileStore support removed after Reef</td>
+</tr>
+</tbody>
+</table>
+<h2 id="feature-first-introduction-and-maturity-analysis">Feature First Introduction and Maturity Analysis</h2>
+<h3 id="important-feature-lifecycle-timeline">Important Feature Lifecycle Timeline</h3>
+<p>This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices.</p>
+<h4 id="configuration-management-evolution">Configuration Management Evolution</h4>
+<ul>
+<li><strong>Centralized Configuration Management</strong>
+<ul>
+<li><strong>First introduced</strong>: Nautilus (v14.x) - Basic functionality available</li>
+<li><strong>Stable recommended</strong>: Octopus (v15.x) - Fixed critical bugs, production ready</li>
+<li><strong>Technical value</strong>: Unified configuration management, supports online modification, provides audit functionality</li>
+</ul>
+</li>
+</ul>
+<h4 id="storage-pool-management-revolution">Storage Pool Management Revolution</h4>
+<ul>
+<li><strong>PG autoscaling/merging</strong>
+<ul>
+<li><strong>First introduced</strong>: Nautilus (v14.x) - Historical breakthrough, supports PG count reduction</li>
+<li><strong>Stable recommended</strong>: Pacific (v16.x) - Algorithm optimization, reduced misoperation risks</li>
+<li><strong>⚠️ Production advice</strong>: Manual control recommended to avoid I/O impact from automatic tuning</li>
+</ul>
+</li>
+</ul>
+<h4 id="network-protocol-upgrade">Network Protocol Upgrade</h4>
+<ul>
+<li><strong>msgr2 protocol</strong>
+<ul>
+<li><strong>First introduced</strong>: Nautilus (v14.x) - Significant security and performance improvements</li>
+<li><strong>Stable recommended</strong>: Octopus (v15.x) - Fixed compatibility issues, suitable for large-scale deployment</li>
+<li><strong>Technical value</strong>: End-to-end encryption, stronger authentication, lower latency</li>
+</ul>
+</li>
+</ul>
+<h4 id="orchestration-management-revolution">Orchestration Management Revolution</h4>
+<ul>
+<li><strong>cephadm containerized orchestration</strong>
+<ul>
+<li><strong>First introduced</strong>: Octopus (v15.x) - Technical preview version</li>
+<li><strong>Stable recommended</strong>: Pacific (v16.x) - Production ready, feature complete</li>
+<li><strong>Full maturity</strong>: Quincy (v17.x) - Replaces ceph-deploy, becomes mainstream solution</li>
+<li><strong>Revolutionary significance</strong>: Transition from package management to containerization, greatly simplifying operations</li>
+</ul>
+</li>
+</ul>
+<h4 id="distributed-file-system-evolution">Distributed File System Evolution</h4>
+<ul>
+<li><strong>CephFS Multi-filesystem</strong>
+<ul>
+<li><strong>First introduced</strong>: Nautilus (v14.x) - Basic multi-FS support</li>
+<li><strong>Feature enhancement</strong>: Octopus (v15.x) - Snapshot and mirroring features</li>
+<li><strong>Production recommended</strong>: Pacific (v16.x) - Mirroring feature stable, suitable for production environments</li>
+<li><strong>Management optimization</strong>: Squid (v19.x) - Dashboard integration, subvolume management improvements</li>
+</ul>
+</li>
+</ul>
+<h4 id="storage-engine-development">Storage Engine Development</h4>
+<ul>
+<li>
+<p><strong>BlueStore maturation</strong></p>
+<ul>
+<li><strong>Default engine</strong>: Mimic (v13.x) - BlueStore replaces FileStore as default storage engine</li>
+<li><strong>Performance optimization</strong>: Nautilus (v14.x) - bitmap allocator, significant performance improvements</li>
+<li><strong>Full maturity</strong>: Pacific (v16.x) - Optimal performance and stability</li>
+<li><strong>FileStore retirement</strong>: Reef (v18.x) - FileStore support completely removed</li>
+</ul>
+</li>
+<li>
+<p><strong>Crimson/Seastore (Next Generation)</strong></p>
+<ul>
+<li><strong>Technical preview</strong>: Quincy (v17.x) - Experimental features</li>
+<li><strong>Feature enhancement</strong>: Squid (v19.x) - Supports RBD workloads</li>
+<li><strong>Expected maturity</strong>: Future versions - Production environment ready</li>
+</ul>
+</li>
+</ul>
+<h2 id="nautilus-n-version">Nautilus (N Version)</h2>
+<h3 id="release-status">Release Status</h3>
+<ul>
+<li><strong>Current version</strong>: v14.2.22</li>
+<li><strong>Version series</strong>: v14.2.0 to v14.2.22</li>
+<li><strong>Lifecycle</strong>: v14.2.22 is the last version of the Nautilus series, EOL</li>
+</ul>
+<h3 id="main-highlights">Main Highlights</h3>
+<h4 id="centralized-configuration-management">Centralized Configuration Management</h4>
+<ul>
+<li><strong>Feature</strong>: Compared to the previous approach where all persistent configurations needed to be written in ceph.conf, the current approach is more convenient for management, including viewing, modification, and auditing</li>
+<li><strong>Core value</strong>: Unified management of all cluster configurations, supports online modification, provides configuration history and audit functionality, greatly simplifying configuration management for large-scale clusters</li>
+</ul>
+<h5 id="configuration-management-commands">Configuration Management Commands</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View existing config settings</span>
+</span></span><span class="line"><span class="cl">ceph config dump
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># get/set configurations for a specific level or instance, supports multi-level override with finest granularity</span>
+</span></span><span class="line"><span class="cl">ceph config get <span class="nv">$level</span> <span class="nv">$entityname</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> <span class="nv">$level</span> <span class="nv">$entityname</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Examples</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> global osd_recovery_sleep_hdd 0.1
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd osd_recovery_sleep_hdd 0.1
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> <span class="s1">&#39;osd.*&#39;</span> osd_recovery_sleep_hdd  <span class="c1"># Service level requires *</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd.1 osd_recovery_sleep_hdd 0.2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># View help information for an entity</span>
+</span></span><span class="line"><span class="cl">sudo ceph config <span class="nb">help</span> osd_recovery_sleep_hdd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Modification history log for auditing</span>
+</span></span><span class="line"><span class="cl">sudo ceph config log
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="configuration-management-key-points">Configuration Management Key Points</h5>
+<ul>
+<li>Some parameters that previously required restart can now be adjusted online, can be confirmed via help, such as osd_target_memory</li>
+<li>osd_class_update_on_start needs to be set to true when creating OSD, will automatically add to tree, then set to false to prevent crush tree changes on OSD restart</li>
+</ul>
+<h4 id="pg-merging-and-autotuning">PG Merging and Autotuning</h4>
+<ul>
+<li><strong>⭐ Major breakthrough</strong>: This is a major breakthrough in Ceph history, Nautilus first supports PG count reduction (merging) and auto-tuning functionality</li>
+<li><strong>PG count reduction</strong>: PG count can be reduced, meaning merging is now possible, solving the previous limitation where PG count could only increase</li>
+<li><strong>PG default autoscale</strong>: PG autoscaling is enabled by default, automatically adjusting PG count based on data volume</li>
+<li><strong>Technical significance</strong>: Makes storage pool management more intelligent and flexible, reducing manual tuning workload</li>
+<li><strong>⚠️ Production environment note</strong>: Adjustments cause peering process, resulting in I/O blocking and large data migration. Production environments recommend setting <code>osd_pool_default_pg_autoscale_mode=off</code>, manually controlling PG adjustment timing</li>
+</ul>
+<h4 id="device-management-and-failure-prediction">Device Management and Failure Prediction</h4>
+<ul>
+<li><strong>Device management</strong>: New device management functionality</li>
+<li><strong>Failure prediction</strong>: Failure prediction model based on device health metrics</li>
+</ul>
+<h4 id="crash-information-collection">Crash Information Collection</h4>
+<ul>
+<li><strong>Service</strong>: A ceph-crash service runs on each node</li>
+<li><strong>Functionality</strong>: If a process crashes (e.g., assert), collects environment information and backtrace, and reports it</li>
+</ul>
+<h4 id="messaging-msgr2-and-security-configuration">Messaging (msgr2) and Security Configuration</h4>
+<ul>
+<li><strong>⭐ Protocol revolution</strong>: Nautilus first introduces msgr2 protocol, a major upgrade to Ceph network communication</li>
+<li><strong>msgr2 protocol</strong>: New messaging protocol v2, providing better security and performance
+<ul>
+<li><strong>Encrypted transmission</strong>: Supports end-to-end encryption, protecting internal cluster communication security</li>
+<li><strong>Authentication</strong>: Provides stronger authentication mechanisms, preventing man-in-the-middle attacks</li>
+<li><strong>Performance improvement</strong>: Optimized network protocol stack, reducing latency and CPU overhead</li>
+</ul>
+</li>
+<li><strong>Backward compatibility</strong>: To ensure compatibility with old clients, needs configuration to support both msgr1 and msgr2</li>
+<li><strong>Main configuration</strong>: global_id and not enabling msgr2 (if compatibility with old environments needed)</li>
+<li><strong>Migration advice</strong>: New deployments recommend direct use of msgr2, old clusters can migrate gradually</li>
+</ul>
+<h4 id="rados-related-improvements">RADOS Related Improvements</h4>
+<ul>
+<li><strong>bluestore</strong>: New &lsquo;bitmap&rsquo; allocator (better performance than avl allocator, reduces fragmentation)</li>
+<li><strong>Asynchronous recovery</strong>: Improved async recovery (reduces recovery impact on client I/O)</li>
+<li><strong>scrub</strong>: Scrub supports autorepair (automatically fixes detected data inconsistency issues)</li>
+<li><strong>Erasure coding</strong>: Added new erasure coding algorithms (provides better storage efficiency and fault tolerance)</li>
+<li><strong>Pool quotas</strong>: Pools support setting quotas (limits storage pool space and object count usage)</li>
+<li><strong>Load balancing</strong>: ceph balancer (automatically optimizes data distribution, improves cluster performance balance)</li>
+</ul>
+<h4 id="rbd-related-improvements">RBD Related Improvements</h4>
+<ul>
+<li><strong>Namespaces</strong>: Supports namespaces for multi-tenant resource isolation, different tenants can use same image names without conflicts</li>
+<li><strong>Timestamps</strong>: Volumes support creation, access, modification timestamps for auditing and management</li>
+<li><strong>Monitoring enhancement</strong>: mgr&rsquo;s Prometheus plugin can now monitor detailed I/O statistics for individual volumes, providing more granular performance analysis capabilities</li>
+</ul>
+<h4 id="cephfs-related-improvements">CephFS Related Improvements</h4>
+<ul>
+<li><strong>Multi-filesystem</strong>: Supports creating and managing multiple independent filesystems in a single cluster, each with independent metadata pools
+<ul>
+<li><strong>⭐ First introduction</strong>: Nautilus version first introduces multi-filesystem support, laying foundation for future version improvements</li>
+<li><strong>Stability advice</strong>: Although functionality is available, recommend thorough testing in production environments first</li>
+</ul>
+</li>
+<li><strong>Management interface</strong>: Introduces volume management concept, abstracting complex filesystem operations into simple volume management, simulating block storage management approach
+<ul>
+<li><strong>Concept mapping</strong>: fs(filesystem) → volume, directory → subvolume</li>
+</ul>
+</li>
+<li><strong>Stability improvements</strong>:
+<ul>
+<li><strong>Client caps limitation</strong>: Limits client caps acquisition speed, preventing MDS memory overflow (OOM) due to excessive caps requests</li>
+<li><strong>Caps</strong>: CephFS capability authorization mechanism, controlling client access permissions to files/directories</li>
+</ul>
+</li>
+<li><strong>Startup optimization</strong>:
+<ul>
+<li><strong>OpenTable files</strong>: Records information about opened files, if MDS restart is too slow, can delete this file to accelerate startup</li>
+<li><strong>Applicable scenarios</strong>: Particularly useful in emergency recovery or environments with many open files</li>
+</ul>
+</li>
+<li><strong>Quota functionality</strong>: Kernel clients now support quota limits, can set space and file count limits for directories or subvolumes</li>
+</ul>
+<h5 id="subvolume">Subvolume</h5>
+<ul>
+<li><strong>Subvolume management</strong>: Supports creating isolated subvolumes within filesystems, each with independent quotas and access control</li>
+<li><strong>CSI integration</strong>: If using Kubernetes CSI driver, need to create dedicated CSI subvolume groups to manage dynamic volume provisioning</li>
+</ul>
+<h5 id="lazyio">LAZYIO</h5>
+<ul>
+<li><strong>Lazy IO mode</strong>: New IO mode allowing applications to delay write operations, improving small file write performance</li>
+<li><strong>Caching mechanism</strong>: Clients can cache write data, reducing network round trips</li>
+<li><strong>Applicable scenarios</strong>: Particularly suitable for frequent small file write workloads</li>
+</ul>
+<h4 id="ceph-mgr">ceph-mgr</h4>
+<ul>
+<li><strong>Prometheus plugin</strong>:
+<ul>
+<li><strong>Standard monitoring</strong>: mgr&rsquo;s prometheus plugin provides standard monitoring metrics interface, requires manual enabling</li>
+<li><strong>Integration advantages</strong>: Seamless integration with monitoring systems like Grafana, providing rich performance dashboards</li>
+</ul>
+</li>
+<li><strong>Stability issues</strong>:
+<ul>
+<li><strong>CephFS scenarios</strong>: In CephFS environments, mgr may experience deadlock issues, requiring periodic mgr service restarts</li>
+<li><strong>Monitoring advice</strong>: Recommend monitoring mgr service status, restart promptly when abnormalities occur</li>
+</ul>
+</li>
+<li><strong>Module management</strong>:
+<ul>
+<li><strong>Restful module bug</strong>: Restful module has memory leak issues, recommend disabling this module to avoid mgr OOM</li>
+<li><strong>Disable command</strong>: <code>ceph mgr module disable restful</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="important-updates-and-fixes">Important Updates and Fixes</h3>
+<h4 id="performance-optimization">Performance Optimization</h4>
+<ul>
+<li><strong>BlueStore cache</strong>: <code>bluefs_buffered_io</code> default set to true, improving metadata-intensive workload performance</li>
+<li><strong>Memory management</strong>: <code>bluestore_cache_trim_max_skip_pinned</code> default value increased to 1000, controlling memory growth caused by onodes</li>
+<li><strong>Monitor trimming</strong>: Introduces dynamic trimming logic, controlled by <code>paxos_service_trim_max_multiplier</code> parameter</li>
+</ul>
+<h4 id="stability-improvements">Stability Improvements</h4>
+<ul>
+<li><strong>BlueStore fixes</strong>: Fixed unexpected ENOSPC bug in Avl/Hybrid allocators</li>
+<li><strong>Client interoperability</strong>: Fixed long-standing bug preventing 32-bit and 64-bit clients from interoperating under msgr v2</li>
+<li><strong>OSD downtime</strong>: Added <code>--max &lt;n&gt;</code> option for <code>osd ok-to-stop</code> command, providing number of OSDs that can be stopped simultaneously</li>
+</ul>
+<h4 id="new-features">New Features</h4>
+<ul>
+<li><strong>⭐ OSD shutdown notification</strong>: First introduces <code>osd_fast_shutdown_notify_mon</code> option, allowing OSDs to notify monitors during fast shutdown
+<ul>
+<li><strong>Technical value</strong>: Improves cluster management, reduces unnecessary OSD failure alerts</li>
+<li><strong>Future improvements</strong>: This feature is further optimized in Pacific version</li>
+</ul>
+</li>
+<li><strong>Multi-architecture support</strong>: Fixed issues with armv7l (armhf) mixed deployment with x86_64 or aarch64 servers</li>
+</ul>
+<h4 id="deployment-notes">Deployment Notes</h4>
+<ul>
+<li><strong>Tools</strong>: Currently still uses ceph-deploy for deployment, this is the last version supported by ceph-deploy</li>
+<li><strong>Requirements</strong>: ceph-deploy requires python2.7 and needs code modifications to support debian11</li>
+</ul>
+<hr>
+<h2 id="octopus">Octopus</h2>
+<h3 id="release-status-1">Release Status</h3>
+<ul>
+<li><strong>Current version</strong>: v15.2.17</li>
+<li><strong>Version series</strong>: v15.2.0 to v15.2.17</li>
+<li><strong>Lifecycle</strong>: v15.2.17 is the last version of the Octopus series, archived</li>
+</ul>
+<h3 id="core-themes">Core Themes</h3>
+<p>Ceph Octopus version focuses on five different themes: multi-site usage, quality, performance, usability, and ecosystem.</p>
+<h3 id="main-highlights-1">Main Highlights</h3>
+<h4 id="multi-site-functionality">Multi-site Functionality</h4>
+<ul>
+<li><strong>CephFS snapshots</strong>:
+<ul>
+<li><strong>Snapshot scheduling</strong>: Automatic timed snapshot creation, supports different cycles like hourly, daily, weekly, monthly</li>
+<li><strong>Snapshot pruning</strong>: Automatic cleanup of expired snapshots, avoiding unlimited storage space growth</li>
+<li><strong>Regular snapshot automation</strong>: Flexible snapshot policy configuration through cron expressions</li>
+</ul>
+</li>
+<li><strong>Remote synchronization</strong>:
+<ul>
+<li><strong>Cross-cluster sync</strong>: Supports syncing data to remote Ceph clusters for offsite backup</li>
+<li><strong>Incremental sync</strong>: Only syncs changed data, greatly reducing network bandwidth usage</li>
+</ul>
+</li>
+<li><strong>RBD mirroring</strong>:
+<ul>
+<li><strong>Snapshot mirroring mode</strong>: New snapshot-based mirroring mode, providing more reliable data consistency</li>
+<li><strong>Asynchronous replication</strong>: Supports asynchronous replication, reducing impact on primary cluster performance</li>
+</ul>
+</li>
+<li><strong>Application value</strong>:
+<ul>
+<li><strong>Automatic backup</strong>: Automated backup strategies without manual intervention</li>
+<li><strong>Storage optimization</strong>: Incremental backup significantly saves storage space</li>
+<li><strong>Data protection</strong>: Provides multi-layered data protection and disaster recovery capabilities</li>
+</ul>
+</li>
+</ul>
+<h4 id="quality-improvements">Quality Improvements</h4>
+<ul>
+<li><strong>Crash alerts</strong>: Ceph daemon crashes trigger simple health alerts and can trigger email sending</li>
+<li><strong>Device health</strong>: New &ldquo;device&rdquo; telemetry channel improves device failure prediction models</li>
+<li><strong>Telemetry</strong>: Users can opt into expanded telemetry content</li>
+</ul>
+<h4 id="performance-optimization-1">Performance Optimization</h4>
+<ul>
+<li><strong>Recovery optimization</strong>: Recovery tail latency has been improved, can synchronize objects during recovery by copying only object deltas</li>
+<li><strong>BlueStore improvements</strong>:
+<ul>
+<li>Improved per-pool calculation of &ldquo;omap&rdquo; (key/value) object data</li>
+<li>Improved cache memory management</li>
+<li>Reduced allocation unit size for SSD devices</li>
+</ul>
+</li>
+</ul>
+<h4 id="usability-enhancement">Usability Enhancement</h4>
+<ul>
+<li><strong>⭐ cephadm orchestrator</strong>:
+<ul>
+<li><strong>🎯 First introduction</strong>: Octopus version first introduces cephadm orchestrator, marking a revolutionary change in Ceph operations management</li>
+<li><strong>Management revolution</strong>: Transition from traditional package-based management to modern containerized orchestration management, greatly reducing deployment and operations complexity</li>
+<li><strong>Containerized deployment</strong>: All Ceph components run in containers, providing better isolation and maintainability</li>
+<li><strong>Automated management</strong>: Automatically handles service discovery, health checks, failure recovery, and other operational tasks</li>
+<li><strong>Maturity</strong>: Technical preview in Octopus, reaches production-ready maturity after Pacific version</li>
+</ul>
+</li>
+<li><strong>Orchestrator API</strong>:
+<ul>
+<li><strong>Unified interface</strong>: Provides unified API interface for interacting with cephadm orchestrator</li>
+<li><strong>Declarative management</strong>: Supports declarative service configuration, simplifying cluster management</li>
+</ul>
+</li>
+<li><strong>SSH management</strong>:
+<ul>
+<li><strong>Agentless architecture</strong>: Manages each node through SSH connections without installing additional agents on each node</li>
+<li><strong>Secure connections</strong>: Uses SSH key authentication to ensure management connection security</li>
+<li><strong>Command execution</strong>: Supports executing management commands on remote nodes for centralized management</li>
+</ul>
+</li>
+<li><strong>Dashboard integration</strong>:
+<ul>
+<li><strong>Visual management</strong>: Ceph Dashboard deeply integrated with orchestrator, providing graphical cluster management interface</li>
+<li><strong>Service management</strong>: Can directly manage service start/stop, upgrades through web interface</li>
+</ul>
+</li>
+<li><strong>Health alerts</strong>:
+<ul>
+<li><strong>Alert management</strong>: Supports temporarily or permanently silencing specific health alerts</li>
+<li><strong>Noise reduction</strong>: Avoids non-critical alert interference, focuses on truly important issues</li>
+</ul>
+</li>
+<li><strong>Historical significance</strong>: cephadm marks Ceph&rsquo;s major transition from traditional package-based deployment to modern containerized orchestration management, greatly reducing Ceph cluster deployment, upgrade, and daily operations complexity</li>
+</ul>
+<h4 id="ecosystem-enhancement">Ecosystem Enhancement</h4>
+<ul>
+<li><strong>ceph-csi</strong>: Now supports RWO and RWX through RBD and CephFS</li>
+<li><strong>Rook integration</strong>: Integration with Rook provides turnkey ceph-csi by default</li>
+<li><strong>Feature support</strong>: Includes RBD mirroring, RGW multi-site, and will eventually include CephFS mirroring</li>
+</ul>
+<h3 id="important-fixes-and-security-updates">Important Fixes and Security Updates</h3>
+<h4 id="security-vulnerability-fixes">Security Vulnerability Fixes</h4>
+<ul>
+<li><strong>CVE-2022-0670</strong>: Fixed path restriction bypass vulnerability in OpenStack Manila Native-CephFS</li>
+<li><strong>Impact scope</strong>: Only affects clusters using OpenStack Manila to provide native CephFS access</li>
+<li><strong>Fix content</strong>: Fixed bug in Ceph Manager &ldquo;volumes&rdquo; plugin responsible for managing CephFS subvolumes</li>
+</ul>
+<h4 id="critical-bug-fixes">Critical Bug Fixes</h4>
+<ul>
+<li><strong>SnapMapper key format</strong>: Fixed SnapMapper key format conversion bug introduced in v15.2.x</li>
+<li><strong>RBD performance</strong>: Fixed functionality of <code>rbd perf image iostat</code> and <code>rbd perf image iotop</code> commands</li>
+<li><strong>Stability</strong>: Multiple stability and performance improvements</li>
+</ul>
+<hr>
+<h2 id="pacific">Pacific</h2>
+<h3 id="release-status-2">Release Status</h3>
+<ul>
+<li><strong>Current version</strong>: v16.2.15</li>
+<li><strong>Version series</strong>: v16.2.0 to v16.2.15</li>
+<li><strong>Lifecycle</strong>: v16.2.15 is the last version of the Pacific series, archived</li>
+</ul>
+<h3 id="main-highlights-2">Main Highlights</h3>
+<h4 id="management-simplification">Management Simplification</h4>
+<ul>
+<li><strong>Configuration anomaly detection</strong>: New capability to detect configuration anomalies, helping identify and resolve configuration issues</li>
+<li><strong>Cluster upgrade monitoring</strong>: New health check <code>DAEMON_OLD_VERSION</code> warns when different versions of Ceph are running on daemons</li>
+<li><strong>Progress module</strong>: MGR progress module can now be toggled with <code>ceph progress on</code> and <code>ceph progress off</code> commands</li>
+</ul>
+<h4 id="storage-backend-optimization">Storage Backend Optimization</h4>
+<ul>
+<li><strong>ceph-volume rewrite</strong>: <code>lvm batch</code> subcommand underwent major rewrite, fixing many bugs and improving usability</li>
+<li><strong>OSD improvements</strong>:
+<ul>
+<li>New <code>osd_compact_on_start</code> configuration option triggers OSD compaction on startup (compressing storage engine database to reduce space usage)</li>
+<li>Improved OSD fast shutdown mechanism, optimized based on Nautilus introduced <code>osd_fast_shutdown_notify_mon</code> feature, improving monitor communication efficiency</li>
+</ul>
+</li>
+<li><strong>BlueStore enhancements</strong>: Multiple BlueStore improvements and performance optimizations</li>
+</ul>
+<h4 id="scheduler-improvements">Scheduler Improvements</h4>
+<ul>
+<li><strong>mclock scheduler</strong>:
+<ul>
+<li><strong>QoS scheduling</strong>: Refined mclock scheduler based on mClock algorithm for precise service quality control</li>
+<li><strong>Working principle</strong>: Precisely controls resource allocation for different operation types through reservation, limitation, and weight parameters</li>
+<li><strong>Built-in profiles</strong>: Provides three preset configurations, users can choose based on business needs:
+<ul>
+<li><strong>high_client_ops</strong> (default): Allocates more OSD bandwidth to external client operations, prioritizing business I/O performance</li>
+<li><strong>high_recovery_ops</strong>: Optimizes recovery operations, accelerating data rebuild and repair, suitable for maintenance windows</li>
+<li><strong>balanced</strong>: Balanced configuration, maintaining equilibrium between client I/O and background operations</li>
+</ul>
+</li>
+<li><strong>Technical advantages</strong>: Compared to traditional WRR (Weighted Round Robin) scheduler, mclock provides more precise performance isolation and QoS guarantees</li>
+</ul>
+</li>
+<li><strong>Load balancer</strong>:
+<ul>
+<li><strong>upmap mode</strong>: Now enabled by default in upmap mode, providing more precise PG mapping control</li>
+<li><strong>Client requirements</strong>: Requires setting <code>require_min_compat_client luminous</code> to ensure client supports upmap functionality</li>
+<li><strong>Advantages</strong>: upmap mode provides more precise data distribution balancing than traditional CRUSH reweight approach</li>
+</ul>
+</li>
+</ul>
+<h4 id="security-improvements">Security Improvements</h4>
+<ul>
+<li><strong>Authentication protocol</strong>: cephx authentication protocol version 2 (<code>CEPHX_V2</code>) now required by default</li>
+<li><strong>Replay attack protection</strong>: Added replay attack protection for authorizer, enhancing msgr v1 message signing</li>
+</ul>
+<h4 id="rbd-improvements">RBD Improvements</h4>
+<ul>
+<li><strong>Fast diff mode</strong>: Significantly improved performance in fast diff mode when comparing differences against time point</li>
+<li><strong>Cache optimization</strong>: Shared read-only parent cache configuration option <code>immutable_object_cache_watermark</code> updated to 0.9</li>
+<li><strong>Clone functionality</strong>: Supports cloning from non-user type snapshots</li>
+<li><strong>rbd-wnbd driver</strong>: Gained ability for multiplexed image mapping, improving resource usage efficiency in Windows environments</li>
+</ul>
+<h4 id="rgw-improvements">RGW Improvements</h4>
+<ul>
+<li><strong>Persistent Bucket notifications</strong>: Deep integration of persistent Bucket notifications, providing more reliable notification mechanisms</li>
+<li><strong>AWS compatible API</strong>: Added &ldquo;GetTopicAttributes&rdquo; API replacing existing &ldquo;GetTopic&rdquo; API</li>
+<li><strong>Log management</strong>: <code>bilog-trim</code>, <code>datalog-trim</code>, <code>sync-error-trim</code> now only accept single markers for marker ranges</li>
+</ul>
+<h4 id="cephfs-improvements">CephFS Improvements</h4>
+<ul>
+<li><strong>🎯 Mirroring feature improvement</strong>: CephFS mirroring functionality enhanced, evolving from Nautilus basic support to production-ready solution
+<ul>
+<li><strong>Improved sync mechanism</strong>: Optimized incremental sync algorithm, greatly reducing network bandwidth usage</li>
+<li><strong>Production ready</strong>: Compared to Octopus technical preview version, Pacific version reaches production environment deployment standards</li>
+</ul>
+</li>
+<li><strong>Session management</strong>: MDS evicts clients that don&rsquo;t advance request tid, preventing massive session metadata accumulation</li>
+<li><strong>Disaster recovery solution optimization</strong>:
+<ul>
+<li><strong>Timed snapshots</strong>: Incremental update mechanism, avoiding full backup overhead</li>
+<li><strong>Smart sync</strong>: <code>cephfs-mirror</code> daemon relies on readdir diff to identify changes in directory tree</li>
+<li><strong>Incremental sync</strong>: Diff applied to directories in remote filesystem, only syncing files changed between two snapshots</li>
+<li><strong>Operational value</strong>: Provides reliable offsite disaster recovery solution for enterprise-grade CephFS</li>
+</ul>
+</li>
+</ul>
+<h3 id="important-changes">Important Changes</h3>
+<h4 id="terminology-changes">Terminology Changes</h4>
+<ul>
+<li><strong>blacklist → blocklist</strong>: All related commands and configuration options have been updated</li>
+<li><strong>Command changes</strong>:
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Old commands → New commands</span>
+</span></span><span class="line"><span class="cl">ceph osd blacklist → ceph osd blocklist
+</span></span><span class="line"><span class="cl">ceph &lt;tell<span class="p">|</span>daemon&gt; osd.&lt;NNN&gt; dump_blacklist → ceph &lt;tell<span class="p">|</span>daemon&gt; osd.&lt;NNN&gt; dump_blocklist
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h4 id="configuration-changes">Configuration Changes</h4>
+<ul>
+<li><strong>scrub time configuration</strong>:
+<ul>
+<li><code>osd_scrub_begin_hour</code> and <code>osd_scrub_end_hour</code> valid values are 0-23</li>
+<li><code>osd_scrub_begin_week_day</code> and <code>osd_scrub_end_week_day</code> valid values are 0-6</li>
+</ul>
+</li>
+<li><strong>Monitor configuration</strong>: New <code>mon_allow_pool_size_one</code> option, disabled by default</li>
+<li><strong>Pool size setting</strong>: Setting pool size to 1 requires <code>--yes-i-really-mean-it</code> flag</li>
+</ul>
+<h4 id="api-changes">API Changes</h4>
+<ul>
+<li><strong>librados API</strong>:
+<ul>
+<li><code>rados_blacklist_add</code> → <code>rados_blocklist_add</code></li>
+<li><code>get_pool_is_selfmanaged_snaps_mode</code> deprecated, recommend using <code>pool_is_in_selfmanaged_snaps_mode</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="important-notes">Important Notes</h3>
+<ul>
+<li><strong>Upgrade path</strong>: Must first upgrade to Octopus (15.2.z) before upgrading to Pacific</li>
+<li><strong>Client compatibility</strong>: New clusters default to support only Luminous and newer clients</li>
+<li><strong>Authentication</strong>: Requires cephx v2 protocol by default, old clients need configuration options</li>
+<li><strong>NFS Ganesha</strong>: Need to delete existing nfs-ganesha clusters before upgrade, redeploy after upgrade</li>
+<li><strong>Terminology changes</strong>: All blacklist related terminology changed to blocklist</li>
+<li><strong>Security upgrade</strong>: Recommend upgrading as soon as possible for latest security fixes</li>
+</ul>
+<hr>
+<h2 id="quincy">Quincy</h2>
+<h3 id="release-status-3">Release Status</h3>
+<ul>
+<li><strong>Current version</strong>: v17.2.9</li>
+<li><strong>Version series</strong>: v17.2.0 to v17.2.9</li>
+<li><strong>Lifecycle</strong>: Reached end of life (EOL), v17.2.9 is the last fix version, archived</li>
+</ul>
+<h3 id="main-highlights-3">Main Highlights</h3>
+<h4 id="dashboard">Dashboard</h4>
+<ul>
+<li><strong>Interface improvements</strong>: Dashboard interface improvements providing better user experience</li>
+<li><strong>Feature enhancements</strong>: More management functionality and monitoring capabilities</li>
+</ul>
+<h4 id="rados">RADOS</h4>
+<ul>
+<li><strong>🎯 mclock scheduler maturity</strong>: mclock scheduler becomes default option, compared to Pacific version introduction, Quincy version achieves full production environment deployment
+<ul>
+<li><strong>Service quality guarantee</strong>: Provides service quality priority for Ceph clients relative to background operations (such as recovery, backfill)</li>
+<li><strong>Smart scheduling</strong>: Dynamically allocates resources based on I/O type and priority, ensuring critical business isn&rsquo;t affected by background tasks</li>
+<li><strong>Configuration simplification</strong>: Provides preset configuration templates, reducing tuning complexity</li>
+</ul>
+</li>
+<li><strong>Performance optimization</strong>: Various performance improvements enhancing overall cluster performance</li>
+<li><strong>API changes</strong>: <code>get_pool_is_selfmanaged_snaps_mode</code> C++ API deprecated, recommend using safer <code>pool_is_in_selfmanaged_snaps_mode</code> replacement</li>
+</ul>
+<h4 id="rbd">RBD</h4>
+<ul>
+<li><strong>Fast diff mode</strong>: Significantly improved performance in fast diff mode when comparing differences against time point</li>
+<li><strong>Command enhancements</strong>:
+<ul>
+<li><code>rbd children</code> command added <code>--image-id</code> option, can be used for images in trash</li>
+<li>Python bindings expose <code>RBD_IMAGE_OPTION_CLONE_FORMAT</code> option</li>
+<li>Python bindings expose <code>RBD_IMAGE_OPTION_FLATTEN</code> option</li>
+</ul>
+</li>
+<li><strong>Performance optimization</strong>: Significant performance improvements for QEMU live disk sync and backup use cases</li>
+</ul>
+<h4 id="cephfs">CephFS</h4>
+<ul>
+<li><strong>Filesystem ID</strong>: Can specify ID (&ldquo;fscid&rdquo;) when creating filesystem, very useful in certain recovery scenarios</li>
+<li><strong>Recovery scenarios</strong>: For example, monitor database loss and rebuild, recovered filesystem can have same ID as before</li>
+<li><strong>Filesystem renaming</strong>: Supports renaming filesystem using <code>fs rename</code> command</li>
+<li><strong>MDS upgrade</strong>: MDS upgrade no longer requires stopping all standby MDS daemons before upgrading filesystem&rsquo;s only active MDS</li>
+<li><strong>Failure handling</strong>: When standby replay daemon cannot replay log, now marks rank as &ldquo;damaged&rdquo;</li>
+</ul>
+<h4 id="other-features">Other Features</h4>
+<ul>
+<li><strong>SQLite support</strong>: New library libcephsqlite now available</li>
+<li><strong>Virtual file system</strong>: Provides SQLite virtual file system (VFS) on top of RADOS</li>
+<li><strong>Data striping</strong>: Database and logs striped across multiple objects through RADOS</li>
+<li><strong>Scalability</strong>: Almost infinitely scalable, throughput only limited by SQLite client</li>
+<li><strong>LevelDB migration</strong>: Requires migration from LevelDB to RocksDB (if applicable)</li>
+</ul>
+<hr>
+<h2 id="reef">Reef</h2>
+<p>Reef is the 18th stable release of Ceph, named after the reef squid (Sepioteuthis).</p>
+<h3 id="release-status-4">Release Status</h3>
+<ul>
+<li><strong>Current version</strong>: v18.2.7 (recommended for all users to upgrade)</li>
+<li><strong>Version series</strong>: v18.2.0 to v18.2.7</li>
+<li><strong>Lifecycle</strong>: Currently active stable version</li>
+<li><strong>⚠️ Critical fix</strong>: v18.2.7 fixes serious BlueStore regression issues in versions 18.2.5 and 18.2.6
+<ul>
+<li><strong>Issue description</strong>: BlueStore experienced data integrity issues when handling large objects (&gt;4MB), potentially causing object read errors or corruption</li>
+<li><strong>Impact scope</strong>: Mainly affects RGW large file uploads, RBD large block writes, and other scenarios, may cause silent data corruption</li>
+<li><strong>Regression cause</strong>: BlueStore compression optimization code introduced in v18.2.5 had boundary condition handling errors</li>
+<li><strong>Fix measures</strong>: Rolled back problematic compression optimizations and added additional data integrity checks</li>
+<li><strong>Upgrade advice</strong>: If using v18.2.5 or v18.2.6, strongly recommend immediate upgrade to v18.2.7</li>
+</ul>
+</li>
+</ul>
+<h3 id="main-highlights-4">Main Highlights</h3>
+<h4 id="major-features">Major Features</h4>
+<ul>
+<li><strong>FileStore deprecation</strong>: FileStore no longer supported in Reef, users need to migrate to BlueStore</li>
+<li><strong>RocksDB upgrade</strong>: RocksDB upgraded to version 7.9.2 with significant performance improvements</li>
+<li><strong>Command updates</strong>: <code>perf dump</code> and <code>perf schema</code> commands deprecated, replaced by new <code>counter dump</code> and <code>counter schema</code> commands</li>
+<li><strong>Cache tiering deprecation</strong>: Cache tiering now deprecated</li>
+<li><strong>Read balancer</strong>: New &ldquo;read balancer&rdquo; feature now available, allows users to balance primary PGs for each pool across cluster</li>
+<li><strong>New commands</strong>: Added <code>ceph osd rm-pg-upmap-primary-all</code> command, allows users to clear all pg-upmap-primary mappings in osdmap</li>
+</ul>
+<h4 id="rgw">RGW</h4>
+<ul>
+<li><strong>Bucket resharding</strong>: Multi-site configurations now support bucket resharding</li>
+<li><strong>Multi-site replication</strong>: Significant improvements in stability and consistency of multi-site replication</li>
+<li><strong>Encryption compression</strong>: Now supports compression of objects uploaded with server-side encryption</li>
+<li><strong>Security considerations</strong>: Before enabling <code>compress-encrypted</code> zone group feature, all zones must be upgraded to Reef</li>
+</ul>
+<h4 id="dashboard-1">Dashboard</h4>
+<ul>
+<li><strong>New pages</strong>: New Dashboard page with improved layout</li>
+<li><strong>Card display</strong>: Active alerts and some important charts now displayed within cards</li>
+</ul>
+<h4 id="rbd-1">RBD</h4>
+<ul>
+<li><strong>Layered encryption</strong>: Added support for layered client encryption</li>
+<li><strong>NBD mapping</strong>: <code>try-netlink</code> mapping option now becomes default and deprecated, if kernel doesn&rsquo;t support NBD netlink interface, will retry using legacy ioctl interface</li>
+</ul>
+<h4 id="telemetry">Telemetry</h4>
+<ul>
+<li><strong>Leaderboard</strong>: Users can now opt into leaderboard in telemetry public dashboard (<a href="https://telemetry-public.ceph.com/">public dashboard</a>)</li>
+<li><strong>Cluster description</strong>: Users can provide cluster description that will be publicly displayed in leaderboard</li>
+<li><strong>Related commands</strong>:
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View telemetry preview</span>
+</span></span><span class="line"><span class="cl">ceph telemetry preview
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Enable telemetry</span>
+</span></span><span class="line"><span class="cl">ceph telemetry on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Enable leaderboard</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/telemetry/leaderboard <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Add leaderboard description</span>
+</span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/telemetry/leaderboard_description <span class="s1">&#39;Cluster description&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<hr>
+<h2 id="squid">Squid</h2>
+<p>Squid is the 19th stable release of Ceph and is the currently active stable version.</p>
+<h3 id="release-status-5">Release Status</h3>
+<ul>
+<li><strong>Current version</strong>: v19.2.2 (recommended for all users to upgrade)</li>
+<li><strong>Version series</strong>: v19.2.0 to v19.2.x</li>
+<li><strong>Lifecycle</strong>: Currently active stable version</li>
+<li><strong>Important fixes</strong>: v19.2.2 fixes critical RGW CopyObject data loss bug</li>
+<li><strong>Technical preview</strong>: Crimson/Seastore technical preview version, supports RBD workloads running on replicated pools</li>
+</ul>
+<h3 id="main-highlights-5">Main Highlights</h3>
+<h4 id="dashboard-interface-improvements">Dashboard Interface Improvements</h4>
+<ul>
+<li><strong>Redesigned navigation layout</strong>: Navigation layout reorganized to improve usability and access to key functionality</li>
+<li><strong>CephFS snapshot and clone management</strong>: Supports managing CephFS snapshots and clones, as well as snapshot scheduling management</li>
+<li><strong>Authorization management</strong>: Capability to manage authorizations for CephFS resources</li>
+<li><strong>Mount helper</strong>: Provides helper tools for CephFS volume mounting</li>
+</ul>
+<h4 id="core-feature-improvements">Core Feature Improvements</h4>
+<ul>
+<li><strong>CephFS subvolume labeling</strong>: <code>fs subvolume create</code> command now supports adding labels to subvolumes through <code>--earmark</code> option</li>
+<li><strong>Extended attributes</strong>: Extended removexattr support for CephFS virtual extended attributes</li>
+<li><strong>User accounts</strong>: RGW user account functionality unlocks multiple AWS-compatible IAM APIs for self-service management of users, keys, groups, roles, policies, etc.</li>
+</ul>
+<h4 id="rados-improvements">RADOS Improvements</h4>
+<ul>
+<li><strong>Balancer performance</strong>: Fixed performance bottleneck in balancer mgr module</li>
+<li><strong>HDD configuration optimization</strong>: Based on large-scale testing, optimized default sharding configuration for HDD OSDs:
+<ul>
+<li><code>osd_op_num_shards_hdd = 1</code> (was 5)</li>
+<li><code>osd_op_num_threads_per_shard_hdd = 5</code> (was 1)</li>
+</ul>
+</li>
+<li><strong>BlueStore optimization</strong>: BlueStore optimized for snapshot-intensive workloads</li>
+<li><strong>RocksDB compression</strong>: BlueStore RocksDB LZ4 compression now enabled by default, improving average performance and &ldquo;fast device&rdquo; space usage</li>
+<li><strong>CRUSH rules</strong>: New CRUSH rule type MSR (Multi-Step Retry) allows more flexible EC configurations</li>
+</ul>
+<h4 id="manager-module-improvements">Manager Module Improvements</h4>
+<ul>
+<li><strong>REST module</strong>: REST manager module now trims requests based on <code>max_requests</code> option to prevent out-of-memory (OOM) issues</li>
+</ul>
+<h4 id="rgw-enhancements">RGW Enhancements</h4>
+<ul>
+<li><strong>Topic ownership</strong>: SNS topics now have ownership concept, by default only owner can read/write</li>
+<li><strong>Topic policies</strong>: Supports topic policy documents to grant permissions to other users</li>
+<li><strong>Persistent notifications</strong>: Fixed topic parameter modification issues in persistent notifications</li>
+<li><strong>User ID</strong>: In bucket notifications, <code>principalId</code> within <code>ownerIdentity</code> now contains complete user ID</li>
+<li><strong>Versioned buckets</strong>: New tools to identify and fix versioned bucket index issues</li>
+</ul>
+<h4 id="telemetry-improvements">Telemetry Improvements</h4>
+<ul>
+<li><strong>Basic channel</strong>: Telemetry <code>basic</code> channel now captures pool flags, helping understand feature adoption</li>
+<li><strong>Telemetry commands</strong>: Use <code>ceph telemetry on</code> to opt into telemetry</li>
+</ul>
+<h3 id="important-fixes">Important Fixes</h3>
+<h4 id="data-safety-fixes">Data Safety Fixes</h4>
+<ul>
+<li><strong>RGW data loss</strong>: Fixed critical CopyObject data loss bug when copying object to itself (fixed in v19.2.2)</li>
+<li><strong>Garbage collection</strong>: Resolved issue where tail objects were incorrectly marked for garbage collection</li>
+<li><strong>Recovery tools</strong>: Provided experimental <code>rgw-gap-list</code> tool to identify corrupted objects</li>
+<li><strong>Important security fixes</strong>: Fixed critical security issues that could cause data loss</li>
+</ul>
+<h4 id="performance-and-stability">Performance and Stability</h4>
+<ul>
+<li><strong>Kernel devices</strong>: Series of optimizations for kernel device discard</li>
+<li><strong>Messaging</strong>: Fixed connection count issues in AsyncMessenger</li>
+<li><strong>BlueStore</strong>: Multiple BlueStore improvements and bug fixes</li>
+<li><strong>Balancer performance</strong>: Fixed performance bottleneck in balancer mgr module</li>
+<li><strong>HDD configuration optimization</strong>: Optimized default sharding configuration for HDD OSDs to improve mClock scheduling performance</li>
+</ul>
+<hr>
+<h2 id="references">References</h2>
+<h3 id="official-documentation">Official Documentation</h3>
+<ul>
+<li><a href="https://docs.ceph.com/">Ceph Official Documentation</a></li>
+<li><a href="https://docs.ceph.com/en/latest/releases/">Ceph Release Notes</a></li>
+<li><a href="https://docs.ceph.com/en/latest/dev/">Ceph Developer Documentation</a></li>
+</ul>
+<h3 id="technical-articles">Technical Articles</h3>
+<ul>
+<li><a href="https://ceph.io/en/news/blog/2018/new-mimic-centralized-configuration-management/">New in Mimic: Centralized Configuration Management</a></li>
+<li><a href="https://ceph.io/en/news/blog/2019/new-in-nautilus-crash-dump-telemetry/">New in Nautilus: Crash Dump Telemetry</a></li>
+<li><a href="https://ceph.io/en/news/blog/2020/new-in-octopus-dashboard-features/">New in Octopus: Dashboard Features</a></li>
+</ul>
+<h3 id="technical-talks">Technical Talks</h3>
+<ul>
+<li>Ceph Tech Talk - What&rsquo;s New In Octopus</li>
+<li>Ceph Developer Summit Quincy: RADOS Follow-up</li>
+<li>Diving Deep with Squid</li>
+</ul>
+<h2 id="special-note">Special Note</h2>
+<p>This document is for reference only. If there are errors, please correct them.</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">ceph-deep-dive</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        0001-01-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/beamer/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">使用vim&#43;vimtex&#43;latex(beamer) 制作PPT</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/">
+            <span class="next-text nav-default"></span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="YLShiJustFly/YLShiJustFly.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:youseeicanfly@126.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.zhihu.com/people/tan-xi-liu-nian" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://YLShiJustFly.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2022 - 
+    2025<span class="heart"><i class="iconfont icon-heart"></i></span><span>ceph-deep-dive</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.191509a5c8442abdb6eb5020a332fd59bdd83a7e78a2d2241108df9113504292.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
