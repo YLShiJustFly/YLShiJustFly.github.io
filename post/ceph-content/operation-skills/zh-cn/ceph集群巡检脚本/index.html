@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title> - Friends&#39; Life and Work Space</title>
+  <title>ceph集群巡检脚本 - Friends&#39; Life and Work Space</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -39,19 +39,19 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="" />
+<meta property="og:title" content="ceph集群巡检脚本" />
 <meta property="og:description" content="🛠️ 脚本功能特点 全面的检查项目 ✅ 集群连接状态 - 验证Ceph集群可达性 ✅ 健康状态分析 - HEALTH_OK/WARN/ERR详细分析 ✅ Monit" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/operation-skills/zh-cn/ceph%E9%9B%86%E7%BE%A4%E5%B7%A1%E6%A3%80%E8%84%9A%E6%9C%AC/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2025-07-17T06:38:27+08:00" />
+<meta property="article:modified_time" content="2025-07-17T06:38:27+08:00" />
 
-
-
-<meta itemprop="name" content="">
-<meta itemprop="description" content="🛠️ 脚本功能特点 全面的检查项目 ✅ 集群连接状态 - 验证Ceph集群可达性 ✅ 健康状态分析 - HEALTH_OK/WARN/ERR详细分析 ✅ Monit">
-
+<meta itemprop="name" content="ceph集群巡检脚本">
+<meta itemprop="description" content="🛠️ 脚本功能特点 全面的检查项目 ✅ 集群连接状态 - 验证Ceph集群可达性 ✅ 健康状态分析 - HEALTH_OK/WARN/ERR详细分析 ✅ Monit"><meta itemprop="datePublished" content="2025-07-17T06:38:27+08:00" />
+<meta itemprop="dateModified" content="2025-07-17T06:38:27+08:00" />
 <meta itemprop="wordCount" content="4116">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ceph集群巡检脚本"/>
 <meta name="twitter:description" content="🛠️ 脚本功能特点 全面的检查项目 ✅ 集群连接状态 - 验证Ceph集群可达性 ✅ 健康状态分析 - HEALTH_OK/WARN/ERR详细分析 ✅ Monit"/>
 
 <!--[if lte IE 9]>
@@ -129,11 +129,13 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title"></h1>
+      <h1 class="post-title">ceph集群巡检脚本</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 0001-01-01 </span>
-        
+        <span class="post-time"> 2025-07-17 </span>
+        <div class="post-category">
+            <a href="/categories/ceph/"> ceph </a>
+            </div>
           <span class="more-meta"> 4116 words </span>
           <span class="more-meta"> 9 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
@@ -806,13 +808,13 @@
 </span></span><span class="line"><span class="cl"><span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&#34;/var/log/ceph_health_check.log&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 颜色和图标定义</span>
-</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">RED</span><span class="o">=</span><span class="s1">&#39;\033[0;31m&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">GREEN</span><span class="o">=</span><span class="s1">&#39;\033[0;32m&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">YELLOW</span><span class="o">=</span><span class="s1">&#39;\033[1;33m&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">BLUE</span><span class="o">=</span><span class="s1">&#39;\033[0;34m&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">CYAN</span><span class="o">=</span><span class="s1">&#39;\033[0;36m&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">PURPLE</span><span class="o">=</span><span class="s1">&#39;\033[0;35m&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;\033[0m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">RED</span><span class="o">=</span><span class="s1">&#39;[0;31m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">GREEN</span><span class="o">=</span><span class="s1">&#39;[0;32m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">YELLOW</span><span class="o">=</span><span class="s1">&#39;[1;33m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">BLUE</span><span class="o">=</span><span class="s1">&#39;[0;34m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">CYAN</span><span class="o">=</span><span class="s1">&#39;[0;36m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">PURPLE</span><span class="o">=</span><span class="s1">&#39;[0;35m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;[0m&#39;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">CHECK_MARK</span><span class="o">=</span><span class="s2">&#34;✅&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">WARNING_SIGN</span><span class="o">=</span><span class="s2">&#34;⚠️&#34;</span>
@@ -1344,7 +1346,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        0001-01-01
+        2025-07-17
         
     </span>
   </p>
@@ -1352,15 +1354,17 @@
   
 </div>
 <footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/ceph/">ceph</a>
+          </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/ceph-content/operation-skills/en/practical-guide-a-summary-of-commonly-used-tools-in-ceph/">
+        <a class="prev" href="/post/ceph-content/architecture-analysis/en/cephfs-mds-system-architecture-overview/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default"></span>
+            <span class="prev-text nav-default">CephFS-MDS System Architecture Overview</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/operation-skills/zh-cn/%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97ceph%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/">
-            <span class="next-text nav-default"></span>
+        <a class="next" href="/post/ceph-content/contributing/">
+            <span class="next-text nav-default">CONTRIBUTING</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

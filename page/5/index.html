@@ -126,111 +126,112 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/code-analysis/zh-cn/ceph-mgr-balancer%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/"></a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/macos/">Macos下常用效率工具</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-        <span class="more-meta"> 2169 words </span>
-        <span class="more-meta"> 5 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      随着OSD的更替和集群的扩缩容，PG在OSD的分布会逐渐变的不均衡，导致各OSD的实际容量使用率出现差异，集群整体使用率降低。ceph bal
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/code-analysis/zh-cn/ceph-mgr-balancer%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/contributing/"></a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-        <span class="more-meta"> 128 words </span>
-        <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      🤝 Contributing We warmly welcome community contributions! Whether it&rsquo;s:
-📝 Architecture Knowledge: Share your Ceph architecture designs, distributed storage insights, and system design patterns 🔍 Source Code Analysis: Contribute deep-dive analysis of Ceph internals, algorithm implementations, and code walkthroughs 🛠️ Operations Practice: Share your Ceph deployment experiences, maintenance procedures, and production troubleshooting ⚡ Performance Optimization: Contribute tuning guides, benchmark results, and scalability best practices 🐛 Issue Reporting: Found documentation errors or technical issues 💡 Improvement Suggestions: Propose better organization or content ideas 🔧 Tool Contributions: Share Ceph-related monitoring, deployment, or debugging tools you&rsquo;ve developed Contribution Process Fork this repository Create a feature branch: git checkout -b feature/your-feature-name Commit your changes: git commit -am 'Add some feature' Push to the branch: git push origin feature/your-feature-name Submit a Pull Request 
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/contributing/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/distributed-storage/en/ceph-tentacle-erasure-coding-enhancements/"></a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-        <span class="more-meta"> 651 words </span>
-        <span class="more-meta"> 4 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Vision and Objectives Core Goal: Optimize I/O performance for Erasure Coded pools to be similar to Replicated Pools
-Primary Objectives:
-Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with block and file storage Enabling &ldquo;Optimised&rdquo; EC Important Considerations Default State: All optimizations are turned off by default Per-Pool Configuration: Optimizations can be enabled for each pool individually ⚠️ Irreversible Operation: OPTIMIZATIONS CANNOT BE SWITCHED OFF once enabled Version Requirements: All OSDs, MONs, and MGRs must be upgraded to Tentacle or later Backward Compatibility: Compatible with old clients Configuration Methods Enable optimizations for a specific pool 1 ceph osd pool set &lt;pool_name&gt; allow_ec_optimizations true Enable optimizations by default for new pools 1 2 [mon] osd_pool_default_flag_ec_optimizations = true Key Technical Features Previously Implemented Core Features Partial Reads Partial Writes Note: Partial metadata – unwritten shards have no processing Parity Delta Writes Per-IO auto-switch between write methods Larger Default Chunk Size Direct Read Direct Write New Important Features 1.
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/distributed-storage/en/ceph-tentacle-erasure-coding-enhancements/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/distributed-storage/en/daos-file-system-phoenix-rising-after-optanes-end/"></a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-        <span class="more-meta"> 762 words </span>
-        <span class="more-meta"> 4 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it).
-Background In previous articles, I briefly introduced the DAOS distributed storage project.
-However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &ldquo;core hardware support&rdquo;? Where is its future?
-Short-term Impact, but Not the End The discontinuation of Optane did have a significant impact on DAOS, especially in metadata acceleration and persistence.
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/distributed-storage/en/daos-file-system-phoenix-rising-after-optanes-end/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/distributed-storage/zh-cn/ceph-tentacle%E7%89%88%E6%9C%AC%E7%BA%A0%E5%88%A0%E7%A0%81%E5%A2%9E%E5%BC%BA/"></a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-        <span class="more-meta"> 1239 words </span>
+      <span class="post-time"> 2022-03-21 </span>
+      <div class="post-category">
+          <a href="/categories/macos/"> MacOS </a>
+          </div>
+        <span class="more-meta"> 1021 words </span>
         <span class="more-meta"> 3 mins read </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      项目愿景与目标 核心目标：优化纠删码（EC）池的I/O性能，使其接近复制池的性能表现 主要目标： 降低总体拥有成本（TCO） 让纠删码池在块存储和文
+      我在 macOS 下常用到的效率工具。 键盘按键映射 Karabiner Elements&mdash;免费。 作为 mac 下功能最强大的按键映射工具，它支持 simple 模式和 complex 模式，comp
     </div>
     <div class="read-more">
-      <a href="/post/ceph-content/distributed-storage/zh-cn/ceph-tentacle%E7%89%88%E6%9C%AC%E7%BA%A0%E5%88%A0%E7%A0%81%E5%A2%9E%E5%BC%BA/" class="read-more-link">Read more...</a>
+      <a href="/post/macos/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/plantuml/">vim&#43;plantuml-previewer绘制流程图</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-03-10 </span>
+      <div class="post-category">
+          <a href="/categories/neovim/"> neovim </a>
+          </div>
+        <span class="more-meta"> 1144 words </span>
+        <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      传统画流程图的痛点 我们经常需要画流程图来表示代码逻辑或者基本框架等。但我们在绘画流程图的时候，经常会在对齐连接线这些和流程图表达的意义无关的
+    </div>
+    <div class="read-more">
+      <a href="/post/plantuml/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/beamer/">使用vim&#43;vimtex&#43;latex(beamer) 制作PPT</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-03-10 </span>
+      <div class="post-category">
+          <a href="/categories/neovim/"> neovim </a>
+          </div>
+        <span class="more-meta"> 1937 words </span>
+        <span class="more-meta"> 4 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，
+    </div>
+    <div class="read-more">
+      <a href="/post/beamer/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/"></a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 0001-01-01 </span>
+      
+        <span class="more-meta"> 4210 words </span>
+        <span class="more-meta"> 20 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
+Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus+ Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific+ Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus+ Recommended for new deployments cephadm Container Management Octopus Pacific+ Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific+ Basic support → production ready CephFS Mirroring/DR Octopus Pacific+ Feature introduction → production stable mclock QoS Scheduling Pacific Quincy+ Introduction → default enabled Full Containerized Deployment Pacific Quincy+ Basic support → complete ecosystem Advanced Dashboard Reef Squid+ Refactored → complete FileStore Replacement Any version Reef+ FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices.
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/"></a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 0001-01-01 </span>
+      
+        <span class="more-meta"> 11157 words </span>
+        <span class="more-meta"> 23 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Ceph 各版本特性对比与演进分析 本文档详细分析了Ceph从Nautilus (v14)到最新Squid (v19)版本的主要特性演进，为选择合适版本和
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
