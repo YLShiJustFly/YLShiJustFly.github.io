@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Ceph handle_cap_grant机制解析 ">
 <meta itemprop="description" content="handle_cap_grant handle_cap_grant 是 Ceph 分布式一致性机制的核心实现，负责： 处理 MDS 发送的能力授权/撤销消息 维护客户端缓存一致性 管理文件元数据同步 协调分布式锁机制 完整的流程图 1"><meta itemprop="datePublished" content="2025-05-27T14:17:59+08:00" />
 <meta itemprop="dateModified" content="2025-05-27T14:17:59+08:00" />
-<meta itemprop="wordCount" content="7769">
+<meta itemprop="wordCount" content="7663">
 <meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Ceph handle_cap_grant机制解析 "/>
 <meta name="twitter:description" content="handle_cap_grant handle_cap_grant 是 Ceph 分布式一致性机制的核心实现，负责： 处理 MDS 发送的能力授权/撤销消息 维护客户端缓存一致性 管理文件元数据同步 协调分布式锁机制 完整的流程图 1"/>
@@ -136,7 +136,7 @@
         <div class="post-category">
             <a href="/categories/ceph/"> ceph </a>
             </div>
-          <span class="more-meta"> 7769 words </span>
+          <span class="more-meta"> 7663 words </span>
           <span class="more-meta"> 16 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -709,50 +709,6 @@
 </span><span class="lnt">343
 </span><span class="lnt">344
 </span><span class="lnt">345
-</span><span class="lnt">346
-</span><span class="lnt">347
-</span><span class="lnt">348
-</span><span class="lnt">349
-</span><span class="lnt">350
-</span><span class="lnt">351
-</span><span class="lnt">352
-</span><span class="lnt">353
-</span><span class="lnt">354
-</span><span class="lnt">355
-</span><span class="lnt">356
-</span><span class="lnt">357
-</span><span class="lnt">358
-</span><span class="lnt">359
-</span><span class="lnt">360
-</span><span class="lnt">361
-</span><span class="lnt">362
-</span><span class="lnt">363
-</span><span class="lnt">364
-</span><span class="lnt">365
-</span><span class="lnt">366
-</span><span class="lnt">367
-</span><span class="lnt">368
-</span><span class="lnt">369
-</span><span class="lnt">370
-</span><span class="lnt">371
-</span><span class="lnt">372
-</span><span class="lnt">373
-</span><span class="lnt">374
-</span><span class="lnt">375
-</span><span class="lnt">376
-</span><span class="lnt">377
-</span><span class="lnt">378
-</span><span class="lnt">379
-</span><span class="lnt">380
-</span><span class="lnt">381
-</span><span class="lnt">382
-</span><span class="lnt">383
-</span><span class="lnt">384
-</span><span class="lnt">385
-</span><span class="lnt">386
-</span><span class="lnt">387
-</span><span class="lnt">388
-</span><span class="lnt">389
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/*
@@ -790,7 +746,6 @@
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="k">struct</span> <span class="n">ceph_client</span> <span class="o">*</span><span class="n">cl</span> <span class="o">=</span> <span class="n">ceph_inode_to_client</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="k">struct</span> <span class="n">ceph_inode_info</span> <span class="o">*</span><span class="n">ci</span> <span class="o">=</span> <span class="n">ceph_inode</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	
 </span></span><span class="line"><span class="cl">	<span class="cm">/* 
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 工作原理概述：
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 1. 解析MDS发送的能力授权消息
@@ -804,7 +759,6 @@
 </span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">used</span><span class="p">,</span> <span class="n">wanted</span><span class="p">,</span> <span class="n">dirty</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="n">u64</span> <span class="n">size</span> <span class="o">=</span> <span class="n">le64_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="n">u64</span> <span class="n">max_size</span> <span class="o">=</span> <span class="n">le64_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">max_size</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	
 </span></span><span class="line"><span class="cl">	<span class="cm">/* 状态标志位 - 用于控制后续操作 */</span>
 </span></span><span class="line"><span class="cl">	<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">check_caps</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="kt">bool</span> <span class="n">was_stale</span> <span class="o">=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">cap_gen</span> <span class="o">&lt;</span> <span class="n">atomic_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">session</span><span class="o">-&gt;</span><span class="n">s_cap_gen</span><span class="p">);</span>
@@ -816,21 +770,18 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">bool</span> <span class="n">fill_inline</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>    <span class="c1">// 是否填充内联数据
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">bool</span> <span class="n">revoke_wait</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>    <span class="c1">// 是否等待撤销完成
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">int</span> <span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 加密文件大小处理 - Ceph的加密文件系统支持
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 如果文件是加密的且有内容，使用fscrypt_file_size
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">IS_ENCRYPTED</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">size</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="n">size</span> <span class="o">=</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">fscrypt_file_size</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/* 调试输出 - 记录能力变化 */</span>
 </span></span><span class="line"><span class="cl">	<span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34;%p %llx.%llx cap %p mds%d seq %d %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">inode</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">	      <span class="n">ceph_vinop</span><span class="p">(</span><span class="n">inode</span><span class="p">),</span> <span class="n">cap</span><span class="p">,</span> <span class="n">session</span><span class="o">-&gt;</span><span class="n">s_mds</span><span class="p">,</span> <span class="n">seq</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">	      <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">newcaps</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">	<span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34; size %llu max_size %llu, i_size %llu</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">	      <span class="n">max_size</span><span class="p">,</span> <span class="n">i_size_read</span><span class="p">(</span><span class="n">inode</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 缓存失效处理 - 一致性管理的核心
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 当CACHE能力被撤销且没有脏缓冲区时，尝试失效缓存
@@ -847,11 +798,9 @@
 </span></span><span class="line"><span class="cl">			<span class="p">}</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/* 处理过期能力 - 重置为基本PIN能力 */</span>
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">was_stale</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">implemented</span> <span class="o">=</span> <span class="n">CEPH_CAP_PIN</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 能力迁移处理 - 处理MDS之间的能力转移
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 确保消息顺序的正确性
@@ -862,41 +811,33 @@
 </span></span><span class="line"><span class="cl">		<span class="n">seq</span> <span class="o">=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">seq</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">		<span class="n">newcaps</span> <span class="o">|=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/* 更新能力状态 */</span>
 </span></span><span class="line"><span class="cl">	<span class="n">cap</span><span class="o">-&gt;</span><span class="n">cap_gen</span> <span class="o">=</span> <span class="n">atomic_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">session</span><span class="o">-&gt;</span><span class="n">s_cap_gen</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="n">cap</span><span class="o">-&gt;</span><span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/* 检查能力授权的副作用 */</span>
 </span></span><span class="line"><span class="cl">	<span class="n">__check_cap_issue</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">cap</span><span class="p">,</span> <span class="n">newcaps</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/* 更新inode版本号 - 用于缓存一致性 */</span>
 </span></span><span class="line"><span class="cl">	<span class="n">inode_set_max_iversion_raw</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">change_attr</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 文件属性更新 - AUTH_SHARED能力允许读取基本属性
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">((</span><span class="n">newcaps</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_AUTH_SHARED</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_AUTH_EXCL</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="n">umode_t</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">mode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 检查inode类型是否发生变化 */</span>
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">inode_wrong_type</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">mode</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">			<span class="n">pr_warn_once</span><span class="p">(</span><span class="s">&#34;inode type changed! (ino %llx.%llx is 0%o, mds says 0%o)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">				     <span class="n">ceph_vinop</span><span class="p">(</span><span class="n">inode</span><span class="p">),</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mode</span><span class="p">,</span> <span class="n">mode</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">		<span class="k">else</span>
 </span></span><span class="line"><span class="cl">			<span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mode</span> <span class="o">=</span> <span class="n">mode</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">		
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 更新用户ID和组ID */</span>
 </span></span><span class="line"><span class="cl">		<span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_uid</span> <span class="o">=</span> <span class="n">make_kuid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">init_user_ns</span><span class="p">,</span> <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">uid</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">		<span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_gid</span> <span class="o">=</span> <span class="n">make_kgid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">init_user_ns</span><span class="p">,</span> <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">gid</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">		<span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_btime</span> <span class="o">=</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">btime</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">		
 </span></span><span class="line"><span class="cl">		<span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34;%p %llx.%llx mode 0%o uid.gid %d.%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">inode</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">		      <span class="n">ceph_vinop</span><span class="p">(</span><span class="n">inode</span><span class="p">),</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mode</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">		      <span class="n">from_kuid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">init_user_ns</span><span class="p">,</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_uid</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">		      <span class="n">from_kgid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">init_user_ns</span><span class="p">,</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_gid</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="cp">#if IS_ENABLED(CONFIG_FS_ENCRYPTION)
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>		<span class="cm">/* 加密认证信息检查 - 防止未授权修改 */</span>
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">fscrypt_auth_len</span> <span class="o">!=</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">fscrypt_auth_len</span> <span class="o">||</span>
@@ -908,7 +849,6 @@
 </span></span><span class="line"><span class="cl">				<span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">fscrypt_auth_len</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="cp">#endif
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 链接计数更新 - LINK_SHARED能力允许读取链接信息
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -918,7 +858,6 @@
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_nlink</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">			<span class="n">deleted_inode</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// 标记为已删除
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 扩展属性更新 - 处理xattr数据
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -926,7 +865,6 @@
 </span></span><span class="line"><span class="cl">	    <span class="n">grant</span><span class="o">-&gt;</span><span class="n">xattr_len</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">xattr_len</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">		<span class="n">u64</span> <span class="n">version</span> <span class="o">=</span> <span class="n">le64_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">xattr_version</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">version</span> <span class="o">&gt;</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_xattrs</span><span class="p">.</span><span class="n">version</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34; got new xattrs v%llu on %p %llx.%llx len %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">			      <span class="n">version</span><span class="p">,</span> <span class="n">inode</span><span class="p">,</span> <span class="n">ceph_vinop</span><span class="p">(</span><span class="n">inode</span><span class="p">),</span> <span class="n">len</span><span class="p">);</span>
@@ -938,7 +876,6 @@
 </span></span><span class="line"><span class="cl">			<span class="n">ceph_security_invalidate_secctx</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 时间戳更新 - 当有读权限时更新文件时间
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -951,7 +888,6 @@
 </span></span><span class="line"><span class="cl">				    <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">time_warp_seq</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">				    <span class="o">&amp;</span><span class="n">ctime</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mtime</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">atime</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 目录统计信息更新 - 用于目录的文件和子目录计数
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -959,7 +895,6 @@
 </span></span><span class="line"><span class="cl">		<span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_files</span> <span class="o">=</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">nfiles</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">		<span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_subdirs</span> <span class="o">=</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">nsubdirs</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 文件布局和大小处理 - 核心的文件元数据管理
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -967,26 +902,21 @@
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 文件布局可能已更改 */</span>
 </span></span><span class="line"><span class="cl">		<span class="n">s64</span> <span class="n">old_pool</span> <span class="o">=</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_layout</span><span class="p">.</span><span class="n">pool_id</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">		<span class="k">struct</span> <span class="n">ceph_string</span> <span class="o">*</span><span class="n">old_ns</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">		<span class="n">ceph_file_layout_from_legacy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_layout</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">layout</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">		<span class="n">old_ns</span> <span class="o">=</span> <span class="n">rcu_dereference_protected</span><span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_layout</span><span class="p">.</span><span class="n">pool_ns</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">					<span class="n">lockdep_is_held</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">		<span class="n">rcu_assign_pointer</span><span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_layout</span><span class="p">.</span><span class="n">pool_ns</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">pool_ns</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 如果存储池发生变化，清除权限缓存 */</span>
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_layout</span><span class="p">.</span><span class="n">pool_id</span> <span class="o">!=</span> <span class="n">old_pool</span> <span class="o">||</span>
 </span></span><span class="line"><span class="cl">		    <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">pool_ns</span> <span class="o">!=</span> <span class="n">old_ns</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">			<span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">CEPH_I_POOL_PERM</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">		<span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">pool_ns</span> <span class="o">=</span> <span class="n">old_ns</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 处理文件大小和截断 */</span>
 </span></span><span class="line"><span class="cl">		<span class="n">queue_trunc</span> <span class="o">=</span> <span class="n">ceph_fill_file_size</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">					<span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">truncate_seq</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">					<span class="n">le64_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">truncate_size</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">					<span class="n">size</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 最大文件大小处理 - 仅对授权MDS有效
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -1002,7 +932,6 @@
 </span></span><span class="line"><span class="cl">			<span class="n">wake</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/* 能力状态分析 */</span>
 </span></span><span class="line"><span class="cl">	<span class="n">wanted</span> <span class="o">=</span> <span class="n">__ceph_caps_wanted</span><span class="p">(</span><span class="n">ci</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="n">used</span> <span class="o">=</span> <span class="n">__ceph_caps_used</span><span class="p">(</span><span class="n">ci</span><span class="p">);</span>
@@ -1010,7 +939,6 @@
 </span></span><span class="line"><span class="cl">	<span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34; my wanted = %s, used = %s, dirty %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">	      <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">wanted</span><span class="p">),</span> <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">used</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">	      <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">dirty</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 检查是否需要能力检查 - 处理导入或过期的情况
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -1018,7 +946,6 @@
 </span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="n">wanted</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">mds_wanted</span> <span class="o">|</span> <span class="n">newcaps</span><span class="p">)))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="n">check_caps</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 能力变化处理 - 这是函数的核心逻辑
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 分为三种情况：撤销、无变化、授权
@@ -1026,11 +953,9 @@
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">newcaps</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 能力撤销情况 */</span>
 </span></span><span class="line"><span class="cl">		<span class="kt">int</span> <span class="n">revoking</span> <span class="o">=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">newcaps</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">		<span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34;revocation: %s -&gt; %s (revoking %s)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">		      <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">),</span> <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">newcaps</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">		      <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">revoking</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">		
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">S_ISREG</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mode</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">		    <span class="p">(</span><span class="n">revoking</span> <span class="o">&amp;</span> <span class="n">used</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_FILE_BUFFER</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="n">writeback</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="cm">/* 启动回写，延迟确认 */</span>
@@ -1044,7 +969,6 @@
 </span></span><span class="line"><span class="cl">		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="n">check_caps</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="cm">/* 检查所有能力 */</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="cl">		
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 如果有新能力，尝试唤醒等待者 */</span>
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="o">~</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="n">newcaps</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">			<span class="n">wake</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
@@ -1059,18 +983,15 @@
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 能力授权情况 */</span>
 </span></span><span class="line"><span class="cl">		<span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34;grant: %s -&gt; %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">		      <span class="n">ceph_cap_string</span><span class="p">(</span><span class="n">newcaps</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">		
 </span></span><span class="line"><span class="cl">		<span class="cm">/* 检查是否有其他MDS在撤销新授权的能力 */</span>
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">cap</span> <span class="o">==</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_auth_cap</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">		    <span class="n">__ceph_caps_revoking_other</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">cap</span><span class="p">,</span> <span class="n">newcaps</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">		    <span class="n">check_caps</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">		<span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">=</span> <span class="n">newcaps</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">		<span class="n">cap</span><span class="o">-&gt;</span><span class="n">implemented</span> <span class="o">|=</span> <span class="n">newcaps</span><span class="p">;</span> <span class="cm">/* 仅添加位，避免覆盖待撤销的 */</span>
 </span></span><span class="line"><span class="cl">		<span class="n">wake</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="n">BUG_ON</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">implemented</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 撤销消息的特殊处理 - 强制发送响应给MDS
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -1082,7 +1003,6 @@
 </span></span><span class="line"><span class="cl">		<span class="k">else</span>
 </span></span><span class="line"><span class="cl">			<span class="n">check_caps</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 内联数据处理 - Ceph的小文件优化
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -1093,7 +1013,6 @@
 </span></span><span class="line"><span class="cl">		    <span class="p">(</span><span class="n">newcaps</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">CEPH_CAP_FILE_CACHE</span><span class="o">|</span><span class="n">CEPH_CAP_FILE_LAZYIO</span><span class="p">)))</span>
 </span></span><span class="line"><span class="cl">			<span class="n">fill_inline</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 导入操作的特殊处理 - 处理能力从其他MDS迁移过来的情况
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -1101,30 +1020,25 @@
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_auth_cap</span> <span class="o">==</span> <span class="n">cap</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="p">(</span><span class="n">newcaps</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">				<span class="n">wake</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_requested_max_size</span> <span class="o">&gt;</span> <span class="n">max_size</span> <span class="o">||</span>
 </span></span><span class="line"><span class="cl">			    <span class="o">!</span><span class="p">(</span><span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">wanted</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_ANY_FILE_WR</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">				<span class="cm">/* 如有必要，重新请求max_size */</span>
 </span></span><span class="line"><span class="cl">				<span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_requested_max_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">				<span class="n">wake</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">			<span class="n">ceph_kick_flushing_inode_caps</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">ci</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">		<span class="n">up_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">session</span><span class="o">-&gt;</span><span class="n">s_mdsc</span><span class="o">-&gt;</span><span class="n">snap_rwsem</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 后续操作处理 - 在释放锁后执行的异步操作
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">fill_inline</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="n">ceph_fill_inline_data</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">inline_data</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">				      <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">inline_len</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">queue_trunc</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="n">ceph_queue_vmtruncate</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">writeback</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="n">ceph_queue_writeback</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">queue_invalidate</span><span class="p">)</span>
@@ -1133,9 +1047,7 @@
 </span></span><span class="line"><span class="cl">		<span class="n">invalidate_aliases</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">wake</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="n">wake_up_all</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_cap_wq</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">session</span><span class="o">-&gt;</span><span class="n">s_mutex</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	
 </span></span><span class="line"><span class="cl">	<span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 * 能力检查 - 根据前面的分析结果执行相应的能力检查
 </span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
@@ -1155,13 +1067,11 @@
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 1. 加密文件大小处理
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">IS_ENCRYPTED</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">size</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">size</span> <span class="o">=</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">fscrypt_file_size</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// 2. 调试日志输出
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34;%p %llx.%llx cap %p mds%d seq %d %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="p">...);</span>
 </span></span></code></pre></td></tr></table>
@@ -1181,7 +1091,6 @@
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 关键的缓存失效逻辑
@@ -1189,7 +1098,6 @@
 </span></span><span class="line"><span class="cl">    <span class="p">((</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">newcaps</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_FILE_CACHE</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="n">newcaps</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_FILE_LAZYIO</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">!</span><span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span> <span class="o">||</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wb_ref</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">try_nonblocking_invalidate</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_rdcache_revoking</span> <span class="o">!=</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_rdcache_gen</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">queue_invalidate</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
@@ -1238,12 +1146,10 @@
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">((</span><span class="n">newcaps</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_AUTH_SHARED</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_AUTH_EXCL</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mode</span> <span class="o">=</span> <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">mode</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_uid</span> <span class="o">=</span> <span class="n">make_kuid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">init_user_ns</span><span class="p">,</span> <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">uid</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">    <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_gid</span> <span class="o">=</span> <span class="n">make_kgid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">init_user_ns</span><span class="p">,</span> <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">gid</span><span class="p">));</span>
@@ -1266,19 +1172,15 @@
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">newcaps</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">CEPH_CAP_ANY_FILE_RD</span> <span class="o">|</span> <span class="n">CEPH_CAP_ANY_FILE_WR</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 文件布局可能变化
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ceph_file_layout_from_legacy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_layout</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">layout</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 处理存储池变化
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_layout</span><span class="p">.</span><span class="n">pool_id</span> <span class="o">!=</span> <span class="n">old_pool</span> <span class="o">||</span>
 </span></span><span class="line"><span class="cl">        <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">pool_ns</span> <span class="o">!=</span> <span class="n">old_ns</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">CEPH_I_POOL_PERM</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 文件大小和截断处理
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">queue_trunc</span> <span class="o">=</span> <span class="n">ceph_fill_file_size</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                    <span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">truncate_seq</span><span class="p">),</span>
@@ -1301,19 +1203,15 @@
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">newcaps</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">revoking</span> <span class="o">=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">newcaps</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">S_ISREG</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mode</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">revoking</span> <span class="o">&amp;</span> <span class="n">used</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_FILE_BUFFER</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">writeback</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>   <span class="c1">// 启动回写，延迟确认
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">revoke_wait</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">=</span> <span class="n">newcaps</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">cap</span><span class="o">-&gt;</span><span class="n">implemented</span> <span class="o">|=</span> <span class="n">newcaps</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1322,16 +1220,15 @@
 </div><h4 id="能力授权-grant">能力授权 (Grant)</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">else</span> <span class="p">{</span>
@@ -1339,7 +1236,6 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">cap</span> <span class="o">==</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_auth_cap</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">__ceph_caps_revoking_other</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">cap</span><span class="p">,</span> <span class="n">newcaps</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">        <span class="n">check_caps</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span> <span class="o">=</span> <span class="n">newcaps</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">cap</span><span class="o">-&gt;</span><span class="n">implemented</span> <span class="o">|=</span> <span class="n">newcaps</span><span class="p">;</span> <span class="c1">// 仅添加位，避免覆盖待撤销的
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">wake</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
@@ -1384,22 +1280,18 @@
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">op</span><span class="p">)</span> <span class="o">==</span> <span class="n">CEPH_CAP_OP_IMPORT</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_auth_cap</span> <span class="o">==</span> <span class="n">cap</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">newcaps</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">wake</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        <span class="c1">// 重新请求max_size如果必要
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_requested_max_size</span> <span class="o">&gt;</span> <span class="n">max_size</span> <span class="o">||</span>
 </span></span><span class="line"><span class="cl">            <span class="o">!</span><span class="p">(</span><span class="n">le32_to_cpu</span><span class="p">(</span><span class="n">grant</span><span class="o">-&gt;</span><span class="n">wanted</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_ANY_FILE_WR</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_requested_max_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">            <span class="n">wake</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        <span class="n">ceph_kick_flushing_inode_caps</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">ci</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1422,30 +1314,20 @@
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 释放锁后的异步操作
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">fill_inline</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ceph_fill_inline_data</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">inline_data</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                          <span class="n">extra_info</span><span class="o">-&gt;</span><span class="n">inline_len</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">queue_trunc</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ceph_queue_vmtruncate</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">writeback</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ceph_queue_writeback</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">queue_invalidate</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ceph_queue_invalidate</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">deleted_inode</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">invalidate_aliases</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">wake</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">wake_up_all</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_cap_wq</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
@@ -1469,7 +1351,6 @@
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 增加读缓存生成号
@@ -1478,7 +1359,6 @@
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="n">had</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">CEPH_CAP_FILE_CACHE</span><span class="o">|</span><span class="n">CEPH_CAP_FILE_LAZYIO</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_rdcache_gen</span><span class="o">++</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// 处理FILE_SHARED能力变化
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">((</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_FILE_SHARED</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">had</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_FILE_SHARED</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">issued</span> <span class="o">&amp;</span> <span class="n">CEPH_CAP_FILE_SHARED</span><span class="p">)</span>
@@ -1514,18 +1394,14 @@
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="nf">try_nonblocking_invalidate</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">u32</span> <span class="n">invalidating_gen</span> <span class="o">=</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_rdcache_gen</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ceph_fscache_invalidate</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">invalidate_mapping_pages</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_data</span><span class="p">.</span><span class="n">nrpages</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">invalidating_gen</span> <span class="o">==</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_rdcache_gen</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_rdcache_revoking</span> <span class="o">=</span> <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_rdcache_gen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
@@ -1639,8 +1515,6 @@
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">ceph_fs_client</span> <span class="p">{</span>
@@ -1648,13 +1522,11 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">workqueue_struct</span> <span class="o">*</span><span class="n">cap_wq</span><span class="p">;</span>    <span class="c1">// capability工作队列
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// ...
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">ceph_inode_info</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">work_struct</span> <span class="n">i_work</span><span class="p">;</span>          <span class="c1">// 工作项
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">i_work_mask</span><span class="p">;</span>          <span class="c1">// 工作掩码
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// ...
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// 工作类型定义
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define CEPH_I_WORK_WRITEBACK      0
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_I_WORK_INVALIDATE_PAGES 1  
@@ -1675,13 +1547,11 @@
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 在 handle_cap_grant 中
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">writeback</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ceph_queue_writeback</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// ceph_queue_writeback 的实现
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">ceph_queue_writeback</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -1712,24 +1582,18 @@
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">ceph_inode_work</span><span class="p">(</span><span class="k">struct</span> <span class="n">work_struct</span> <span class="o">*</span><span class="n">work</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">ceph_inode_info</span> <span class="o">*</span><span class="n">ci</span> <span class="o">=</span> <span class="n">container_of</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="k">struct</span> <span class="n">ceph_inode_info</span><span class="p">,</span> <span class="n">i_work</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">netfs</span><span class="p">.</span><span class="n">inode</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">test_and_clear_bit</span><span class="p">(</span><span class="n">CEPH_I_WORK_WRITEBACK</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_work_mask</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34;writeback %p %llx.%llx</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">inode</span><span class="p">,</span> <span class="n">ceph_vinop</span><span class="p">(</span><span class="n">inode</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">        <span class="n">filemap_fdatawrite</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_data</span><span class="p">);</span>  <span class="c1">// 启动页面回写
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 其他工作类型处理...
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">test_and_clear_bit</span><span class="p">(</span><span class="n">CEPH_I_WORK_CHECK_CAPS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_work_mask</span><span class="p">))</span> <span class="p">{</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">test_and_clear_bit</span><span class="p">(</span><span class="n">CEPH_I_WORK_CHECK_CAPS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_work_mask</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ceph_check_caps</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="c1">// 检查能力状态
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1773,13 +1637,6 @@
 </span><span class="lnt">31
 </span><span class="lnt">32
 </span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 在页面回写完成时调用
@@ -1790,15 +1647,12 @@
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">last</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">complete_capsnap</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">wake_ci</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 减少写缓冲区引用计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span> <span class="o">-=</span> <span class="n">nr</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">last</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">// 最后一个写引用
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 处理 capsnap 相关逻辑
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_head_snapc</span> <span class="o">==</span> <span class="n">snapc</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref_head</span> <span class="o">-=</span> <span class="n">nr</span><span class="p">;</span>
@@ -1806,19 +1660,15 @@
 </span></span><span class="line"><span class="cl">            <span class="c1">// 触发快照相关处理
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 减少总的写引用计数  
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wb_ref</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">--</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wb_ref</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">wake_ci</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// 关键：当所有写引用都释放完成时，触发能力检查
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">last</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ceph_check_caps</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="c1">// 这里会检查并通知MDS
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">wake_ci</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">wake_up_all</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_cap_wq</span><span class="p">);</span>  <span class="c1">// 唤醒等待的线程
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
@@ -1898,19 +1748,15 @@
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">ceph_queue_inode_work</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="kt">int</span> <span class="n">work_bit</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">ceph_fs_client</span> <span class="o">*</span><span class="n">fsc</span> <span class="o">=</span> <span class="n">ceph_inode_to_fs_client</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">ceph_inode_info</span> <span class="o">*</span><span class="n">ci</span> <span class="o">=</span> <span class="n">ceph_inode</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">set_bit</span><span class="p">(</span><span class="n">work_bit</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_work_mask</span><span class="p">);</span>  <span class="c1">// 设置工作位
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ihold</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>                         <span class="c1">// 增加引用计数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">queue_work</span><span class="p">(</span><span class="n">fsc</span><span class="o">-&gt;</span><span class="n">inode_wq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_work</span><span class="p">))</span> <span class="p">{</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">queue_work</span><span class="p">(</span><span class="n">fsc</span><span class="o">-&gt;</span><span class="n">inode_wq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_work</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// 成功提交到工作队列
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// 已经在队列中，释放引用
@@ -1933,24 +1779,18 @@
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">ceph_inode_work</span><span class="p">(</span><span class="k">struct</span> <span class="n">work_struct</span> <span class="o">*</span><span class="n">work</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">ceph_inode_info</span> <span class="o">*</span><span class="n">ci</span> <span class="o">=</span> <span class="n">container_of</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="k">struct</span> <span class="n">ceph_inode_info</span><span class="p">,</span> <span class="n">i_work</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">netfs</span><span class="p">.</span><span class="n">inode</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">test_and_clear_bit</span><span class="p">(</span><span class="n">CEPH_I_WORK_WRITEBACK</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_work_mask</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">doutc</span><span class="p">(</span><span class="n">cl</span><span class="p">,</span> <span class="s">&#34;writeback %p %llx.%llx</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">inode</span><span class="p">,</span> <span class="n">ceph_vinop</span><span class="p">(</span><span class="n">inode</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">        <span class="n">filemap_fdatawrite</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_data</span><span class="p">);</span>  <span class="c1">// 这里是关键！
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 处理其他工作类型...
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="n">iput</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>  <span class="c1">// 释放引用计数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">iput</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>  <span class="c1">// 释放引用计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -2005,16 +1845,15 @@
 <p>当页面写入完成时，内核会调用 Ceph 的回调函数：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 在 ceph_writepages 的实现中（通常在 addr.c 中）
@@ -2023,8 +1862,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 设置回写完成回调
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 当写入完成时会调用相应的完成函数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="c1">// 最终会调用类似这样的函数：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 最终会调用类似这样的函数：
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ceph_put_wrbuffer_cap_refs</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">nr_pages</span><span class="p">,</span> <span class="n">snapc</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
@@ -2056,12 +1894,6 @@
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">ceph_put_wrbuffer_cap_refs</span><span class="p">(</span><span class="k">struct</span> <span class="n">ceph_inode_info</span> <span class="o">*</span><span class="n">ci</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nr</span><span class="p">,</span>
@@ -2069,27 +1901,21 @@
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">last</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">wake_ci</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 减少写缓冲区引用计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span> <span class="o">-=</span> <span class="n">nr</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">last</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">// 所有写操作完成
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 减少总的写引用计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wb_ref</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">--</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wb_ref</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">wake_ci</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// 关键：当所有写引用都释放完成时
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">last</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ceph_check_caps</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="c1">// 检查并通知 MDS
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">wake_ci</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">wake_up_all</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_cap_wq</span><span class="p">);</span>  <span class="c1">// 唤醒等待的线程
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
@@ -2146,14 +1972,6 @@
 </span><span class="lnt">38
 </span><span class="lnt">39
 </span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">void ceph_put_wrbuffer_cap_refs(struct ceph_inode_info *ci, int nr,
@@ -2162,15 +1980,12 @@
 </span></span><span class="line"><span class="cl">    struct inode *inode = &amp;ci-&gt;netfs.inode;
 </span></span><span class="line"><span class="cl">    bool last = false;
 </span></span><span class="line"><span class="cl">    bool wake_ci = false;
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    spin_lock(&amp;ci-&gt;i_ceph_lock);
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    // 减少总的写缓冲区引用计数
 </span></span><span class="line"><span class="cl">    ci-&gt;i_wrbuffer_ref -= nr;
 </span></span><span class="line"><span class="cl">    if (ci-&gt;i_wrbuffer_ref == 0) {
 </span></span><span class="line"><span class="cl">        last = true;  // 标记为最后一个引用
 </span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    // 处理快照相关的引用计数
 </span></span><span class="line"><span class="cl">    if (ci-&gt;i_head_snapc == snapc) {
 </span></span><span class="line"><span class="cl">        ci-&gt;i_wrbuffer_ref_head -= nr;
@@ -2184,22 +1999,17 @@
 </span></span><span class="line"><span class="cl">            }
 </span></span><span class="line"><span class="cl">        }
 </span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    // 减少总的写引用计数
 </span></span><span class="line"><span class="cl">    if (ci-&gt;i_wb_ref &amp;&amp; (--ci-&gt;i_wb_ref == 0)) {
 </span></span><span class="line"><span class="cl">        wake_ci = true;
 </span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    spin_unlock(&amp;ci-&gt;i_ceph_lock);
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    // 关键：当所有写引用都释放完成时，触发能力检查
 </span></span><span class="line"><span class="cl">    if (last) {
 </span></span><span class="line"><span class="cl">        ceph_check_caps(ci, 0);  // 通知 MDS 权限可以释放
 </span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    if (wake_ci)
 </span></span><span class="line"><span class="cl">        wake_up_all(&amp;ci-&gt;i_cap_wq);
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">    // 如果是最后一个引用，释放 inode 引用
 </span></span><span class="line"><span class="cl">    if (last)
 </span></span><span class="line"><span class="cl">        iput(inode);
@@ -2234,27 +2044,18 @@
 </span><span class="lnt">19
 </span><span class="lnt">20
 </span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">bool</span> <span class="nf">ceph_dirty_folio</span><span class="p">(</span><span class="k">struct</span> <span class="n">address_space</span> <span class="o">*</span><span class="n">mapping</span><span class="p">,</span> <span class="k">struct</span> <span class="n">folio</span> <span class="o">*</span><span class="n">folio</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">-&gt;</span><span class="n">host</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">ceph_inode_info</span> <span class="o">*</span><span class="n">ci</span> <span class="o">=</span> <span class="n">ceph_inode</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 关键：每个 folio 增加 1 个引用计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ihold</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>  <span class="c1">// 第一个脏页时持有 inode 引用
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="o">++</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span><span class="p">;</span>  <span class="c1">// 每个脏页增加 1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="c1">// 根据快照上下文分别处理
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">++</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span><span class="p">;</span>  <span class="c1">// 每个脏页增加 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 根据快照上下文分别处理
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">__ceph_have_pending_cap_snap</span><span class="p">(</span><span class="n">ci</span><span class="p">))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// 如果有待处理的快照，增加快照的脏页计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">struct</span> <span class="n">ceph_cap_snap</span> <span class="o">*</span><span class="n">capsnap</span> <span class="o">=</span> 
@@ -2264,7 +2065,6 @@
 </span></span><span class="line"><span class="cl">        <span class="c1">// 否则增加 head 快照的脏页计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">++</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref_head</span><span class="p">;</span>  <span class="c1">// head 快照脏页计数 +1
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_ceph_lock</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
@@ -2284,7 +2084,6 @@
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="nf">ceph_write_begin</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">struct</span> <span class="n">address_space</span> <span class="o">*</span><span class="n">mapping</span><span class="p">,</span>
@@ -2296,7 +2095,6 @@
 </span></span><span class="line"><span class="cl">        <span class="c1">// 如果页面不是最新的，需要读取
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 然后标记为脏页面，会触发 ceph_dirty_folio
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 当页面被标记为脏时，会调用 ceph_dirty_folio
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 每个新的脏页面都会使 i_wrbuffer_ref 增加 1
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
@@ -2314,13 +2112,11 @@
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 每当一个 folio 变为脏页面时
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ci</span><span class="o">-&gt;</span><span class="n">i_wrbuffer_ref</span><span class="o">++</span><span class="p">;</span>  <span class="c1">// 总引用计数 +1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">// 根据快照状态分别计数：
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 根据快照状态分别计数：
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="err">在快照中</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">capsnap</span><span class="o">-&gt;</span><span class="n">dirty_pages</span><span class="o">++</span><span class="p">;</span>     <span class="c1">// 快照脏页 +1
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -2342,20 +2138,16 @@
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 在 writepages_finish 中，批量减少引用计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">writepages_finish</span><span class="p">(</span><span class="k">struct</span> <span class="n">ceph_osd_request</span> <span class="o">*</span><span class="n">req</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">total_pages</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 统计实际写入的页面数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">req</span><span class="o">-&gt;</span><span class="n">r_num_ops</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">total_pages</span> <span class="o">+=</span> <span class="n">osd_data</span><span class="o">-&gt;</span><span class="n">length</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 按实际页面数减少引用计数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ceph_put_wrbuffer_cap_refs</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">total_pages</span><span class="p">,</span> <span class="n">snapc</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -2377,7 +2169,6 @@
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 单页写入完成
@@ -2387,7 +2178,6 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">folio_end_writeback</span><span class="p">(</span><span class="n">folio</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ceph_put_wrbuffer_cap_refs</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">snapc</span><span class="p">);</span>  <span class="c1">// 固定减少 1
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// 页面失效时
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">ceph_invalidate_folio</span><span class="p">(</span><span class="k">struct</span> <span class="n">folio</span> <span class="o">*</span><span class="n">folio</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">offset</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">length</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -2628,7 +2418,6 @@
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">struct ceph_inode_info
@@ -2636,7 +2425,6 @@
 </span></span><span class="line"><span class="cl">├── i_auth_cap - 指向认证 capability
 </span></span><span class="line"><span class="cl">├── i_snap_realm - 快照域信息
 </span></span><span class="line"><span class="cl">└── i_cap_delay_list - 延迟处理链表
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">struct ceph_cap  
 </span></span><span class="line"><span class="cl">├── ci_node - 在 inode 红黑树中的节点
 </span></span><span class="line"><span class="cl">├── session_caps - 在会话链表中的节点
@@ -2681,9 +2469,9 @@
           <a href="/tags/ceph/">ceph</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/ceph-content/application-practice/zh-cn/ceph%E9%9B%86%E7%BE%A4io%E6%8F%90%E4%BA%A4%E5%BB%B6%E8%BF%9F%E7%BB%9F%E8%AE%A1%E8%B7%B3%E5%8F%98%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
+        <a class="prev" href="/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Ceph集群IO提交延迟统计跳变问题分析</span>
+            <span class="prev-text nav-default">Thinking about 3FS </span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/post/obsidian&#43;git-pages%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA/">

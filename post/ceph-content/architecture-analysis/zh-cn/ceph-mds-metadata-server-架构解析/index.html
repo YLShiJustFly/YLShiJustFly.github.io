@@ -43,13 +43,13 @@
 <meta property="og:description" content="MDS 系统架构概览 Ceph MDS是CephFS (Ceph File System) 的核心组件，负责处理所有文件系统元数据操作。MDS的设计采用分布式、可扩展的架构，支持多活MDS和" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/ceph-mds-metadata-server-%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2025-07-17T06:55:42+08:00" />
-<meta property="article:modified_time" content="2025-07-17T06:55:42+08:00" />
+
+
 
 <meta itemprop="name" content="Ceph MDS (Metadata Server) 架构解析">
-<meta itemprop="description" content="MDS 系统架构概览 Ceph MDS是CephFS (Ceph File System) 的核心组件，负责处理所有文件系统元数据操作。MDS的设计采用分布式、可扩展的架构，支持多活MDS和"><meta itemprop="datePublished" content="2025-07-17T06:55:42+08:00" />
-<meta itemprop="dateModified" content="2025-07-17T06:55:42+08:00" />
-<meta itemprop="wordCount" content="1947">
+<meta itemprop="description" content="MDS 系统架构概览 Ceph MDS是CephFS (Ceph File System) 的核心组件，负责处理所有文件系统元数据操作。MDS的设计采用分布式、可扩展的架构，支持多活MDS和">
+
+<meta itemprop="wordCount" content="1894">
 <meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Ceph MDS (Metadata Server) 架构解析"/>
 <meta name="twitter:description" content="MDS 系统架构概览 Ceph MDS是CephFS (Ceph File System) 的核心组件，负责处理所有文件系统元数据操作。MDS的设计采用分布式、可扩展的架构，支持多活MDS和"/>
@@ -132,11 +132,11 @@
       <h1 class="post-title">Ceph MDS (Metadata Server) 架构解析</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2025-07-17 </span>
+        <span class="post-time"> 0001-01-01 </span>
         <div class="post-category">
             <a href="/categories/ceph/"> ceph </a>
             </div>
-          <span class="more-meta"> 1947 words </span>
+          <span class="more-meta"> 1894 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -228,43 +228,33 @@
 </span><span class="lnt">30
 </span><span class="lnt">31
 </span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
 </span></span><span class="line"><span class="cl">    Client[CephFS Client] --&gt; MDS[MDS Cluster]
 </span></span><span class="line"><span class="cl">    MDS --&gt; RADOS[RADOS Storage Layer]
 </span></span><span class="line"><span class="cl">    MDS --&gt; Mon[Monitor Cluster]
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;MDS In Ceph&#34;
 </span></span><span class="line"><span class="cl">        subgraph &#34;Client Layer&#34;
 </span></span><span class="line"><span class="cl">            Client
 </span></span><span class="line"><span class="cl">            Fuse[FUSE Client]
 </span></span><span class="line"><span class="cl">            Kernel[Kernel Client]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Metadata Layer&#34;
 </span></span><span class="line"><span class="cl">            MDS
 </span></span><span class="line"><span class="cl">            MDSStandby[Standby MDS]
 </span></span><span class="line"><span class="cl">            MDSActive[Active MDS]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Storage Layer&#34;
 </span></span><span class="line"><span class="cl">            RADOS
 </span></span><span class="line"><span class="cl">            OSD[OSD Cluster]
 </span></span><span class="line"><span class="cl">            Pool[Metadata Pool]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Management Layer&#34;
 </span></span><span class="line"><span class="cl">            Mon
 </span></span><span class="line"><span class="cl">            Mgr[Manager]
 </span></span><span class="line"><span class="cl">        end
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Client -.-&gt; Fuse
 </span></span><span class="line"><span class="cl">    Client -.-&gt; Kernel
 </span></span><span class="line"><span class="cl">    MDS --&gt; MDSStandby
@@ -294,8 +284,6 @@
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
@@ -304,12 +292,10 @@
 </span></span><span class="line"><span class="cl">        ActiveMDS[Active MDS List]
 </span></span><span class="line"><span class="cl">        StandbyMDS[Standby MDS List]
 </span></span><span class="line"><span class="cl">        FSMap[Filesystem Map]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        MDSMap --&gt; ActiveMDS
 </span></span><span class="line"><span class="cl">        MDSMap --&gt; StandbyMDS
 </span></span><span class="line"><span class="cl">        MDSMap --&gt; FSMap
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Monitor[Monitor Cluster] --&gt; MDSMap
 </span></span><span class="line"><span class="cl">    MDSMap --&gt; ClientView[Client View]
 </span></span><span class="line"><span class="cl">    MDSMap --&gt; MDSInstances[MDS Instances]
@@ -320,9 +306,9 @@
 <li>MDS集群成员管理</li>
 <li>Rank分配和故障转移</li>
 <li>文件系统到MDS的映射</li>
-<li>状态同步和版本控制</li>
+<li>状态同步和版本控制
+<strong>关键配置参数：</strong></li>
 </ul>
-<p><strong>关键配置参数：</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -330,12 +316,10 @@
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 设置最大活动MDS数量</span>
 </span></span><span class="line"><span class="cl">ceph fs <span class="nb">set</span> &lt;fsname&gt; max_mds &lt;count&gt;
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看MDS状态</span>
 </span></span><span class="line"><span class="cl">ceph mds stat
 </span></span><span class="line"><span class="cl">ceph fs status &lt;fsname&gt;
@@ -368,10 +352,6 @@
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
@@ -380,24 +360,20 @@
 </span></span><span class="line"><span class="cl">        ClientSessions[Client Sessions]
 </span></span><span class="line"><span class="cl">        SessionCache[Session Cache]
 </span></span><span class="line"><span class="cl">        Capabilities[Capability Grants]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        SessionMgr --&gt; ClientSessions
 </span></span><span class="line"><span class="cl">        SessionMgr --&gt; SessionCache
 </span></span><span class="line"><span class="cl">        SessionMgr --&gt; Capabilities
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Session State&#34;
 </span></span><span class="line"><span class="cl">            Opening[Opening]
 </span></span><span class="line"><span class="cl">            Open[Open]
 </span></span><span class="line"><span class="cl">            Stale[Stale]
 </span></span><span class="line"><span class="cl">            Killing[Killing]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        ClientSessions --&gt; Opening
 </span></span><span class="line"><span class="cl">        ClientSessions --&gt; Open
 </span></span><span class="line"><span class="cl">        ClientSessions --&gt; Stale
 </span></span><span class="line"><span class="cl">        ClientSessions --&gt; Killing
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Clients[CephFS Clients] --&gt; SessionMgr
 </span></span><span class="line"><span class="cl">    Monitor[Monitor] --&gt; SessionMgr
 </span></span><span class="line"><span class="cl">    MDCache[MDS Cache] --&gt; Capabilities
@@ -447,52 +423,38 @@
 </span><span class="lnt">31
 </span><span class="lnt">32
 </span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
 </span></span><span class="line"><span class="cl">    subgraph &#34;MDCache Architecture&#34;
 </span></span><span class="line"><span class="cl">        MDCache[MD Cache Manager]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Cache Structures&#34;
 </span></span><span class="line"><span class="cl">            Inodes[Inode Cache]
 </span></span><span class="line"><span class="cl">            Dentries[Dentry Cache]
 </span></span><span class="line"><span class="cl">            Dirfrags[Dirfrag Cache]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Cache Operations&#34;
 </span></span><span class="line"><span class="cl">            Fetch[Fetch Operations]
 </span></span><span class="line"><span class="cl">            Discover[Discovery]
 </span></span><span class="line"><span class="cl">            Migration[Cache Migration]
 </span></span><span class="line"><span class="cl">            Trim[Cache Trimming]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Coherency&#34;
 </span></span><span class="line"><span class="cl">            Locks[Distributed Locks]
 </span></span><span class="line"><span class="cl">            Caps[Capabilities]
 </span></span><span class="line"><span class="cl">            Leases[Client Leases]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Inodes
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Dentries
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Dirfrags
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Fetch
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Discover
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Migration
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Trim
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Locks
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Caps
 </span></span><span class="line"><span class="cl">        MDCache --&gt; Leases
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    RADOS[RADOS Storage] --&gt; Fetch
 </span></span><span class="line"><span class="cl">    Clients[CephFS Clients] --&gt; Caps
 </span></span><span class="line"><span class="cl">    OtherMDS[Other MDS] --&gt; Migration
@@ -534,40 +496,30 @@
 </span><span class="lnt">23
 </span><span class="lnt">24
 </span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
 </span></span><span class="line"><span class="cl">    subgraph &#34;MDS Balancer&#34;
 </span></span><span class="line"><span class="cl">        Balancer[Load Balancer]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Metrics Collection&#34;
 </span></span><span class="line"><span class="cl">            CPUMetrics[CPU Usage]
 </span></span><span class="line"><span class="cl">            MemMetrics[Memory Usage]
 </span></span><span class="line"><span class="cl">            IOMetrics[I/O Metrics]
 </span></span><span class="line"><span class="cl">            ClientLoad[Client Load]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Balancing Strategies&#34;
 </span></span><span class="line"><span class="cl">            HotSpot[Hot Spot Detection]
 </span></span><span class="line"><span class="cl">            Migration[Directory Migration]
 </span></span><span class="line"><span class="cl">            Fragmentation[Dir Fragmentation]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        Balancer --&gt; CPUMetrics
 </span></span><span class="line"><span class="cl">        Balancer --&gt; MemMetrics
 </span></span><span class="line"><span class="cl">        Balancer --&gt; IOMetrics
 </span></span><span class="line"><span class="cl">        Balancer --&gt; ClientLoad
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        Balancer --&gt; HotSpot
 </span></span><span class="line"><span class="cl">        Balancer --&gt; Migration
 </span></span><span class="line"><span class="cl">        Balancer --&gt; Fragmentation
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    MDSRanks[MDS Ranks] --&gt; Balancer
 </span></span><span class="line"><span class="cl">    MDCache --&gt; Migration
 </span></span><span class="line"><span class="cl">    Monitor --&gt; Balancer
@@ -581,12 +533,10 @@
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 启用MDS负载均衡</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mds mds_bal_mode <span class="m">2</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 设置负载均衡阈值</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mds mds_bal_need_min 0.2
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mds mds_bal_need_max 1.25
@@ -627,50 +577,36 @@
 </span><span class="lnt">29
 </span><span class="lnt">30
 </span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
 </span></span><span class="line"><span class="cl">    subgraph &#34;Journal &amp; Recovery&#34;
 </span></span><span class="line"><span class="cl">        Journal[MDS Journal]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Journal Operations&#34;
 </span></span><span class="line"><span class="cl">            LogEvents[Log Events]
 </span></span><span class="line"><span class="cl">            Segments[Journal Segments]
 </span></span><span class="line"><span class="cl">            Trimming[Log Trimming]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Recovery Process&#34;
 </span></span><span class="line"><span class="cl">            Replay[Journal Replay]
 </span></span><span class="line"><span class="cl">            Resolution[Conflict Resolution]
 </span></span><span class="line"><span class="cl">            Cleanup[Recovery Cleanup]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Storage Backend&#34;
 </span></span><span class="line"><span class="cl">            MDSPool[Metadata Pool]
 </span></span><span class="line"><span class="cl">            Objects[Journal Objects]
 </span></span><span class="line"><span class="cl">            RADOS_Journal[RADOS Backend]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        Journal --&gt; LogEvents
 </span></span><span class="line"><span class="cl">        Journal --&gt; Segments
 </span></span><span class="line"><span class="cl">        Journal --&gt; Trimming
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        Journal --&gt; Replay
 </span></span><span class="line"><span class="cl">        Journal --&gt; Resolution
 </span></span><span class="line"><span class="cl">        Journal --&gt; Cleanup
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        Journal --&gt; MDSPool
 </span></span><span class="line"><span class="cl">        Journal --&gt; Objects
 </span></span><span class="line"><span class="cl">        Journal --&gt; RADOS_Journal
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    MDSOperations[MDS Operations] --&gt; LogEvents
 </span></span><span class="line"><span class="cl">    StandbyMDS[Standby MDS] --&gt; Replay
 </span></span><span class="line"><span class="cl">    Monitor --&gt; Resolution
@@ -705,10 +641,6 @@
 </span><span class="lnt">23
 </span><span class="lnt">24
 </span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">stateDiagram-v2
@@ -721,21 +653,17 @@
 </span></span><span class="line"><span class="cl">    rejoin --&gt; active
 </span></span><span class="line"><span class="cl">    active --&gt; stopping
 </span></span><span class="line"><span class="cl">    stopping --&gt; [*]
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    active --&gt; resolve : failover
 </span></span><span class="line"><span class="cl">    standby --&gt; resolve : takeover
 </span></span><span class="line"><span class="cl">    active --&gt; standby : rank_stop
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    note right of active
 </span></span><span class="line"><span class="cl">        正常工作状态
 </span></span><span class="line"><span class="cl">        处理客户端请求
 </span></span><span class="line"><span class="cl">    end note
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    note right of standby
 </span></span><span class="line"><span class="cl">        待机状态
 </span></span><span class="line"><span class="cl">        等待分配rank
 </span></span><span class="line"><span class="cl">    end note
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    note right of resolve
 </span></span><span class="line"><span class="cl">        解决元数据冲突
 </span></span><span class="line"><span class="cl">        处理分布式状态
@@ -757,7 +685,6 @@
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
@@ -765,7 +692,6 @@
 </span></span><span class="line"><span class="cl">    participant MDS as MDS Daemon  
 </span></span><span class="line"><span class="cl">    participant RADOS as RADOS
 </span></span><span class="line"><span class="cl">    participant Standby as Standby MDS
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;Monitor: 注册为standby
 </span></span><span class="line"><span class="cl">    Monitor-&gt;&gt;MDS: 分配rank
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;RADOS: 读取journal
@@ -798,28 +724,22 @@
 </span><span class="lnt">17
 </span><span class="lnt">18
 </span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
 </span></span><span class="line"><span class="cl">    subgraph &#34;MDS-Monitor Interaction&#34;
 </span></span><span class="line"><span class="cl">        MDS[MDS Daemon]
 </span></span><span class="line"><span class="cl">        Monitor[Monitor Cluster]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;Information Exchange&#34;
 </span></span><span class="line"><span class="cl">            MDSMap_Update[MDSMap Updates]
 </span></span><span class="line"><span class="cl">            Health_Report[Health Reports]
 </span></span><span class="line"><span class="cl">            Beacon[MDS Beacon]
 </span></span><span class="line"><span class="cl">            Commands[Admin Commands]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        MDS --&gt; MDSMap_Update
 </span></span><span class="line"><span class="cl">        MDS --&gt; Health_Report
 </span></span><span class="line"><span class="cl">        MDS --&gt; Beacon
 </span></span><span class="line"><span class="cl">        Monitor --&gt; Commands
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        MDSMap_Update --&gt; Monitor
 </span></span><span class="line"><span class="cl">        Health_Report --&gt; Monitor
 </span></span><span class="line"><span class="cl">        Beacon --&gt; Monitor
@@ -830,28 +750,22 @@
 </div><p><strong>关键监控命令：</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看MDS健康状态</span>
 </span></span><span class="line"><span class="cl">ceph health detail
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 检查慢速元数据IO</span>
 </span></span><span class="line"><span class="cl">ceph mds perf dump
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看MDS告警</span>
 </span></span><span class="line"><span class="cl">ceph health mute MDS_SLOW_REQUEST
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># MDS性能统计</span>
 </span></span><span class="line"><span class="cl">ceph daemon mds.&lt;name&gt; perf dump
 </span></span></code></pre></td></tr></table>
@@ -881,37 +795,27 @@
 </span><span class="lnt">19
 </span><span class="lnt">20
 </span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
 </span></span><span class="line"><span class="cl">    subgraph &#34;MDS-RADOS Interaction&#34;
 </span></span><span class="line"><span class="cl">        MDS[MDS Daemon]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;RADOS Operations&#34;
 </span></span><span class="line"><span class="cl">            MetadataIO[Metadata I/O]
 </span></span><span class="line"><span class="cl">            JournalIO[Journal I/O]
 </span></span><span class="line"><span class="cl">            BackingStore[Backing Store Ops]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        subgraph &#34;RADOS Pools&#34;
 </span></span><span class="line"><span class="cl">            MetadataPool[Metadata Pool]
 </span></span><span class="line"><span class="cl">            DataPool[Data Pool]
 </span></span><span class="line"><span class="cl">        end
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        MDS --&gt; MetadataIO
 </span></span><span class="line"><span class="cl">        MDS --&gt; JournalIO
 </span></span><span class="line"><span class="cl">        MDS --&gt; BackingStore
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        MetadataIO --&gt; MetadataPool
 </span></span><span class="line"><span class="cl">        JournalIO --&gt; MetadataPool
 </span></span><span class="line"><span class="cl">        BackingStore --&gt; DataPool
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    LIBRADOS[librados] --&gt; MetadataPool
 </span></span><span class="line"><span class="cl">    LIBRADOS --&gt; DataPool
 </span></span></code></pre></td></tr></table>
@@ -931,14 +835,12 @@
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
 </span></span><span class="line"><span class="cl">    participant Client as CephFS Client
 </span></span><span class="line"><span class="cl">    participant MDS as MDS Active
 </span></span><span class="line"><span class="cl">    participant RADOS as RADOS
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Client-&gt;&gt;MDS: 建立session
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;Client: 分发capabilities
 </span></span><span class="line"><span class="cl">    Client-&gt;&gt;MDS: 元数据请求(open/mkdir/stat)
@@ -952,28 +854,22 @@
 </div><h2 id="mds常见故障诊断和恢复">MDS常见故障诊断和恢复</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 检查MDS状态</span>
 </span></span><span class="line"><span class="cl">ceph fs status
 </span></span><span class="line"><span class="cl">ceph mds stat
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># MDS性能分析</span>
 </span></span><span class="line"><span class="cl">ceph daemon mds.&lt;name&gt; perf dump
 </span></span><span class="line"><span class="cl">ceph daemon mds.&lt;name&gt; dump cache
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 检查客户端连接</span>
 </span></span><span class="line"><span class="cl">ceph daemon mds.&lt;name&gt; session ls
 </span></span></code></pre></td></tr></table>
@@ -989,12 +885,10 @@
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># MDS性能监控</span>
 </span></span><span class="line"><span class="cl">ceph daemonperf mds
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 关键指标：</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># - mds.inodes: 缓存的inode数量</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># - mds.reply_latency: 响应延迟</span>
@@ -1021,7 +915,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2025-07-17
+        0001-01-01
         
     </span>
   </p>

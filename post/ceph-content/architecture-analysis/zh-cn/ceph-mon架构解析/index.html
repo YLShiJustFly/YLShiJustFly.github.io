@@ -49,7 +49,7 @@
 <meta itemprop="name" content="">
 <meta itemprop="description" content="Ceph Monitor 架构解析 Monitor总体架构概览 核心功能定位 Ceph Monitor作为集群的控制平面，主要承担以下核心职责： 集群映射维护：管理Monitor">
 
-<meta itemprop="wordCount" content="1920">
+<meta itemprop="wordCount" content="1885">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="Ceph Monitor 架构解析 Monitor总体架构概览 核心功能定位 Ceph Monitor作为集群的控制平面，主要承担以下核心职责： 集群映射维护：管理Monitor"/>
@@ -134,7 +134,7 @@
       <div class="post-meta">
         <span class="post-time"> 0001-01-01 </span>
         
-          <span class="more-meta"> 1920 words </span>
+          <span class="more-meta"> 1885 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -223,13 +223,6 @@
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
@@ -240,32 +233,25 @@
 </span></span><span class="line"><span class="cl">        A --&gt; E[Health Module]
 </span></span><span class="line"><span class="cl">        A --&gt; F[Config Module]
 </span></span><span class="line"><span class="cl">        A --&gt; G[Auth Module]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[ClusterMap Storage]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Configuration DB]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Transaction Log]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Proposal Processing]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Leader Election]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Consensus Coordination]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Connectivity Strategy]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[Quorum Management]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Split-brain Prevention]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E --&gt; E1[Health Checks]
 </span></span><span class="line"><span class="cl">        E --&gt; E2[Status Reporting]
 </span></span><span class="line"><span class="cl">        E --&gt; E3[Alert Generation]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        F --&gt; F1[Config Key-Value Store]
 </span></span><span class="line"><span class="cl">        F --&gt; F2[Runtime Configuration]
 </span></span><span class="line"><span class="cl">        F --&gt; F3[Config Distribution]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        G --&gt; G1[CephX Authentication]
 </span></span><span class="line"><span class="cl">        G --&gt; G2[User Management]
 </span></span><span class="line"><span class="cl">        G --&gt; G3[Capability Control]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;外部交互&#34;
 </span></span><span class="line"><span class="cl">        H[OSD Daemons] --&gt; A
 </span></span><span class="line"><span class="cl">        I[MDS Daemons] --&gt; A
@@ -279,8 +265,8 @@
 <h2 id="monitor核心子模块分析">Monitor核心子模块分析</h2>
 <h3 id="monitorstore存储引擎">MonitorStore存储引擎</h3>
 <p><strong>功能概述</strong>：
-MonitorStore是Monitor的持久化存储引擎，基于RocksDB实现，负责存储所有关键的集群元数据。</p>
-<p><strong>核心架构</strong>：</p>
+MonitorStore是Monitor的持久化存储引擎，基于RocksDB实现，负责存储所有关键的集群元数据。
+<strong>核心架构</strong>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -299,9 +285,6 @@ MonitorStore是Monitor的持久化存储引擎，基于RocksDB实现，负责存
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
@@ -309,16 +292,13 @@ MonitorStore是Monitor的持久化存储引擎，基于RocksDB实现，负责存
 </span></span><span class="line"><span class="cl">        A[MonitorStore Interface] --&gt; B[RocksDB Backend]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Transaction Manager]
 </span></span><span class="line"><span class="cl">        A --&gt; D[Snapshot Management]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[Cluster Maps]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Configuration Data]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Authentication Info]
 </span></span><span class="line"><span class="cl">        B --&gt; B4[Health Records]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[ACID Transactions]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Batch Operations]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Rollback Support]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Consistent Snapshots]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[Backup/Restore]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Recovery Points]
@@ -327,8 +307,8 @@ MonitorStore是Monitor的持久化存储引擎，基于RocksDB实现，负责存
 </div>
 </div><h3 id="paxos一致性引擎">Paxos一致性引擎</h3>
 <p><strong>功能概述</strong>：
-Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确保集群元数据在所有Monitor节点间保持一致。</p>
-<p><strong>架构设计</strong>：</p>
+Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确保集群元数据在所有Monitor节点间保持一致。
+<strong>架构设计</strong>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -351,11 +331,6 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
@@ -363,22 +338,17 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span></span><span class="line"><span class="cl">        A[Paxos Service] --&gt; B[Proposer Role]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Acceptor Role] 
 </span></span><span class="line"><span class="cl">        A --&gt; D[Learner Role]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[Proposal Generation]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Phase 1: Prepare]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Phase 2: Accept]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Promise Handling]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Accept Requests]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Vote Management]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Value Learning]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[State Synchronization]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Catchup Mechanism]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E[Leader Election] --&gt; F[Quorum Management]
 </span></span><span class="line"><span class="cl">        E --&gt; G[Term Management]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        F --&gt; F1[Majority Calculation]
 </span></span><span class="line"><span class="cl">        F --&gt; F2[Split-brain Prevention]
 </span></span><span class="line"><span class="cl">        F --&gt; F3[Network Partition Handling]
@@ -410,8 +380,8 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </ol>
 <h3 id="选举与仲裁模块">选举与仲裁模块</h3>
 <p><strong>功能概述</strong>：
-负责Monitor集群的Leader选举、quorum维护和故障检测，确保集群在各种网络条件下的可用性。</p>
-<p><strong>选举策略架构</strong>：</p>
+负责Monitor集群的Leader选举、quorum维护和故障检测，确保集群在各种网络条件下的可用性。
+<strong>选举策略架构</strong>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -432,10 +402,6 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span><span class="lnt">16
 </span><span class="lnt">17
 </span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
@@ -443,19 +409,15 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span></span><span class="line"><span class="cl">        A[Election Manager] --&gt; B[Connectivity Strategy]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Classic Strategy]
 </span></span><span class="line"><span class="cl">        A --&gt; D[Disallowed Strategy]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[Network Reachability]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Latency Measurement]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Bandwidth Testing]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Monitor Rank Based]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Simple Majority]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Static Priority]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E[Quorum Management] --&gt; F[Split-brain Detection]
 </span></span><span class="line"><span class="cl">        E --&gt; G[Failure Detection]
 </span></span><span class="line"><span class="cl">        E --&gt; H[Recovery Coordination]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        F --&gt; F1[Network Partition Handling]
 </span></span><span class="line"><span class="cl">        F --&gt; F2[Minority Protection]
 </span></span><span class="line"><span class="cl">        F --&gt; F3[Quorum Loss Recovery]
@@ -492,8 +454,8 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </ul>
 <h3 id="健康监控模块">健康监控模块</h3>
 <p><strong>功能概述</strong>：
-实时监控集群各组件的健康状态，生成告警信息，并提供详细的诊断数据。</p>
-<p><strong>监控架构</strong>：</p>
+实时监控集群各组件的健康状态，生成告警信息，并提供详细的诊断数据。
+<strong>监控架构</strong>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -516,10 +478,6 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
@@ -527,21 +485,17 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span></span><span class="line"><span class="cl">        A[Health Service] --&gt; B[Health Checks]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Status Aggregation]
 </span></span><span class="line"><span class="cl">        A --&gt; D[Alert Management]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[OSD Health]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[PG Status]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Cluster Capacity]
 </span></span><span class="line"><span class="cl">        B --&gt; B4[Network Connectivity]
 </span></span><span class="line"><span class="cl">        B --&gt; B5[Daemon Liveness]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Global Status]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Component Status]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Trend Analysis]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Warning Generation]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[Error Classification]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Recovery Suggestions]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E[Metrics Collection] --&gt; F[Performance Data]
 </span></span><span class="line"><span class="cl">        E --&gt; G[Resource Usage]
 </span></span><span class="line"><span class="cl">        E --&gt; H[I/O Statistics]
@@ -562,21 +516,15 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 获取集群整体状态</span>
 </span></span><span class="line"><span class="cl">ceph status
 </span></span><span class="line"><span class="cl">ceph -s
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看详细健康信息</span>
 </span></span><span class="line"><span class="cl">ceph health detail
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 监控集群状态变化</span>
 </span></span><span class="line"><span class="cl">ceph -w
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看特定组件状态</span>
 </span></span><span class="line"><span class="cl">ceph pg stat
 </span></span><span class="line"><span class="cl">ceph osd stat
@@ -591,8 +539,8 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </ul>
 <h3 id="配置管理模块">配置管理模块</h3>
 <p><strong>功能概述</strong>：
-管理集群和守护进程的配置参数，支持运行时配置更新和分发。</p>
-<p><strong>配置管理架构</strong>：</p>
+管理集群和守护进程的配置参数，支持运行时配置更新和分发。
+<strong>配置管理架构</strong>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -614,10 +562,6 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span><span class="lnt">17
 </span><span class="lnt">18
 </span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
@@ -625,19 +569,15 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span></span><span class="line"><span class="cl">        A[Config Service] --&gt; B[Key-Value Store]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Config Distribution]
 </span></span><span class="line"><span class="cl">        A --&gt; D[Runtime Updates]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[Global Settings]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Per-Daemon Config]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[User Preferences]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Push Mechanism]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Pull Mechanism]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Change Notifications]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Hot Reconfiguration]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[Restart Required Flags]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Validation Checks]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E[Config Sources] --&gt; F[ceph.conf File]
 </span></span><span class="line"><span class="cl">        E --&gt; G[Command Line]
 </span></span><span class="line"><span class="cl">        E --&gt; H[Monitor Database]
@@ -648,30 +588,24 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </div><p><strong>配置操作命令</strong>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 设置全局配置</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> global public_network 192.168.160.0/24
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看特定守护进程配置</span>
 </span></span><span class="line"><span class="cl">ceph config show osd.0
 </span></span><span class="line"><span class="cl">ceph config show-with-defaults osd.0
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 设置配置键值</span>
 </span></span><span class="line"><span class="cl">ceph config-key <span class="nb">set</span> &lt;key&gt; &lt;value&gt;
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 生成最小配置文件</span>
 </span></span><span class="line"><span class="cl">ceph config generate-minimal-conf &gt; /etc/ceph/ceph.conf
 </span></span></code></pre></td></tr></table>
@@ -691,14 +625,12 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
 </span></span><span class="line"><span class="cl">    participant OSD as OSD Daemon
 </span></span><span class="line"><span class="cl">    participant MON as Monitor
 </span></span><span class="line"><span class="cl">    participant CRUSH as CRUSH Map
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    OSD-&gt;&gt;MON: Heartbeat &amp; Status Report
 </span></span><span class="line"><span class="cl">    MON-&gt;&gt;OSD: OSD Map Updates
 </span></span><span class="line"><span class="cl">    OSD-&gt;&gt;MON: PG Status Updates
@@ -728,14 +660,12 @@ Paxos引擎是Monitor最核心的模块，实现分布式一致性算法，确�
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
 </span></span><span class="line"><span class="cl">    participant MDS as MDS Daemon
 </span></span><span class="line"><span class="cl">    participant MON as Monitor
 </span></span><span class="line"><span class="cl">    participant FS as FileSystem
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;MON: Register &amp; Get MDS Map
 </span></span><span class="line"><span class="cl">    MON-&gt;&gt;MDS: Assign MDS Rank
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;MON: Status &amp; Metadata Updates

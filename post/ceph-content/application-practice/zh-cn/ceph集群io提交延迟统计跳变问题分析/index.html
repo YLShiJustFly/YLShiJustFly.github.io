@@ -203,15 +203,13 @@
 </table>
 <h3 id="第二阶段深度分析">第二阶段：深度分析</h3>
 <ol>
-<li>
-<p><strong>关键发现</strong>：</p>
+<li><strong>关键发现</strong>：
 <ul>
 <li>跳变前存在3分钟归零期</li>
 <li>42亿跳变值导致坐标轴显示异常</li>
 </ul>
 </li>
-<li>
-<p><strong>机制分析</strong>：</p>
+<li><strong>机制分析</strong>：
 <ul>
 <li>使用系统实时时钟计算时间差</li>
 <li>无负值保护机制</li>
@@ -220,15 +218,13 @@
 </ol>
 <h3 id="第三阶段验证">第三阶段：验证</h3>
 <ol>
-<li>
-<p><strong>环境证据</strong>：</p>
+<li><strong>环境证据</strong>：
 <ul>
 <li>NTP日志显示4ms时间回退</li>
 <li><img src="https://raw.githubusercontent.com/YLShiJustFly/picturebed/main/images/20250608172327.png" alt="image.png|600"></li>
 </ul>
 </li>
-<li>
-<p><strong>复现方法</strong>：</p>
+<li><strong>复现方法</strong>：
 <ul>
 <li>通过fio施加IO负载</li>
 <li>手动回拨系统时间1ms</li>
@@ -239,15 +235,13 @@
 </ol>
 <h2 id="根因结论">根因结论</h2>
 <ol>
-<li>
-<p><strong>直接原因</strong>：</p>
+<li><strong>直接原因</strong>：
 <ul>
 <li>系统时间回拨导致负时间差</li>
 <li>无符号整数存储转换</li>
 </ul>
 </li>
-<li>
-<p><strong>深层原因</strong>：</p>
+<li><strong>深层原因</strong>：
 <ul>
 <li>未全面采用单调时钟</li>
 <li>相关PR #39273 <a href="https://github.com/ceph/ceph/pull/39273">https://github.com/ceph/ceph/pull/39273</a> 没有修改全部的realtime</li>
@@ -292,8 +286,8 @@
             <span class="prev-text nav-default">Analysis of IO Commit Latency Spike in Ceph Cluster</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/draft/kcephfs-caps/">
-            <span class="next-text nav-default">Ceph handle_cap_grant机制解析 </span>
+        <a class="next" href="/post/ceph-content/distributed-storage/zh-cn/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/">
+            <span class="next-text nav-default">3FS的一点思考 </span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

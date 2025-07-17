@@ -1,22 +1,12 @@
 As OSD are replaced and the cluster scales in and out, the distribution of PGs across OSDs becomes increasingly unbalanced. This leads to discrepancies in actual usage rates of individual OSDs, reducing the overall utilization rate of cluster. The ceph balancer module addresses this by adjusting weights or specifying PG mappings via upmap to redistribute PGs evently. 
-
 > This article analyzes the execution flow when using balancer upmap mode, based on the ceph Pacific version.
-
 # balancer module execution flow
-
 Overview diagram of the balancer module execution flow:
-
 ![](../../image/mgr-balancer-1-en.jpg)
-
-
-
 The balancer has two modes: upmap and crush-compat.
-
 Only one can be active at a time. Below is a comparison of two modes:
-
 ## Implementation method
 `crush-compat`: Generates a separate `choose_args`list in the crush map, which contains adjusted weight sets used to influence PGs distribution. You can view it using `ceph crush dump`. Example:
-
 ```bash
     "choose_args": {
         "-1": [
@@ -97,13 +87,9 @@ Only one can be active at a time. Below is a comparison of two modes:
         ]
     }
 ```
-
 `upmap`: Creates explicit PG-to-OSD mappings in the osdmap. For example, this line:
-
 `pg_upmap_items 3.1e [5,2]` means PG 3.1e is remapped from osd.5 to osd.2.
-
 You can view all mappings use `ceph osd dump`:
-
 ```bash
 pg_upmap_items 3.1e [5,2]
 pg_upmap_items 3.27 [4,0]
@@ -112,24 +98,16 @@ pg_upmap_items 3.29 [5,2]
 pg_upmap_items 3.33 [5,2]
 pg_upmap_items 3.3e [5,2]
 ```
-
 ## Version compatibility
 1. `crush-compat`: Compatible with all ceph client versions. Clients will use the ajusted weights in `choose_args`from the CRUSH map.
 2. `upmap`: Not supported by clients older then version Luminous. 
-
 ## Scope of impact
 `crush-compat`: Controls PG distribution by weight, but cannot limit which PGs are remapped. 
-
 `upmap`: Allow configuration of the maximum number of PG deviation and the number of PGs that can be remmaped in each round of adjustment, offering finer control.
-
 # upmap mode execution flow
-
 Enable detailed OSD logs with `ceph tell mgr.* config set debug_osd 30/30`, the content within the blue box is log print information.
-
 The diagram shows the execution flow of changing the `up_set`of PG 3.28 from [3,5] to [3,2] in a two replica pool, e.g., moving PG 3.28 from osd.5 to osd.2.
-
 ![](../../image/mgr-balancer-2-en.jpg)
-
 # Parameters
 ## Time-related parameters
 ```bash
@@ -137,25 +115,20 @@ mgr/balancer/begin_time: start time (HHMM), e.g., 0000                          
 mgr/balancer/end_weekday：end weekday，can take value 1、2、3、4、5、6、7，e.g., 7
 mgr/balancer/sleep_interval：time in seconds the balancer sleeps before running again，e.g., 180
 ```
-
 ## upmap related parameters
 ```bash
 mgr/balancer/active：whether to enable the balancer module，true/false，e.g., true
 mgr/balancer/mode：balancer mode (upmap or crush-compat)，e.g., upmap
 mgr/balancer/upmap_max_deviation：Allowed max deviation in pg between osd，e.g., 5         mgr/balancer/upmap_max_optimizations：Maximum number of adjustments, e.g., 10
 ```
-
 ## crush-compat related parameters
 ```bash
 mgr/balancer/crush_compat_max_iterations：Maximum number of iterations for adjustments，e.g., 25
 mgr/balancer/crush_compat_metrics：metrics for score calculation，e.g., pgs,objects,bytes   mgr/balancer/crush_compat_step：step size for weight adjustment, e.g., 0.500000           mgr/balancer/min_score：target score to complete balancing，e.g., 0.020000                 mgr/balancer/mode：balancer mode，e.g., crush-compat
 ```
-
 # Testing
 run`ceph config set mgr mgr/balancer/upmap_max_deviation 2` command，waiting for balancer to complete......
-
 Before balancing：
-
 ```bash
 [root@ceph-01 ~]# ceph osd df tree
 ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA     OMAP     META      AVAIL    %USE   VAR   PGS  STATUS  TYPE NAME       
@@ -172,9 +145,7 @@ ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA     OMAP     META      AVAI
                        TOTAL  600 GiB   81 GiB   74 GiB  408 MiB   6.4 GiB  519 GiB  13.50                                     
 MIN/MAX VAR: 0.80/1.21  STDDEV: 2.15
 ```
-
 After balancing：
-
 ```bash
 [root@ceph-01 ~]# ceph osd df tree
 ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA    OMAP     META     AVAIL    %USE   VAR   PGS  STATUS  TYPE NAME       
@@ -191,5 +162,4 @@ ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA    OMAP     META     AVAIL 
                        TOTAL  600 GiB   82 GiB  74 GiB  408 MiB  7.0 GiB  518 GiB  13.60                                     
 MIN/MAX VAR: 0.94/1.05  STDDEV: 0.54
 ```
-
 The deviation in the number of PGs on the OSDs is now less than or equal to the set value of 2, the CRUSH rule have not been changed, and the utilization rate of the OSDs has become balanced.

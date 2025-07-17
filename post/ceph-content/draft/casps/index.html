@@ -43,13 +43,13 @@
 <meta property="og:description" content="CephFS Caps 机制深度技术分析 🏗️ 核心架构概览 CephFS 的 capability (caps) 机制是一个复杂的分布式一致性系统，用于管理客户端对文件系统对象的访问权限。它结合了分布式锁、缓存" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/draft/casps/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2025-07-17T06:55:42+08:00" />
-<meta property="article:modified_time" content="2025-07-17T06:55:42+08:00" />
+
+
 
 <meta itemprop="name" content="casps">
-<meta itemprop="description" content="CephFS Caps 机制深度技术分析 🏗️ 核心架构概览 CephFS 的 capability (caps) 机制是一个复杂的分布式一致性系统，用于管理客户端对文件系统对象的访问权限。它结合了分布式锁、缓存"><meta itemprop="datePublished" content="2025-07-17T06:55:42+08:00" />
-<meta itemprop="dateModified" content="2025-07-17T06:55:42+08:00" />
-<meta itemprop="wordCount" content="3465">
+<meta itemprop="description" content="CephFS Caps 机制深度技术分析 🏗️ 核心架构概览 CephFS 的 capability (caps) 机制是一个复杂的分布式一致性系统，用于管理客户端对文件系统对象的访问权限。它结合了分布式锁、缓存">
+
+<meta itemprop="wordCount" content="3390">
 <meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="casps"/>
 <meta name="twitter:description" content="CephFS Caps 机制深度技术分析 🏗️ 核心架构概览 CephFS 的 capability (caps) 机制是一个复杂的分布式一致性系统，用于管理客户端对文件系统对象的访问权限。它结合了分布式锁、缓存"/>
@@ -132,11 +132,11 @@
       <h1 class="post-title">casps</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2025-07-17 </span>
+        <span class="post-time"> 0001-01-01 </span>
         <div class="post-category">
             <a href="/categories/ceph/"> ceph </a>
             </div>
-          <span class="more-meta"> 3465 words </span>
+          <span class="more-meta"> 3390 words </span>
           <span class="more-meta"> 7 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -260,15 +260,6 @@
 </span><span class="lnt">52
 </span><span class="lnt">53
 </span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
@@ -279,20 +270,17 @@
 </span></span><span class="line"><span class="cl">        CC[Client Cache]
 </span></span><span class="line"><span class="cl">        CI[Client Inode]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;MDS 集群 (MDS Cluster)&#34;
 </span></span><span class="line"><span class="cl">        MDS1[Active MDS&lt;br/&gt;Primary]
 </span></span><span class="line"><span class="cl">        MDS2[Standby MDS]
 </span></span><span class="line"><span class="cl">        MDS3[Standby-Replay MDS]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;Capability 管理层&#34;
 </span></span><span class="line"><span class="cl">        CM[Cap Manager&lt;br/&gt;MDSCap类]
 </span></span><span class="line"><span class="cl">        CL[Lock Manager&lt;br/&gt;SimpleLock]
 </span></span><span class="line"><span class="cl">        CR[Cap Revocation&lt;br/&gt;Locker类]
 </span></span><span class="line"><span class="cl">        CE[Cap Export/Import&lt;br/&gt;Migrator]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;分布式锁类型&#34;
 </span></span><span class="line"><span class="cl">        AL[AUTH Lock&lt;br/&gt;文件属性锁]
 </span></span><span class="line"><span class="cl">        LL[LINK Lock&lt;br/&gt;目录链接锁]
@@ -301,33 +289,27 @@
 </span></span><span class="line"><span class="cl">        IL[INODE Lock&lt;br/&gt;inode锁]
 </span></span><span class="line"><span class="cl">        DL[DENTRY Lock&lt;br/&gt;目录项锁]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;存储后端&#34;
 </span></span><span class="line"><span class="cl">        POOL[Metadata Pool&lt;br/&gt;元数据存储]
 </span></span><span class="line"><span class="cl">        DPOOL[Data Pool&lt;br/&gt;数据存储]
 </span></span><span class="line"><span class="cl">        JPOOL[Journal Pool&lt;br/&gt;日志存储]
 </span></span><span class="line"><span class="cl">        MON[Monitor Cluster&lt;br/&gt;集群状态]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    C1 &lt;--&gt; |Cap Request/Grant| MDS1
 </span></span><span class="line"><span class="cl">    C2 &lt;--&gt; |Cap Request/Grant| MDS1  
 </span></span><span class="line"><span class="cl">    C3 &lt;--&gt; |Cap Request/Grant| MDS1
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    CC --&gt; CI
 </span></span><span class="line"><span class="cl">    CI --&gt; C1
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    MDS1 --&gt; CM
 </span></span><span class="line"><span class="cl">    CM --&gt; CL
 </span></span><span class="line"><span class="cl">    CM --&gt; CR
 </span></span><span class="line"><span class="cl">    CM --&gt; CE
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    CL --&gt; AL
 </span></span><span class="line"><span class="cl">    CL --&gt; LL
 </span></span><span class="line"><span class="cl">    CL --&gt; XL
 </span></span><span class="line"><span class="cl">    CL --&gt; FL
 </span></span><span class="line"><span class="cl">    CL --&gt; IL
 </span></span><span class="line"><span class="cl">    CL --&gt; DL
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    MDS1 &lt;--&gt; POOL
 </span></span><span class="line"><span class="cl">    MDS1 &lt;--&gt; JPOOL
 </span></span><span class="line"><span class="cl">    MDS1 &lt;--&gt; MON
@@ -363,10 +345,6 @@
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// src/include/ceph_fs.h - Capability 位定义
@@ -378,18 +356,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_GBUFFER    32   </span><span class="cm">/* 缓冲写权限 */</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_GWREXTEND  64   </span><span class="cm">/* 扩展写权限 */</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_GLAZYIO   128   </span><span class="cm">/* 延迟IO权限 */</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">// 组合权限定义
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1">// 组合权限定义
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define CEPH_CAP_AUTH_SHARED  (CEPH_CAP_GSHARED)
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_AUTH_EXCL    (CEPH_CAP_GEXCL | CEPH_CAP_GSHARED)
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_LINK_SHARED  (CEPH_CAP_GSHARED) 
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_LINK_SHARED  (CEPH_CAP_GSHARED) 
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_LINK_EXCL    (CEPH_CAP_GEXCL | CEPH_CAP_GSHARED)
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_XATTR_SHARED (CEPH_CAP_GSHARED)
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_XATTR_SHARED (CEPH_CAP_GSHARED)
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_XATTR_EXCL   (CEPH_CAP_GEXCL | CEPH_CAP_GSHARED)
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_FILE_RD      (CEPH_CAP_GSHARED | CEPH_CAP_GRD)
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_FILE_RD      (CEPH_CAP_GSHARED | CEPH_CAP_GRD)
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_FILE_WR      (CEPH_CAP_GEXCL | CEPH_CAP_GWR | CEPH_CAP_GSHARED)
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_FILE_CACHE   (CEPH_CAP_GCACHE)
 </span></span></span><span class="line"><span class="cl"><span class="cp">#define CEPH_CAP_FILE_BUFFER  (CEPH_CAP_GBUFFER)
@@ -432,10 +406,6 @@
 </span><span class="lnt">29
 </span><span class="lnt">30
 </span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
@@ -443,17 +413,14 @@
 </span></span><span class="line"><span class="cl">        A1[AUTH_SHARED&lt;br/&gt;读属性]
 </span></span><span class="line"><span class="cl">        A2[AUTH_EXCL&lt;br/&gt;写属性]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;LINK Cap - 目录链接&#34;
 </span></span><span class="line"><span class="cl">        L1[LINK_SHARED&lt;br/&gt;读链接]
 </span></span><span class="line"><span class="cl">        L2[LINK_EXCL&lt;br/&gt;写链接]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;XATTR Cap - 扩展属性&#34;
 </span></span><span class="line"><span class="cl">        X1[XATTR_SHARED&lt;br/&gt;读扩展属性]
 </span></span><span class="line"><span class="cl">        X2[XATTR_EXCL&lt;br/&gt;写扩展属性]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;FILE Cap - 文件数据&#34;
 </span></span><span class="line"><span class="cl">        F1[FILE_RD&lt;br/&gt;读数据]
 </span></span><span class="line"><span class="cl">        F2[FILE_WR&lt;br/&gt;写数据]
@@ -462,7 +429,6 @@
 </span></span><span class="line"><span class="cl">        F5[FILE_EXCL&lt;br/&gt;独占访问]
 </span></span><span class="line"><span class="cl">        F6[FILE_LAZYIO&lt;br/&gt;延迟IO]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    A1 --&gt; |stat,getattr| FileOps
 </span></span><span class="line"><span class="cl">    A2 --&gt; |chmod,chown| FileOps
 </span></span><span class="line"><span class="cl">    L1 --&gt; |readdir| DirOps
@@ -506,47 +472,31 @@
 </span><span class="lnt">25
 </span><span class="lnt">26
 </span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">stateDiagram-v2
 </span></span><span class="line"><span class="cl">    [*] --&gt; LOCK_SYNC
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    LOCK_SYNC --&gt; LOCK_LOCK: need_write
 </span></span><span class="line"><span class="cl">    LOCK_SYNC --&gt; LOCK_MIX: need_mixed
 </span></span><span class="line"><span class="cl">    LOCK_SYNC --&gt; LOCK_TSYN: need_tsyn
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    LOCK_LOCK --&gt; LOCK_SYNC: no_writers
 </span></span><span class="line"><span class="cl">    LOCK_LOCK --&gt; LOCK_XLOCK: need_xlock
 </span></span><span class="line"><span class="cl">    LOCK_LOCK --&gt; LOCK_XLOCKDONE: xlock_finish
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    LOCK_MIX --&gt; LOCK_SYNC: no_readers_writers
 </span></span><span class="line"><span class="cl">    LOCK_MIX --&gt; LOCK_LOCK: need_write_only
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    LOCK_XLOCK --&gt; LOCK_XLOCKDONE: xlock_finish
 </span></span><span class="line"><span class="cl">    LOCK_XLOCKDONE --&gt; LOCK_LOCK: xlock_done
 </span></span><span class="line"><span class="cl">    LOCK_XLOCKDONE --&gt; LOCK_SYNC: release_all
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    LOCK_TSYN --&gt; LOCK_SYNC: tsyn_finish
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    state LOCK_SYNC {
 </span></span><span class="line"><span class="cl">        [*] --&gt; Stable
 </span></span><span class="line"><span class="cl">        Stable --&gt; MultipleReaders
 </span></span><span class="line"><span class="cl">        MultipleReaders --&gt; Stable
 </span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    state LOCK_LOCK {
 </span></span><span class="line"><span class="cl">        [*] --&gt; SingleWriter  
 </span></span><span class="line"><span class="cl">        SingleWriter --&gt; ExclusiveWrite
 </span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    state LOCK_MIX {
 </span></span><span class="line"><span class="cl">        [*] --&gt; MixedAccess
 </span></span><span class="line"><span class="cl">        MixedAccess --&gt; ReadersAndWriters
@@ -595,10 +545,6 @@
 </span><span class="lnt">36
 </span><span class="lnt">37
 </span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
@@ -608,12 +554,10 @@
 </span></span><span class="line"><span class="cl">    participant CM as CapManager
 </span></span><span class="line"><span class="cl">    participant SL as SimpleLock
 </span></span><span class="line"><span class="cl">    participant J as Journal
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Note over C,J: Phase 1: Cap 请求
 </span></span><span class="line"><span class="cl">    C-&gt;&gt;MDS: MClientRequest(open)
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;L: acquire_locks(inode)
 </span></span><span class="line"><span class="cl">    L-&gt;&gt;SL: lock(FILE_LOCK, LOCK_LOCK)
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    alt Lock Available
 </span></span><span class="line"><span class="cl">        SL--&gt;&gt;L: lock_granted
 </span></span><span class="line"><span class="cl">        L-&gt;&gt;CM: issue_caps(client, inode)
@@ -629,11 +573,9 @@
 </span></span><span class="line"><span class="cl">        L-&gt;&gt;CM: issue_caps()
 </span></span><span class="line"><span class="cl">        CM-&gt;&gt;C: MClientCaps(grant)
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Note over C,J: Phase 2: Cap 使用
 </span></span><span class="line"><span class="cl">    C-&gt;&gt;C: install_caps()
 </span></span><span class="line"><span class="cl">    C-&gt;&gt;C: perform_file_io()
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Note over C,J: Phase 3: Cap 撤销
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;CM: revoke_caps(mask)
 </span></span><span class="line"><span class="cl">    CM-&gt;&gt;C: MClientCaps(revoke)
@@ -677,9 +619,6 @@
 </span><span class="lnt">26
 </span><span class="lnt">27
 </span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// src/client/Inode.h
@@ -691,20 +630,17 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="n">implemented</span><span class="p">;</span>       <span class="c1">// 已实现的权限位
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="n">wanted</span><span class="p">;</span>            <span class="c1">// 想要的权限位
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="n">pending</span><span class="p">;</span>           <span class="c1">// 待处理的权限位
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="n">utime_t</span> <span class="n">last_used</span><span class="p">;</span>          <span class="c1">// 最后使用时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">utime_t</span> <span class="n">last_used</span><span class="p">;</span>          <span class="c1">// 最后使用时间
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int64_t</span> <span class="n">gen</span><span class="p">;</span>               <span class="c1">// 生成版本号
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int64_t</span> <span class="n">cap_gen</span><span class="p">;</span>           <span class="c1">// Cap 生成号
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int64_t</span> <span class="n">seq</span><span class="p">;</span>               <span class="c1">// 序列号
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int64_t</span> <span class="n">issue_seq</span><span class="p">;</span>         <span class="c1">// 发放序列号
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int64_t</span> <span class="n">mseq</span><span class="p">;</span>              <span class="c1">// MDS 序列号
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="c1">// Cap 权限检查
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// Cap 权限检查
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">bool</span> <span class="nf">is_valid</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">session</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="nf">issued_caps_need_check</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">touch</span><span class="p">()</span> <span class="p">{</span> <span class="n">last_used</span> <span class="o">=</span> <span class="n">ceph_clock_now</span><span class="p">();</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// 客户端 Inode 扩展
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Inode</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// ... 其他成员
@@ -743,11 +679,6 @@
 </span><span class="lnt">23
 </span><span class="lnt">24
 </span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// src/mds/Capability.h
@@ -755,26 +686,21 @@
 </span></span><span class="line"><span class="cl">    <span class="n">client_t</span> <span class="n">client</span><span class="p">;</span>            <span class="c1">// 客户端标识
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">CInode</span> <span class="o">*</span><span class="n">inode</span><span class="p">;</span>             <span class="c1">// 指向的 inode
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint64_t</span> <span class="n">cap_id</span><span class="p">;</span>           <span class="c1">// Cap ID
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="n">issued_</span><span class="p">;</span>          <span class="c1">// 已发放权限
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="n">issued_</span><span class="p">;</span>          <span class="c1">// 已发放权限
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="n">pending_</span><span class="p">;</span>         <span class="c1">// 待处理权限  
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="n">wanted_</span><span class="p">;</span>          <span class="c1">// 客户端想要的权限
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="n">utime_t</span> <span class="n">last_sent</span><span class="p">;</span>         <span class="c1">// 最后发送时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">utime_t</span> <span class="n">last_sent</span><span class="p">;</span>         <span class="c1">// 最后发送时间
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">utime_t</span> <span class="n">last_revoke_stamp</span><span class="p">;</span> <span class="c1">// 最后撤销时间
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int64_t</span> <span class="n">trans_seq</span><span class="p">;</span>         <span class="c1">// 事务序列号
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int64_t</span> <span class="n">client_follows</span><span class="p">;</span>    <span class="c1">// 客户端跟随序列号
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">public</span><span class="o">:</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 权限管理方法
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">void</span> <span class="n">set_wanted</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">w</span><span class="p">)</span> <span class="p">{</span> <span class="n">wanted_</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">inc_suppress</span><span class="p">()</span> <span class="p">{</span> <span class="n">suppress</span><span class="o">++</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">dec_suppress</span><span class="p">()</span> <span class="p">{</span> <span class="n">suppress</span><span class="o">--</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="nf">is_suppress</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">suppress</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="nf">is_stale</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="nf">is_valid</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">client</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 权限检查
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="nf">issued</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">issued_</span><span class="p">;</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="nf">pending</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">pending_</span><span class="p">;</span> <span class="p">}</span>
@@ -865,43 +791,22 @@
 </span><span class="lnt">77
 </span><span class="lnt">78
 </span><span class="lnt">79
-</span><span class="lnt">80
-</span><span class="lnt">81
-</span><span class="lnt">82
-</span><span class="lnt">83
-</span><span class="lnt">84
-</span><span class="lnt">85
-</span><span class="lnt">86
-</span><span class="lnt">87
-</span><span class="lnt">88
-</span><span class="lnt">89
-</span><span class="lnt">90
-</span><span class="lnt">91
-</span><span class="lnt">92
-</span><span class="lnt">93
-</span><span class="lnt">94
-</span><span class="lnt">95
-</span><span class="lnt">96
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// src/mds/Locker.cc
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="n">Locker</span><span class="o">::</span><span class="n">issue_caps</span><span class="p">(</span><span class="n">CInode</span> <span class="o">*</span><span class="n">in</span><span class="p">,</span> <span class="n">Capability</span> <span class="o">*</span><span class="n">cap</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">dout</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;issue_caps for &#34;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">in</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; to client.&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">dendl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="n">was_issued</span> <span class="o">=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="n">wanted</span> <span class="o">=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">wanted</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="n">issued</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 检查各种锁的状态来决定可以发放的权限
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="c1">// AUTH cap - 文件属性权限
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// AUTH cap - 文件属性权限
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">authlock</span><span class="p">.</span><span class="n">can_read</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_AUTH_SHARED</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">authlock</span><span class="p">.</span><span class="n">can_write</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_AUTH_EXCL</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// LINK cap - 目录链接权限
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">linklock</span><span class="p">.</span><span class="n">can_read</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_LINK_SHARED</span><span class="p">;</span>
@@ -909,7 +814,6 @@
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">linklock</span><span class="p">.</span><span class="n">can_write</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_LINK_EXCL</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// XATTR cap - 扩展属性权限
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">xattrlock</span><span class="p">.</span><span class="n">can_read</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_XATTR_SHARED</span><span class="p">;</span>
@@ -917,7 +821,6 @@
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">xattrlock</span><span class="p">.</span><span class="n">can_write</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_XATTR_EXCL</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// FILE cap - 文件数据权限 (最复杂)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">filelock</span><span class="p">.</span><span class="n">can_read</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_FILE_RD</span><span class="p">;</span>
@@ -925,7 +828,6 @@
 </span></span><span class="line"><span class="cl">            <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_FILE_CACHE</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">filelock</span><span class="p">.</span><span class="n">can_write</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">issued</span> <span class="o">|=</span> <span class="n">CEPH_CAP_FILE_WR</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="o">-&gt;</span><span class="n">filelock</span><span class="p">.</span><span class="n">can_write_projected</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">get_client</span><span class="p">()))</span> <span class="p">{</span>
@@ -935,45 +837,35 @@
 </span></span><span class="line"><span class="cl">            <span class="p">}</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 限制权限为客户端实际想要的
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">issued</span> <span class="o">&amp;=</span> <span class="n">wanted</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 如果权限有变化，发送 grant 消息
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">issued</span> <span class="o">!=</span> <span class="n">was_issued</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">cap</span><span class="o">-&gt;</span><span class="n">set_issued</span><span class="p">(</span><span class="n">issued</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">        <span class="n">send_cap_grant</span><span class="p">(</span><span class="n">cap</span><span class="p">,</span> <span class="n">issued</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        <span class="c1">// 记录到日志
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">mds</span><span class="o">-&gt;</span><span class="n">mdlog</span><span class="o">-&gt;</span><span class="n">get_write_pos</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">mds</span><span class="o">-&gt;</span><span class="n">mdlog</span><span class="o">-&gt;</span><span class="n">submit_entry</span><span class="p">(</span><span class="k">new</span> <span class="n">EMetaBlob</span><span class="p">(</span><span class="n">mds</span><span class="o">-&gt;</span><span class="n">mdlog</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Cap 撤销核心函数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="n">Locker</span><span class="o">::</span><span class="n">revoke_caps</span><span class="p">(</span><span class="n">CInode</span> <span class="o">*</span><span class="n">in</span><span class="p">,</span> <span class="kt">int</span> <span class="n">revoke_mask</span><span class="p">,</span> <span class="n">client_t</span> <span class="n">client</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">dout</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;revoke_caps &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">ccap_string</span><span class="p">(</span><span class="n">revoke_mask</span><span class="p">)</span> 
 </span></span><span class="line"><span class="cl">            <span class="o">&lt;&lt;</span> <span class="s">&#34; on &#34;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">in</span> <span class="o">&lt;&lt;</span> <span class="n">dendl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">in</span><span class="o">-&gt;</span><span class="n">get_client_caps</span><span class="p">().</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">==</span> <span class="n">in</span><span class="o">-&gt;</span><span class="n">get_client_caps</span><span class="p">().</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span> <span class="c1">// 客户端没有 caps
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">Capability</span> <span class="o">*</span><span class="n">cap</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="n">revoking</span> <span class="o">=</span> <span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">revoke_mask</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">revoking</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">dout</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; revoking &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">ccap_string</span><span class="p">(</span><span class="n">revoking</span><span class="p">)</span> 
 </span></span><span class="line"><span class="cl">                <span class="o">&lt;&lt;</span> <span class="s">&#34; from client.&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">client</span> <span class="o">&lt;&lt;</span> <span class="n">dendl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        <span class="n">cap</span><span class="o">-&gt;</span><span class="n">set_pending</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">pending</span><span class="p">()</span> <span class="o">|</span> <span class="n">revoking</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">        <span class="n">cap</span><span class="o">-&gt;</span><span class="n">set_issued</span><span class="p">(</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">issued</span><span class="p">()</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">revoking</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        <span class="c1">// 发送撤销消息
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">send_cap_revoke</span><span class="p">(</span><span class="n">cap</span><span class="p">,</span> <span class="n">revoking</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        <span class="c1">// 设置撤销超时
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cap</span><span class="o">-&gt;</span><span class="n">is_suppress</span><span class="p">())</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">mds</span><span class="o">-&gt;</span><span class="n">locker</span><span class="o">-&gt;</span><span class="n">set_cap_revoke_timeout</span><span class="p">(</span><span class="n">cap</span><span class="p">);</span>
@@ -1024,16 +916,6 @@
 </span><span class="lnt">37
 </span><span class="lnt">38
 </span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// src/mds/locks.cc
@@ -1041,42 +923,32 @@
 </span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="nl">LOCK_SYNC</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">// 同步状态允许所有客户端读
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            
-</span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="nl">LOCK_MIX</span><span class="p">:</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">case</span> <span class="nl">LOCK_MIX</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">// 混合状态允许读
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            
-</span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="nl">LOCK_LOCK</span><span class="p">:</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">case</span> <span class="nl">LOCK_LOCK</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="c1">// 锁定状态只允许锁持有者读
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="n">is_rdlocked_by</span><span class="p">(</span><span class="n">client</span><span class="p">)</span> <span class="o">||</span> <span class="n">is_wrlocked_by</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            
 </span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="nl">LOCK_XLOCK</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="c1">// 排他锁状态只允许锁持有者
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="n">is_xlocked_by</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            
 </span></span><span class="line"><span class="cl">        <span class="k">default</span><span class="o">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">SimpleLock</span><span class="o">::</span><span class="n">can_write</span><span class="p">(</span><span class="n">client_t</span> <span class="n">client</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="nl">LOCK_LOCK</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">is_wrlocked_by</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            
 </span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="nl">LOCK_XLOCK</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">is_xlocked_by</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            
 </span></span><span class="line"><span class="cl">        <span class="k">default</span><span class="o">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// 锁状态转换
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="n">SimpleLock</span><span class="o">::</span><span class="n">go_lock</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">dout</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;go_lock on &#34;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">get_parent</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">dendl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">state</span> <span class="o">=</span> <span class="n">LOCK_LOCK</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 撤销所有客户端的读权限，除了获得写锁的客户端
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">p</span> <span class="p">:</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">get_client_caps</span><span class="p">())</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">client_t</span> <span class="n">client</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
@@ -1122,11 +994,6 @@
 </span><span class="lnt">29
 </span><span class="lnt">30
 </span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TD
@@ -1136,31 +1003,26 @@
 </span></span><span class="line"><span class="cl">        L3[Journal WAL&lt;br/&gt;强一致性&lt;br/&gt;Write-ahead logging]  
 </span></span><span class="line"><span class="cl">        L4[RADOS Storage&lt;br/&gt;线性一致性&lt;br/&gt;Distributed storage]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;一致性机制&#34;
 </span></span><span class="line"><span class="cl">        M1[Cap Revocation&lt;br/&gt;缓存失效协议]
 </span></span><span class="line"><span class="cl">        M2[Lock Ordering&lt;br/&gt;死锁避免]
 </span></span><span class="line"><span class="cl">        M3[Journal Commit&lt;br/&gt;事务保证]
 </span></span><span class="line"><span class="cl">        M4[RADOS ACID&lt;br/&gt;原子操作]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;故障处理&#34;
 </span></span><span class="line"><span class="cl">        F1[Client Failure&lt;br/&gt;Cap 超时回收]
 </span></span><span class="line"><span class="cl">        F2[MDS Failure&lt;br/&gt;Cap 重建]
 </span></span><span class="line"><span class="cl">        F3[Network Partition&lt;br/&gt;脑裂处理]
 </span></span><span class="line"><span class="cl">        F4[Storage Failure&lt;br/&gt;副本恢复]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    L1 --&gt; |Cache Coherence| M1
 </span></span><span class="line"><span class="cl">    L2 --&gt; |Mutual Exclusion| M2  
 </span></span><span class="line"><span class="cl">    L3 --&gt; |Durability| M3
 </span></span><span class="line"><span class="cl">    L4 --&gt; |Atomicity| M4
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    M1 --&gt; F1
 </span></span><span class="line"><span class="cl">    M2 --&gt; F2
 </span></span><span class="line"><span class="cl">    M3 --&gt; F3
 </span></span><span class="line"><span class="cl">    M4 --&gt; F4
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    F1 --&gt; L2
 </span></span><span class="line"><span class="cl">    F2 --&gt; L3
 </span></span><span class="line"><span class="cl">    F3 --&gt; L4
@@ -1199,10 +1061,6 @@
 </span><span class="lnt">27
 </span><span class="lnt">28
 </span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
@@ -1211,23 +1069,19 @@
 </span></span><span class="line"><span class="cl">    participant MDS2 as Takeover MDS
 </span></span><span class="line"><span class="cl">    participant MON as Monitor
 </span></span><span class="line"><span class="cl">    participant RADOS as RADOS Store
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Note over C,RADOS: MDS 故障检测
 </span></span><span class="line"><span class="cl">    MDS1-&gt;&gt;X: 故障/网络分区
 </span></span><span class="line"><span class="cl">    MON-&gt;&gt;MON: 检测 MDS1 故障
 </span></span><span class="line"><span class="cl">    MON-&gt;&gt;MDS2: assign_rank(failed_rank)
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Note over C,RADOS: Cap 状态重建
 </span></span><span class="line"><span class="cl">    MDS2-&gt;&gt;RADOS: 读取 journal 和 metadata
 </span></span><span class="line"><span class="cl">    RADOS--&gt;&gt;MDS2: 返回持久化状态
 </span></span><span class="line"><span class="cl">    MDS2-&gt;&gt;MDS2: replay_journal()
 </span></span><span class="line"><span class="cl">    MDS2-&gt;&gt;MDS2: rebuild_cap_state()
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Note over C,RADOS: 客户端重连
 </span></span><span class="line"><span class="cl">    C-&gt;&gt;MDS2: 重新连接请求
 </span></span><span class="line"><span class="cl">    MDS2-&gt;&gt;C: MClientSession(renewal)
 </span></span><span class="line"><span class="cl">    C-&gt;&gt;MDS2: 报告当前 caps 状态
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    Note over C,RADOS: Cap 状态同步
 </span></span><span class="line"><span class="cl">    MDS2-&gt;&gt;MDS2: validate_client_caps()
 </span></span><span class="line"><span class="cl">    alt Caps Valid
@@ -1271,8 +1125,6 @@
 </span><span class="lnt">25
 </span><span class="lnt">26
 </span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// src/client/Client.cc - 客户端 Cap 缓存优化
@@ -1280,8 +1132,7 @@
 </span></span><span class="line"><span class="cl">    <span class="c1">// Cap 缓存管理
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">LRUObjects</span> <span class="n">cap_lru</span><span class="p">;</span>        <span class="c1">// Cap LRU 缓存
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint64_t</span> <span class="n">max_caps_cache</span><span class="p">;</span>   <span class="c1">// 最大缓存 caps 数量
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">trim_caps</span><span class="p">()</span> <span class="p">{</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">void</span> <span class="nf">trim_caps</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="n">cap_lru</span><span class="p">.</span><span class="n">lru_get_size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">max_caps_cache</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">Inode</span> <span class="o">*</span><span class="n">in</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Inode</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">cap_lru</span><span class="p">.</span><span class="n">lru_expire</span><span class="p">());</span>
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="p">{</span>
@@ -1289,7 +1140,6 @@
 </span></span><span class="line"><span class="cl">            <span class="p">}</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 智能 Cap 预测
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">void</span> <span class="nf">predict_caps_needed</span><span class="p">(</span><span class="n">Inode</span> <span class="o">*</span><span class="n">in</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="o">&amp;</span><span class="n">wanted</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// 基于访问模式预测需要的权限
@@ -1317,7 +1167,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2025-07-17
+        0001-01-01
         
     </span>
   </p>
@@ -1329,7 +1179,11 @@
           <a href="/tags/ceph/">ceph</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/ceph-content/operation-skills/zh-cn/%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97ceph%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default"></span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/ceph-content/architecture-analysis/zh-cn/ceph-mds-metadata-server-%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/">
             <span class="next-text nav-default">Ceph MDS (Metadata Server) 架构解析</span>
             <span class="next-text nav-mobile">Next</span>

@@ -45,13 +45,13 @@ This article analyzes the execution flow when using balancer upmap mode, based o
 This article analyzes the execution flow when using balancer upmap mode, based on the ceph Pacific version." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/code-analysis/en/execution-flow-analysis-of-the-ceph-mgr-balancer-module-/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2025-07-17T06:55:42+08:00" />
-<meta property="article:modified_time" content="2025-07-17T06:55:42+08:00" />
+
+
 
 <meta itemprop="name" content="Execution Flow Analysis of the Ceph mgr-balancer Module ">
 <meta itemprop="description" content="As OSD are replaced and the cluster scales in and out, the distribution of PGs across OSDs becomes increasingly unbalanced. This leads to discrepancies in actual usage rates of individual OSDs, reducing the overall utilization rate of cluster. The ceph balancer module addresses this by adjusting weights or specifying PG mappings via upmap to redistribute PGs evently.
-This article analyzes the execution flow when using balancer upmap mode, based on the ceph Pacific version."><meta itemprop="datePublished" content="2025-07-17T06:55:42+08:00" />
-<meta itemprop="dateModified" content="2025-07-17T06:55:42+08:00" />
+This article analyzes the execution flow when using balancer upmap mode, based on the ceph Pacific version.">
+
 <meta itemprop="wordCount" content="1182">
 <meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Execution Flow Analysis of the Ceph mgr-balancer Module "/>
@@ -136,7 +136,7 @@ This article analyzes the execution flow when using balancer upmap mode, based o
       <h1 class="post-title">Execution Flow Analysis of the Ceph mgr-balancer Module </h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2025-07-17 </span>
+        <span class="post-time"> 0001-01-01 </span>
         <div class="post-category">
             <a href="/categories/ceph/"> ceph </a>
             </div>
@@ -177,10 +177,10 @@ This article analyzes the execution flow when using balancer upmap mode, based o
 <p>This article analyzes the execution flow when using balancer upmap mode, based on the ceph Pacific version.</p>
 </blockquote>
 <h1 id="balancer-module-execution-flow">balancer module execution flow</h1>
-<p>Overview diagram of the balancer module execution flow:</p>
-<p><img src="../../image/mgr-balancer-1-en.jpg" alt=""></p>
-<p>The balancer has two modes: upmap and crush-compat.</p>
-<p>Only one can be active at a time. Below is a comparison of two modes:</p>
+<p>Overview diagram of the balancer module execution flow:
+<img src="../../image/mgr-balancer-1-en.jpg" alt="">
+The balancer has two modes: upmap and crush-compat.
+Only one can be active at a time. Below is a comparison of two modes:</p>
 <h2 id="implementation-method">Implementation method</h2>
 <p><code>crush-compat</code>: Generates a separate <code>choose_args</code>list in the crush map, which contains adjusted weight sets used to influence PGs distribution. You can view it using <code>ceph crush dump</code>. Example:</p>
 <div class="highlight"><div class="chroma">
@@ -345,9 +345,9 @@ This article analyzes the execution flow when using balancer upmap mode, based o
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><code>upmap</code>: Creates explicit PG-to-OSD mappings in the osdmap. For example, this line:</p>
-<p><code>pg_upmap_items 3.1e [5,2]</code> means PG 3.1e is remapped from osd.5 to osd.2.</p>
-<p>You can view all mappings use <code>ceph osd dump</code>:</p>
+</div><p><code>upmap</code>: Creates explicit PG-to-OSD mappings in the osdmap. For example, this line:
+<code>pg_upmap_items 3.1e [5,2]</code> means PG 3.1e is remapped from osd.5 to osd.2.
+You can view all mappings use <code>ceph osd dump</code>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -372,12 +372,12 @@ This article analyzes the execution flow when using balancer upmap mode, based o
 <li><code>upmap</code>: Not supported by clients older then version Luminous.</li>
 </ol>
 <h2 id="scope-of-impact">Scope of impact</h2>
-<p><code>crush-compat</code>: Controls PG distribution by weight, but cannot limit which PGs are remapped.</p>
-<p><code>upmap</code>: Allow configuration of the maximum number of PG deviation and the number of PGs that can be remmaped in each round of adjustment, offering finer control.</p>
+<p><code>crush-compat</code>: Controls PG distribution by weight, but cannot limit which PGs are remapped.
+<code>upmap</code>: Allow configuration of the maximum number of PG deviation and the number of PGs that can be remmaped in each round of adjustment, offering finer control.</p>
 <h1 id="upmap-mode-execution-flow">upmap mode execution flow</h1>
-<p>Enable detailed OSD logs with <code>ceph tell mgr.* config set debug_osd 30/30</code>, the content within the blue box is log print information.</p>
-<p>The diagram shows the execution flow of changing the <code>up_set</code>of PG 3.28 from [3,5] to [3,2] in a two replica pool, e.g., moving PG 3.28 from osd.5 to osd.2.</p>
-<p><img src="../../image/mgr-balancer-2-en.jpg" alt=""></p>
+<p>Enable detailed OSD logs with <code>ceph tell mgr.* config set debug_osd 30/30</code>, the content within the blue box is log print information.
+The diagram shows the execution flow of changing the <code>up_set</code>of PG 3.28 from [3,5] to [3,2] in a two replica pool, e.g., moving PG 3.28 from osd.5 to osd.2.
+<img src="../../image/mgr-balancer-2-en.jpg" alt=""></p>
 <h1 id="parameters">Parameters</h1>
 <h2 id="time-related-parameters">Time-related parameters</h2>
 <div class="highlight"><div class="chroma">
@@ -417,8 +417,8 @@ This article analyzes the execution flow when using balancer upmap mode, based o
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="testing">Testing</h1>
-<p>run<code>ceph config set mgr mgr/balancer/upmap_max_deviation 2</code> command，waiting for balancer to complete&hellip;&hellip;</p>
-<p>Before balancing：</p>
+<p>run<code>ceph config set mgr mgr/balancer/upmap_max_deviation 2</code> command，waiting for balancer to complete&hellip;&hellip;
+Before balancing：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -500,7 +500,7 @@ This article analyzes the execution flow when using balancer upmap mode, based o
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2025-07-17
+        0001-01-01
         
     </span>
   </p>
@@ -517,8 +517,8 @@ This article analyzes the execution flow when using balancer upmap mode, based o
             <span class="prev-text nav-default">DAOS File System: Phoenix Rising After Optane&#39;s End</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/">
-            <span class="next-text nav-default">From.deepseek-3FS.to.AI.Storage</span>
+        <a class="next" href="/post/ceph-content/architecture-analysis/en/osd/">
+            <span class="next-text nav-default">OSD</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

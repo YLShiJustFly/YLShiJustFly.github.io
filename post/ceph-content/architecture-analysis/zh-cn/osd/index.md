@@ -1,7 +1,4 @@
-
-
 ### 经典OSD整体架构图
-
 ```mermaid
 graph TB
     subgraph "OSD进程架构"
@@ -10,7 +7,6 @@ graph TB
         ShardedOpWQ[ShardedOpWQ<br/>分片操作队列]
         Messenger[Messenger<br/>消息系统]
     end
-    
     subgraph "PG管理子系统"
         PGMap[pg_map<br/>PG映射表]
         PG[PG类<br/>放置组]
@@ -18,28 +14,24 @@ graph TB
         ReplicatedBackend[ReplicatedBackend]
         ECBackend[ECBackend]
     end
-    
     subgraph "对象存储子系统"
         ObjectStore[ObjectStore<br/>存储抽象层]
         FileStore[FileStore<br/>文件系统存储]
         BlueStore[BlueStore<br/>裸设备存储]
         ObjectContext[ObjectContext<br/>对象上下文]
     end
-    
     subgraph "恢复子系统"
         RecoveryState[RecoveryState<br/>恢复状态机]
         PeeringState[PeeringState<br/>对等状态]
         BackfillState[BackfillState<br/>回填状态]
         RecoveryWQ[RecoveryWQ<br/>恢复工作队列]
     end
-    
     subgraph "监控与统计"
         PGStats[PGStats<br/>PG统计]
         OSDStats[OSDStats<br/>OSD统计]
         PerfCounters[PerfCounters<br/>性能计数器]
         Logger[Logger<br/>日志系统]
     end
-    
     OSD --> OSDService
     OSD --> ShardedOpWQ
     OSD --> Messenger
@@ -61,9 +53,7 @@ graph TB
     OSD --> PerfCounters
     OSD --> Logger
 ```
-
 ### OSD核心类结构详解
-
 ```mermaid
 classDiagram
     class OSD {
@@ -91,7 +81,6 @@ classDiagram
         +start_boot()
         +shutdown()
     }
-    
     class OSDService {
         -OSD* osd
         -CephContext* cct
@@ -108,7 +97,6 @@ classDiagram
         +queue_for_recovery(PG* pg)
         +queue_for_scrub(PG* pg)
     }
-    
     class ShardedOpWQ {
         -vector~OpWQ*~ shards
         -atomic~uint32_t~ next_shard
@@ -116,7 +104,6 @@ classDiagram
         +dequeue(OpWQ* shard)
         +process_batch()
     }
-    
     class OpWQ {
         -ThreadPool::TPHandle* handle
         -list~OpRequestRef~ ops
@@ -126,14 +113,11 @@ classDiagram
         +dequeue()
         +process()
     }
-    
     OSD --> OSDService
     OSD --> ShardedOpWQ
     ShardedOpWQ --> OpWQ
 ```
-
 ### PG类详细结构
-
 ```mermaid
 classDiagram
     class PG {
@@ -167,7 +151,6 @@ classDiagram
         +activate()
         +clean_up_local()
     }
-    
     class RecoveryState {
         -PG* pg
         -RecoveryMachine machine
@@ -177,7 +160,6 @@ classDiagram
         +advance_map()
         +need_up_thru()
     }
-    
     class PGLog {
         -IndexedLog log
         -eversion_t tail
@@ -189,7 +171,6 @@ classDiagram
         +merge_log(ObjectStore::Transaction* t)
         +write_log_and_missing()
     }
-    
     class PGBackend {
         -PG* parent
         -ObjectStore* store
@@ -201,21 +182,12 @@ classDiagram
         +objects_read_sync()
         +be_deep_scrub()
     }
-    
     PG --> RecoveryState
     PG --> PGLog
     PG --> PGBackend
 ```
-
-
-
-
-
-
 ### 读写IO处理详细流程
-
 #### 写操作完整流程
-
 ```mermaid
 sequenceDiagram
     participant Client
@@ -225,48 +197,36 @@ sequenceDiagram
     participant ObjectStore
     participant Journal
     participant Replica
-    
     Client->>OSD: MOSDOp(write)
     OSD->>OSD: handle_osd_op()
     Note right of OSD: 1. 验证请求<br/>2. 构建OpRequest<br/>3. 查找PG
-    
     OSD->>OpWQ: enqueue(OpRequest)
     OpWQ->>PG: do_request()
-    
     PG->>PG: 检查PG状态
     alt PG Active
         PG->>PG: do_op()
         PG->>PG: execute_ctx()
         Note right of PG: 构建OpContext
-        
         PG->>ObjectStore: queue_transaction()
         Note right of ObjectStore: 写入本地存储
-        
         alt 是Primary且有副本
             PG->>Replica: 发送SubOp
             Note right of PG: 发送给所有副本
-            
             Replica->>ObjectStore: queue_transaction()
             Replica->>PG: SubOpReply
-            
             PG->>PG: eval_repop()
             Note right of PG: 等待所有副本确认
         end
-        
         ObjectStore->>Journal: write_journal()
         Journal->>PG: on_applied()
         PG->>Client: MOSDOpReply
-        
         Journal->>ObjectStore: apply_transaction()
         ObjectStore->>PG: on_commit()
-        
     else PG not Active
         PG->>PG: 加入waiting_for_active队列
     end
 ```
-
 #### 读操作流程
-
 ```mermaid
 sequenceDiagram
     participant Client
@@ -274,19 +234,15 @@ sequenceDiagram
     participant PG
     participant ObjectContext
     participant ObjectStore
-    
     Client->>OSD: MOSDOp(read)
     OSD->>PG: do_request()
-    
     PG->>PG: 检查PG状态
     alt PG可读
         PG->>ObjectContext: get_object_context()
         ObjectContext->>ObjectStore: getattr()
         ObjectStore-->>ObjectContext: 对象元数据
-        
         PG->>ObjectStore: read()
         ObjectStore-->>PG: 对象数据
-        
         PG->>Client: MOSDOpReply(data)
     else PG不可读
         PG->>PG: 加入等待队列

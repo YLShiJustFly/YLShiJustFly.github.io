@@ -17,7 +17,7 @@
 
 
 <meta name="author" content="ceph-deep-dive" /><meta name="description" content="Ceph Monitor Architecture Analysis Monitor Overall Architecture Overview Core Functional Positioning Ceph Monitor serves as the control plane of the cluster, primarily responsible for the following core duties:
-Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp;amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp;amp; Authorization: Managing CephX authentication system and user permissions Election &amp;amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 graph TB subgraph &amp;#34;Ceph Monitor Core Architecture&amp;#34; A[Monitor Daemon] --&amp;gt; B[MonitorStore] A --&amp;gt; C[Paxos Engine] A --&amp;gt; D[Election Module] A --&amp;gt; E[Health Module] A --&amp;gt; F[Config Module] A --&amp;gt; G[Auth Module] B --&amp;gt; B1[ClusterMap Storage] B --&amp;gt; B2[Configuration DB] B --&amp;gt; B3[Transaction Log] C --&amp;gt; C1[Proposal Processing] C --&amp;gt; C2[Leader Election] C --&amp;gt; C3[Consensus Coordination] D --&amp;gt; D1[Connectivity Strategy] D --&amp;gt; D2[Quorum Management] D --&amp;gt; D3[Split-brain Prevention] E --&amp;gt; E1[Health Checks] E --&amp;gt; E2[Status Reporting] E --&amp;gt; E3[Alert Generation] F --&amp;gt; F1[Config Key-Value Store] F --&amp;gt; F2[Runtime Configuration] F --&amp;gt; F3[Config Distribution] G --&amp;gt; G1[CephX Authentication] G --&amp;gt; G2[User Management] G --&amp;gt; G3[Capability Control] end subgraph &amp;#34;External Interactions&amp;#34; H[OSD Daemons] --&amp;gt; A I[MDS Daemons] --&amp;gt; A J[Client Applications] --&amp;gt; A K[Admin Tools] --&amp;gt; A L[Dashboard/Grafana] --&amp;gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata." /><meta name="keywords" content="Hugo, theme, even" />
+Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp;amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp;amp; Authorization: Managing CephX authentication system and user permissions Election &amp;amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 graph TB subgraph &amp;#34;Ceph Monitor Core Architecture&amp;#34; A[Monitor Daemon] --&amp;gt; B[MonitorStore] A --&amp;gt; C[Paxos Engine] A --&amp;gt; D[Election Module] A --&amp;gt; E[Health Module] A --&amp;gt; F[Config Module] A --&amp;gt; G[Auth Module] B --&amp;gt; B1[ClusterMap Storage] B --&amp;gt; B2[Configuration DB] B --&amp;gt; B3[Transaction Log] C --&amp;gt; C1[Proposal Processing] C --&amp;gt; C2[Leader Election] C --&amp;gt; C3[Consensus Coordination] D --&amp;gt; D1[Connectivity Strategy] D --&amp;gt; D2[Quorum Management] D --&amp;gt; D3[Split-brain Prevention] E --&amp;gt; E1[Health Checks] E --&amp;gt; E2[Status Reporting] E --&amp;gt; E3[Alert Generation] F --&amp;gt; F1[Config Key-Value Store] F --&amp;gt; F2[Runtime Configuration] F --&amp;gt; F3[Config Distribution] G --&amp;gt; G1[CephX Authentication] G --&amp;gt; G2[User Management] G --&amp;gt; G3[Capability Control] end subgraph &amp;#34;External Interactions&amp;#34; H[OSD Daemons] --&amp;gt; A I[MDS Daemons] --&amp;gt; A J[Client Applications] --&amp;gt; A K[Admin Tools] --&amp;gt; A L[Dashboard/Grafana] --&amp;gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata." /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -42,7 +42,7 @@ Cluster Map Maintenance: Managing key mapping information including MonitorMap, 
 
 <meta property="og:title" content="" />
 <meta property="og:description" content="Ceph Monitor Architecture Analysis Monitor Overall Architecture Overview Core Functional Positioning Ceph Monitor serves as the control plane of the cluster, primarily responsible for the following core duties:
-Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp; Authorization: Managing CephX authentication system and user permissions Election &amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 graph TB subgraph &#34;Ceph Monitor Core Architecture&#34; A[Monitor Daemon] --&gt; B[MonitorStore] A --&gt; C[Paxos Engine] A --&gt; D[Election Module] A --&gt; E[Health Module] A --&gt; F[Config Module] A --&gt; G[Auth Module] B --&gt; B1[ClusterMap Storage] B --&gt; B2[Configuration DB] B --&gt; B3[Transaction Log] C --&gt; C1[Proposal Processing] C --&gt; C2[Leader Election] C --&gt; C3[Consensus Coordination] D --&gt; D1[Connectivity Strategy] D --&gt; D2[Quorum Management] D --&gt; D3[Split-brain Prevention] E --&gt; E1[Health Checks] E --&gt; E2[Status Reporting] E --&gt; E3[Alert Generation] F --&gt; F1[Config Key-Value Store] F --&gt; F2[Runtime Configuration] F --&gt; F3[Config Distribution] G --&gt; G1[CephX Authentication] G --&gt; G2[User Management] G --&gt; G3[Capability Control] end subgraph &#34;External Interactions&#34; H[OSD Daemons] --&gt; A I[MDS Daemons] --&gt; A J[Client Applications] --&gt; A K[Admin Tools] --&gt; A L[Dashboard/Grafana] --&gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata." />
+Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp; Authorization: Managing CephX authentication system and user permissions Election &amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 graph TB subgraph &#34;Ceph Monitor Core Architecture&#34; A[Monitor Daemon] --&gt; B[MonitorStore] A --&gt; C[Paxos Engine] A --&gt; D[Election Module] A --&gt; E[Health Module] A --&gt; F[Config Module] A --&gt; G[Auth Module] B --&gt; B1[ClusterMap Storage] B --&gt; B2[Configuration DB] B --&gt; B3[Transaction Log] C --&gt; C1[Proposal Processing] C --&gt; C2[Leader Election] C --&gt; C3[Consensus Coordination] D --&gt; D1[Connectivity Strategy] D --&gt; D2[Quorum Management] D --&gt; D3[Split-brain Prevention] E --&gt; E1[Health Checks] E --&gt; E2[Status Reporting] E --&gt; E3[Alert Generation] F --&gt; F1[Config Key-Value Store] F --&gt; F2[Runtime Configuration] F --&gt; F3[Config Distribution] G --&gt; G1[CephX Authentication] G --&gt; G2[User Management] G --&gt; G3[Capability Control] end subgraph &#34;External Interactions&#34; H[OSD Daemons] --&gt; A I[MDS Daemons] --&gt; A J[Client Applications] --&gt; A K[Admin Tools] --&gt; A L[Dashboard/Grafana] --&gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/en/ceph-mon-system-architecture-overview/" /><meta property="article:section" content="post" />
 
@@ -50,13 +50,13 @@ Cluster Map Maintenance: Managing key mapping information including MonitorMap, 
 
 <meta itemprop="name" content="">
 <meta itemprop="description" content="Ceph Monitor Architecture Analysis Monitor Overall Architecture Overview Core Functional Positioning Ceph Monitor serves as the control plane of the cluster, primarily responsible for the following core duties:
-Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp; Authorization: Managing CephX authentication system and user permissions Election &amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 graph TB subgraph &#34;Ceph Monitor Core Architecture&#34; A[Monitor Daemon] --&gt; B[MonitorStore] A --&gt; C[Paxos Engine] A --&gt; D[Election Module] A --&gt; E[Health Module] A --&gt; F[Config Module] A --&gt; G[Auth Module] B --&gt; B1[ClusterMap Storage] B --&gt; B2[Configuration DB] B --&gt; B3[Transaction Log] C --&gt; C1[Proposal Processing] C --&gt; C2[Leader Election] C --&gt; C3[Consensus Coordination] D --&gt; D1[Connectivity Strategy] D --&gt; D2[Quorum Management] D --&gt; D3[Split-brain Prevention] E --&gt; E1[Health Checks] E --&gt; E2[Status Reporting] E --&gt; E3[Alert Generation] F --&gt; F1[Config Key-Value Store] F --&gt; F2[Runtime Configuration] F --&gt; F3[Config Distribution] G --&gt; G1[CephX Authentication] G --&gt; G2[User Management] G --&gt; G3[Capability Control] end subgraph &#34;External Interactions&#34; H[OSD Daemons] --&gt; A I[MDS Daemons] --&gt; A J[Client Applications] --&gt; A K[Admin Tools] --&gt; A L[Dashboard/Grafana] --&gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata.">
+Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp; Authorization: Managing CephX authentication system and user permissions Election &amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 graph TB subgraph &#34;Ceph Monitor Core Architecture&#34; A[Monitor Daemon] --&gt; B[MonitorStore] A --&gt; C[Paxos Engine] A --&gt; D[Election Module] A --&gt; E[Health Module] A --&gt; F[Config Module] A --&gt; G[Auth Module] B --&gt; B1[ClusterMap Storage] B --&gt; B2[Configuration DB] B --&gt; B3[Transaction Log] C --&gt; C1[Proposal Processing] C --&gt; C2[Leader Election] C --&gt; C3[Consensus Coordination] D --&gt; D1[Connectivity Strategy] D --&gt; D2[Quorum Management] D --&gt; D3[Split-brain Prevention] E --&gt; E1[Health Checks] E --&gt; E2[Status Reporting] E --&gt; E3[Alert Generation] F --&gt; F1[Config Key-Value Store] F --&gt; F2[Runtime Configuration] F --&gt; F3[Config Distribution] G --&gt; G1[CephX Authentication] G --&gt; G2[User Management] G --&gt; G3[Capability Control] end subgraph &#34;External Interactions&#34; H[OSD Daemons] --&gt; A I[MDS Daemons] --&gt; A J[Client Applications] --&gt; A K[Admin Tools] --&gt; A L[Dashboard/Grafana] --&gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata.">
 
-<meta itemprop="wordCount" content="1254">
+<meta itemprop="wordCount" content="1219">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="Ceph Monitor Architecture Analysis Monitor Overall Architecture Overview Core Functional Positioning Ceph Monitor serves as the control plane of the cluster, primarily responsible for the following core duties:
-Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp; Authorization: Managing CephX authentication system and user permissions Election &amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 graph TB subgraph &#34;Ceph Monitor Core Architecture&#34; A[Monitor Daemon] --&gt; B[MonitorStore] A --&gt; C[Paxos Engine] A --&gt; D[Election Module] A --&gt; E[Health Module] A --&gt; F[Config Module] A --&gt; G[Auth Module] B --&gt; B1[ClusterMap Storage] B --&gt; B2[Configuration DB] B --&gt; B3[Transaction Log] C --&gt; C1[Proposal Processing] C --&gt; C2[Leader Election] C --&gt; C3[Consensus Coordination] D --&gt; D1[Connectivity Strategy] D --&gt; D2[Quorum Management] D --&gt; D3[Split-brain Prevention] E --&gt; E1[Health Checks] E --&gt; E2[Status Reporting] E --&gt; E3[Alert Generation] F --&gt; F1[Config Key-Value Store] F --&gt; F2[Runtime Configuration] F --&gt; F3[Config Distribution] G --&gt; G1[CephX Authentication] G --&gt; G2[User Management] G --&gt; G3[Capability Control] end subgraph &#34;External Interactions&#34; H[OSD Daemons] --&gt; A I[MDS Daemons] --&gt; A J[Client Applications] --&gt; A K[Admin Tools] --&gt; A L[Dashboard/Grafana] --&gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata."/>
+Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp; Authorization: Managing CephX authentication system and user permissions Election &amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 graph TB subgraph &#34;Ceph Monitor Core Architecture&#34; A[Monitor Daemon] --&gt; B[MonitorStore] A --&gt; C[Paxos Engine] A --&gt; D[Election Module] A --&gt; E[Health Module] A --&gt; F[Config Module] A --&gt; G[Auth Module] B --&gt; B1[ClusterMap Storage] B --&gt; B2[Configuration DB] B --&gt; B3[Transaction Log] C --&gt; C1[Proposal Processing] C --&gt; C2[Leader Election] C --&gt; C3[Consensus Coordination] D --&gt; D1[Connectivity Strategy] D --&gt; D2[Quorum Management] D --&gt; D3[Split-brain Prevention] E --&gt; E1[Health Checks] E --&gt; E2[Status Reporting] E --&gt; E3[Alert Generation] F --&gt; F1[Config Key-Value Store] F --&gt; F2[Runtime Configuration] F --&gt; F3[Config Distribution] G --&gt; G1[CephX Authentication] G --&gt; G2[User Management] G --&gt; G3[Capability Control] end subgraph &#34;External Interactions&#34; H[OSD Daemons] --&gt; A I[MDS Daemons] --&gt; A J[Client Applications] --&gt; A K[Admin Tools] --&gt; A L[Dashboard/Grafana] --&gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -138,7 +138,7 @@ Cluster Map Maintenance: Managing key mapping information including MonitorMap, 
       <div class="post-meta">
         <span class="post-time"> 0001-01-01 </span>
         
-          <span class="more-meta"> 1254 words </span>
+          <span class="more-meta"> 1219 words </span>
           <span class="more-meta"> 6 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -227,13 +227,6 @@ Cluster Map Maintenance: Managing key mapping information including MonitorMap, 
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
@@ -244,32 +237,25 @@ Cluster Map Maintenance: Managing key mapping information including MonitorMap, 
 </span></span><span class="line"><span class="cl">        A --&gt; E[Health Module]
 </span></span><span class="line"><span class="cl">        A --&gt; F[Config Module]
 </span></span><span class="line"><span class="cl">        A --&gt; G[Auth Module]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[ClusterMap Storage]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Configuration DB]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Transaction Log]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Proposal Processing]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Leader Election]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Consensus Coordination]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Connectivity Strategy]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[Quorum Management]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Split-brain Prevention]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E --&gt; E1[Health Checks]
 </span></span><span class="line"><span class="cl">        E --&gt; E2[Status Reporting]
 </span></span><span class="line"><span class="cl">        E --&gt; E3[Alert Generation]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        F --&gt; F1[Config Key-Value Store]
 </span></span><span class="line"><span class="cl">        F --&gt; F2[Runtime Configuration]
 </span></span><span class="line"><span class="cl">        F --&gt; F3[Config Distribution]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        G --&gt; G1[CephX Authentication]
 </span></span><span class="line"><span class="cl">        G --&gt; G2[User Management]
 </span></span><span class="line"><span class="cl">        G --&gt; G3[Capability Control]
 </span></span><span class="line"><span class="cl">    end
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    subgraph &#34;External Interactions&#34;
 </span></span><span class="line"><span class="cl">        H[OSD Daemons] --&gt; A
 </span></span><span class="line"><span class="cl">        I[MDS Daemons] --&gt; A
@@ -283,8 +269,8 @@ Cluster Map Maintenance: Managing key mapping information including MonitorMap, 
 <h2 id="monitor-core-submodule-analysis">Monitor Core Submodule Analysis</h2>
 <h3 id="monitorstore-storage-engine">MonitorStore Storage Engine</h3>
 <p><strong>Functional Overview</strong>:
-MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata.</p>
-<p><strong>Core Architecture</strong>:</p>
+MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata.
+<strong>Core Architecture</strong>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -303,9 +289,6 @@ MonitorStore is the persistent storage engine of Monitor, implemented based on R
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
@@ -313,16 +296,13 @@ MonitorStore is the persistent storage engine of Monitor, implemented based on R
 </span></span><span class="line"><span class="cl">        A[MonitorStore Interface] --&gt; B[RocksDB Backend]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Transaction Manager]
 </span></span><span class="line"><span class="cl">        A --&gt; D[Snapshot Management]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[Cluster Maps]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Configuration Data]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Authentication Info]
 </span></span><span class="line"><span class="cl">        B --&gt; B4[Health Records]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[ACID Transactions]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Batch Operations]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Rollback Support]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Consistent Snapshots]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[Backup/Restore]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Recovery Points]
@@ -331,8 +311,8 @@ MonitorStore is the persistent storage engine of Monitor, implemented based on R
 </div>
 </div><h3 id="paxos-consensus-engine">Paxos Consensus Engine</h3>
 <p><strong>Functional Overview</strong>:
-The Paxos engine is the most core module of Monitor, implementing distributed consensus algorithms to ensure cluster metadata consistency across all Monitor nodes.</p>
-<p><strong>Architecture Design</strong>:</p>
+The Paxos engine is the most core module of Monitor, implementing distributed consensus algorithms to ensure cluster metadata consistency across all Monitor nodes.
+<strong>Architecture Design</strong>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -355,11 +335,6 @@ The Paxos engine is the most core module of Monitor, implementing distributed co
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
@@ -367,22 +342,17 @@ The Paxos engine is the most core module of Monitor, implementing distributed co
 </span></span><span class="line"><span class="cl">        A[Paxos Service] --&gt; B[Proposer Role]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Acceptor Role] 
 </span></span><span class="line"><span class="cl">        A --&gt; D[Learner Role]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[Proposal Generation]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Phase 1: Prepare]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Phase 2: Accept]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Promise Handling]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Accept Requests]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Vote Management]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Value Learning]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[State Synchronization]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Catchup Mechanism]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E[Leader Election] --&gt; F[Quorum Management]
 </span></span><span class="line"><span class="cl">        E --&gt; G[Term Management]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        F --&gt; F1[Majority Calculation]
 </span></span><span class="line"><span class="cl">        F --&gt; F2[Split-brain Prevention]
 </span></span><span class="line"><span class="cl">        F --&gt; F3[Network Partition Handling]
@@ -414,8 +384,8 @@ The Paxos engine is the most core module of Monitor, implementing distributed co
 </ol>
 <h3 id="election--arbitration-module">Election &amp; Arbitration Module</h3>
 <p><strong>Functional Overview</strong>:
-Responsible for Monitor cluster Leader election, quorum maintenance, and failure detection, ensuring cluster availability under various network conditions.</p>
-<p><strong>Election Strategy Architecture</strong>:</p>
+Responsible for Monitor cluster Leader election, quorum maintenance, and failure detection, ensuring cluster availability under various network conditions.
+<strong>Election Strategy Architecture</strong>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -436,10 +406,6 @@ Responsible for Monitor cluster Leader election, quorum maintenance, and failure
 </span><span class="lnt">16
 </span><span class="lnt">17
 </span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
@@ -447,19 +413,15 @@ Responsible for Monitor cluster Leader election, quorum maintenance, and failure
 </span></span><span class="line"><span class="cl">        A[Election Manager] --&gt; B[Connectivity Strategy]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Classic Strategy]
 </span></span><span class="line"><span class="cl">        A --&gt; D[Disallowed Strategy]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[Network Reachability]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Latency Measurement]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Bandwidth Testing]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Monitor Rank Based]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Simple Majority]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Static Priority]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E[Quorum Management] --&gt; F[Split-brain Detection]
 </span></span><span class="line"><span class="cl">        E --&gt; G[Failure Detection]
 </span></span><span class="line"><span class="cl">        E --&gt; H[Recovery Coordination]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        F --&gt; F1[Network Partition Handling]
 </span></span><span class="line"><span class="cl">        F --&gt; F2[Minority Protection]
 </span></span><span class="line"><span class="cl">        F --&gt; F3[Quorum Loss Recovery]
@@ -496,8 +458,8 @@ Responsible for Monitor cluster Leader election, quorum maintenance, and failure
 </ul>
 <h3 id="health-monitoring-module">Health Monitoring Module</h3>
 <p><strong>Functional Overview</strong>:
-Real-time monitoring of cluster component health status, generating alert information, and providing detailed diagnostic data.</p>
-<p><strong>Monitoring Architecture</strong>:</p>
+Real-time monitoring of cluster component health status, generating alert information, and providing detailed diagnostic data.
+<strong>Monitoring Architecture</strong>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -520,10 +482,6 @@ Real-time monitoring of cluster component health status, generating alert inform
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph TB
@@ -531,21 +489,17 @@ Real-time monitoring of cluster component health status, generating alert inform
 </span></span><span class="line"><span class="cl">        A[Health Service] --&gt; B[Health Checks]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Status Aggregation]
 </span></span><span class="line"><span class="cl">        A --&gt; D[Alert Management]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[OSD Health]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[PG Status]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[Cluster Capacity]
 </span></span><span class="line"><span class="cl">        B --&gt; B4[Network Connectivity]
 </span></span><span class="line"><span class="cl">        B --&gt; B5[Daemon Liveness]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Global Status]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Component Status]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Trend Analysis]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Warning Generation]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[Error Classification]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Recovery Suggestions]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E[Metrics Collection] --&gt; F[Performance Data]
 </span></span><span class="line"><span class="cl">        E --&gt; G[Resource Usage]
 </span></span><span class="line"><span class="cl">        E --&gt; H[I/O Statistics]
@@ -566,21 +520,15 @@ Real-time monitoring of cluster component health status, generating alert inform
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Get overall cluster status</span>
 </span></span><span class="line"><span class="cl">ceph status
 </span></span><span class="line"><span class="cl">ceph -s
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># View detailed health information</span>
 </span></span><span class="line"><span class="cl">ceph health detail
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Monitor cluster status changes</span>
 </span></span><span class="line"><span class="cl">ceph -w
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># View specific component status</span>
 </span></span><span class="line"><span class="cl">ceph pg stat
 </span></span><span class="line"><span class="cl">ceph osd stat
@@ -595,8 +543,8 @@ Real-time monitoring of cluster component health status, generating alert inform
 </ul>
 <h3 id="configuration-management-module">Configuration Management Module</h3>
 <p><strong>Functional Overview</strong>:
-Managing cluster and daemon configuration parameters, supporting runtime configuration updates and distribution.</p>
-<p><strong>Configuration Management Architecture</strong>:</p>
+Managing cluster and daemon configuration parameters, supporting runtime configuration updates and distribution.
+<strong>Configuration Management Architecture</strong>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -618,10 +566,6 @@ Managing cluster and daemon configuration parameters, supporting runtime configu
 </span><span class="lnt">17
 </span><span class="lnt">18
 </span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
@@ -629,19 +573,15 @@ Managing cluster and daemon configuration parameters, supporting runtime configu
 </span></span><span class="line"><span class="cl">        A[Config Service] --&gt; B[Key-Value Store]
 </span></span><span class="line"><span class="cl">        A --&gt; C[Config Distribution]
 </span></span><span class="line"><span class="cl">        A --&gt; D[Runtime Updates]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        B --&gt; B1[Global Settings]
 </span></span><span class="line"><span class="cl">        B --&gt; B2[Per-Daemon Config]
 </span></span><span class="line"><span class="cl">        B --&gt; B3[User Preferences]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        C --&gt; C1[Push Mechanism]
 </span></span><span class="line"><span class="cl">        C --&gt; C2[Pull Mechanism]
 </span></span><span class="line"><span class="cl">        C --&gt; C3[Change Notifications]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        D --&gt; D1[Hot Reconfiguration]
 </span></span><span class="line"><span class="cl">        D --&gt; D2[Restart Required Flags]
 </span></span><span class="line"><span class="cl">        D --&gt; D3[Validation Checks]
-</span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        E[Config Sources] --&gt; F[ceph.conf File]
 </span></span><span class="line"><span class="cl">        E --&gt; G[Command Line]
 </span></span><span class="line"><span class="cl">        E --&gt; H[Monitor Database]
@@ -652,30 +592,24 @@ Managing cluster and daemon configuration parameters, supporting runtime configu
 </div><p><strong>Configuration Operation Commands</strong>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Set global configuration</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> global public_network 192.168.160.0/24
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># View specific daemon configuration</span>
 </span></span><span class="line"><span class="cl">ceph config show osd.0
 </span></span><span class="line"><span class="cl">ceph config show-with-defaults osd.0
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Set configuration key-value</span>
 </span></span><span class="line"><span class="cl">ceph config-key <span class="nb">set</span> &lt;key&gt; &lt;value&gt;
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Generate minimal configuration file</span>
 </span></span><span class="line"><span class="cl">ceph config generate-minimal-conf &gt; /etc/ceph/ceph.conf
 </span></span></code></pre></td></tr></table>
@@ -695,14 +629,12 @@ Managing cluster and daemon configuration parameters, supporting runtime configu
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
 </span></span><span class="line"><span class="cl">    participant OSD as OSD Daemon
 </span></span><span class="line"><span class="cl">    participant MON as Monitor
 </span></span><span class="line"><span class="cl">    participant CRUSH as CRUSH Map
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    OSD-&gt;&gt;MON: Heartbeat &amp; Status Report
 </span></span><span class="line"><span class="cl">    MON-&gt;&gt;OSD: OSD Map Updates
 </span></span><span class="line"><span class="cl">    OSD-&gt;&gt;MON: PG Status Updates
@@ -732,14 +664,12 @@ Managing cluster and daemon configuration parameters, supporting runtime configu
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
 </span></span><span class="line"><span class="cl">    participant MDS as MDS Daemon
 </span></span><span class="line"><span class="cl">    participant MON as Monitor
 </span></span><span class="line"><span class="cl">    participant FS as FileSystem
-</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;MON: Register &amp; Get MDS Map
 </span></span><span class="line"><span class="cl">    MON-&gt;&gt;MDS: Assign MDS Rank
 </span></span><span class="line"><span class="cl">    MDS-&gt;&gt;MON: Status &amp; Metadata Updates

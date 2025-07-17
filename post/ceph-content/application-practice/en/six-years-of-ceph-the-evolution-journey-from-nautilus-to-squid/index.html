@@ -52,7 +52,7 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
 <meta itemprop="description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
 Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices.">
 
-<meta itemprop="wordCount" content="4210">
+<meta itemprop="wordCount" content="4203">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
@@ -138,7 +138,7 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
       <div class="post-meta">
         <span class="post-time"> 0001-01-01 </span>
         
-          <span class="more-meta"> 4210 words </span>
+          <span class="more-meta"> 4203 words </span>
           <span class="more-meta"> 20 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -514,8 +514,7 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
 </ul>
 <h4 id="storage-engine-development">Storage Engine Development</h4>
 <ul>
-<li>
-<p><strong>BlueStore maturation</strong></p>
+<li><strong>BlueStore maturation</strong>
 <ul>
 <li><strong>Default engine</strong>: Mimic (v13.x) - BlueStore replaces FileStore as default storage engine</li>
 <li><strong>Performance optimization</strong>: Nautilus (v14.x) - bitmap allocator, significant performance improvements</li>
@@ -523,8 +522,7 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
 <li><strong>FileStore retirement</strong>: Reef (v18.x) - FileStore support completely removed</li>
 </ul>
 </li>
-<li>
-<p><strong>Crimson/Seastore (Next Generation)</strong></p>
+<li><strong>Crimson/Seastore (Next Generation)</strong>
 <ul>
 <li><strong>Technical preview</strong>: Quincy (v17.x) - Experimental features</li>
 <li><strong>Feature enhancement</strong>: Squid (v19.x) - Supports RBD workloads</li>
@@ -562,28 +560,20 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View existing config settings</span>
 </span></span><span class="line"><span class="cl">ceph config dump
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># get/set configurations for a specific level or instance, supports multi-level override with finest granularity</span>
 </span></span><span class="line"><span class="cl">ceph config get <span class="nv">$level</span> <span class="nv">$entityname</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> <span class="nv">$level</span> <span class="nv">$entityname</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Examples</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> global osd_recovery_sleep_hdd 0.1
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd osd_recovery_sleep_hdd 0.1
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> <span class="s1">&#39;osd.*&#39;</span> osd_recovery_sleep_hdd  <span class="c1"># Service level requires *</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd.1 osd_recovery_sleep_hdd 0.2
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># View help information for an entity</span>
 </span></span><span class="line"><span class="cl">sudo ceph config <span class="nb">help</span> osd_recovery_sleep_hdd
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Modification history log for auditing</span>
 </span></span><span class="line"><span class="cl">sudo ceph config log
 </span></span></code></pre></td></tr></table>
@@ -1081,28 +1071,22 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
 <li><strong>Related commands</strong>:
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># View telemetry preview</span>
 </span></span><span class="line"><span class="cl">ceph telemetry preview
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Enable telemetry</span>
 </span></span><span class="line"><span class="cl">ceph telemetry on
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Enable leaderboard</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/telemetry/leaderboard <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Add leaderboard description</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/telemetry/leaderboard_description <span class="s1">&#39;Cluster description&#39;</span>
 </span></span></code></pre></td></tr></table>

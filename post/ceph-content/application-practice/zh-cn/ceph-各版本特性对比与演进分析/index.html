@@ -49,7 +49,7 @@
 <meta itemprop="name" content="">
 <meta itemprop="description" content="Ceph 各版本特性对比与演进分析 本文档详细分析了Ceph从Nautilus (v14)到最新Squid (v19)版本的主要特性演进，为选择合适版本和">
 
-<meta itemprop="wordCount" content="11157">
+<meta itemprop="wordCount" content="11150">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="Ceph 各版本特性对比与演进分析 本文档详细分析了Ceph从Nautilus (v14)到最新Squid (v19)版本的主要特性演进，为选择合适版本和"/>
@@ -134,7 +134,7 @@
       <div class="post-meta">
         <span class="post-time"> 0001-01-01 </span>
         
-          <span class="more-meta"> 11157 words </span>
+          <span class="more-meta"> 11150 words </span>
           <span class="more-meta"> 23 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -511,8 +511,7 @@
 </ul>
 <h4 id="存储引擎发展">存储引擎发展</h4>
 <ul>
-<li>
-<p><strong>BlueStore成熟化</strong></p>
+<li><strong>BlueStore成熟化</strong>
 <ul>
 <li><strong>默认引擎</strong>: Mimic (v13.x) - BlueStore替代FileStore成为默认存储引擎</li>
 <li><strong>性能优化</strong>: Nautilus (v14.x) - bitmap allocator，大幅性能提升</li>
@@ -520,8 +519,7 @@
 <li><strong>FileStore淘汰</strong>: Reef (v18.x) - FileStore完全移除支持</li>
 </ul>
 </li>
-<li>
-<p><strong>Crimson/Seastore (下一代)</strong></p>
+<li><strong>Crimson/Seastore (下一代)</strong>
 <ul>
 <li><strong>技术预览</strong>: Quincy (v17.x) - 实验性功能</li>
 <li><strong>功能增强</strong>: Squid (v19.x) - 支持RBD工作负载</li>
@@ -559,28 +557,20 @@
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看现有的config设置</span>
 </span></span><span class="line"><span class="cl">ceph config dump
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># get/set 某一级或是某个实例的配置，支持多级相同配置进行override，使用粒度最小的</span>
 </span></span><span class="line"><span class="cl">ceph config get <span class="nv">$level</span> <span class="nv">$entityname</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> <span class="nv">$level</span> <span class="nv">$entityname</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 举例</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> global osd_recovery_sleep_hdd 0.1
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd osd_recovery_sleep_hdd 0.1
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> <span class="s1">&#39;osd.*&#39;</span> osd_recovery_sleep_hdd  <span class="c1"># 获取服务级别的稍微不一样，需要加*</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> osd.1 osd_recovery_sleep_hdd 0.2
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看某个entity的help信息</span>
 </span></span><span class="line"><span class="cl">sudo ceph config <span class="nb">help</span> osd_recovery_sleep_hdd
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 修改历史log，做审计</span>
 </span></span><span class="line"><span class="cl">sudo ceph config log
 </span></span></code></pre></td></tr></table>
@@ -1078,28 +1068,22 @@
 <li><strong>相关命令</strong>:
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看遥测预览</span>
 </span></span><span class="line"><span class="cl">ceph telemetry preview
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 开启遥测</span>
 </span></span><span class="line"><span class="cl">ceph telemetry on
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 开启排行榜</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/telemetry/leaderboard <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 添加排行榜描述</span>
 </span></span><span class="line"><span class="cl">ceph config <span class="nb">set</span> mgr mgr/telemetry/leaderboard_description <span class="s1">&#39;Cluster description&#39;</span>
 </span></span></code></pre></td></tr></table>

@@ -1,5 +1,4 @@
 ### Classical OSD Overall Architecture Diagram
-
 ```mermaid
 graph TB
     subgraph "OSD Process Architecture"
@@ -8,7 +7,6 @@ graph TB
         ShardedOpWQ[ShardedOpWQ<br/>Sharded Operation Queue]
         Messenger[Messenger<br/>Message System]
     end
-    
     subgraph "PG Management Subsystem"
         PGMap[pg_map<br/>PG Mapping Table]
         PG[PG Class<br/>Placement Group]
@@ -16,28 +14,24 @@ graph TB
         ReplicatedBackend[ReplicatedBackend]
         ECBackend[ECBackend]
     end
-    
     subgraph "Object Storage Subsystem"
         ObjectStore[ObjectStore<br/>Storage Abstraction Layer]
         FileStore[FileStore<br/>Filesystem Storage]
         BlueStore[BlueStore<br/>Raw Device Storage]
         ObjectContext[ObjectContext<br/>Object Context]
     end
-    
     subgraph "Recovery Subsystem"
         RecoveryState[RecoveryState<br/>Recovery State Machine]
         PeeringState[PeeringState<br/>Peering State]
         BackfillState[BackfillState<br/>Backfill State]
         RecoveryWQ[RecoveryWQ<br/>Recovery Work Queue]
     end
-    
     subgraph "Monitoring & Statistics"
         PGStats[PGStats<br/>PG Statistics]
         OSDStats[OSDStats<br/>OSD Statistics]
         PerfCounters[PerfCounters<br/>Performance Counters]
         Logger[Logger<br/>Logging System]
     end
-    
     OSD --> OSDService
     OSD --> ShardedOpWQ
     OSD --> Messenger
@@ -59,9 +53,7 @@ graph TB
     OSD --> PerfCounters
     OSD --> Logger
 ```
-
 ### OSD Core Class Structure Details
-
 ```mermaid
 classDiagram
     class OSD {
@@ -89,7 +81,6 @@ classDiagram
         +start_boot()
         +shutdown()
     }
-    
     class OSDService {
         -OSD* osd
         -CephContext* cct
@@ -106,7 +97,6 @@ classDiagram
         +queue_for_recovery(PG* pg)
         +queue_for_scrub(PG* pg)
     }
-    
     class ShardedOpWQ {
         -vector~OpWQ*~ shards
         -atomic~uint32_t~ next_shard
@@ -114,7 +104,6 @@ classDiagram
         +dequeue(OpWQ* shard)
         +process_batch()
     }
-    
     class OpWQ {
         -ThreadPool::TPHandle* handle
         -list~OpRequestRef~ ops
@@ -124,14 +113,11 @@ classDiagram
         +dequeue()
         +process()
     }
-    
     OSD --> OSDService
     OSD --> ShardedOpWQ
     ShardedOpWQ --> OpWQ
 ```
-
 ### PG Class Detailed Structure
-
 ```mermaid
 classDiagram
     class PG {
@@ -165,7 +151,6 @@ classDiagram
         +activate()
         +clean_up_local()
     }
-    
     class RecoveryState {
         -PG* pg
         -RecoveryMachine machine
@@ -175,7 +160,6 @@ classDiagram
         +advance_map()
         +need_up_thru()
     }
-    
     class PGLog {
         -IndexedLog log
         -eversion_t tail
@@ -187,7 +171,6 @@ classDiagram
         +merge_log(ObjectStore::Transaction* t)
         +write_log_and_missing()
     }
-    
     class PGBackend {
         -PG* parent
         -ObjectStore* store
@@ -199,16 +182,12 @@ classDiagram
         +objects_read_sync()
         +be_deep_scrub()
     }
-    
     PG --> RecoveryState
     PG --> PGLog
     PG --> PGBackend
 ```
-
 ### Read/Write IO Processing Detailed Flow
-
 #### Write Operation Complete Flow
-
 ```mermaid
 sequenceDiagram
     participant Client
@@ -218,48 +197,36 @@ sequenceDiagram
     participant ObjectStore
     participant Journal
     participant Replica
-    
     Client->>OSD: MOSDOp(write)
     OSD->>OSD: handle_osd_op()
     Note right of OSD: 1. Validate request<br/>2. Build OpRequest<br/>3. Find PG
-    
     OSD->>OpWQ: enqueue(OpRequest)
     OpWQ->>PG: do_request()
-    
     PG->>PG: Check PG state
     alt PG Active
         PG->>PG: do_op()
         PG->>PG: execute_ctx()
         Note right of PG: Build OpContext
-        
         PG->>ObjectStore: queue_transaction()
         Note right of ObjectStore: Write to local storage
-        
         alt Is Primary and has replicas
             PG->>Replica: Send SubOp
             Note right of PG: Send to all replicas
-            
             Replica->>ObjectStore: queue_transaction()
             Replica->>PG: SubOpReply
-            
             PG->>PG: eval_repop()
             Note right of PG: Wait for all replica confirmations
         end
-        
         ObjectStore->>Journal: write_journal()
         Journal->>PG: on_applied()
         PG->>Client: MOSDOpReply
-        
         Journal->>ObjectStore: apply_transaction()
         ObjectStore->>PG: on_commit()
-        
     else PG not Active
         PG->>PG: Add to waiting_for_active queue
     end
 ```
-
 #### Read Operation Flow
-
 ```mermaid
 sequenceDiagram
     participant Client
@@ -267,19 +234,15 @@ sequenceDiagram
     participant PG
     participant ObjectContext
     participant ObjectStore
-    
     Client->>OSD: MOSDOp(read)
     OSD->>PG: do_request()
-    
     PG->>PG: Check PG state
     alt PG readable
         PG->>ObjectContext: get_object_context()
         ObjectContext->>ObjectStore: getattr()
         ObjectStore-->>ObjectContext: Object metadata
-        
         PG->>ObjectStore: read()
         ObjectStore-->>PG: Object data
-        
         PG->>Client: MOSDOpReply(data)
     else PG not readable
         PG->>PG: Add to waiting queue
