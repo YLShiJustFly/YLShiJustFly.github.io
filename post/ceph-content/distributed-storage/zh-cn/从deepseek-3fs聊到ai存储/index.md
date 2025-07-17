@@ -1,3 +1,10 @@
+---
+title: "3FS的一点思考 "
+date: 2025-05-30T14:17:59+08:00
+draft: false
+tags: ["ceph", "3FS"]
+categories: ["ceph"]
+---
 # 横空出世: 3FS
 
 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepSeek竟然把一向养在深闺无人识的分布式存储推到了台前。

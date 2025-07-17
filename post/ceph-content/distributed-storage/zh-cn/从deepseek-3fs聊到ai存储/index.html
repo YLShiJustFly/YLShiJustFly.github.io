@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>3FS的一点思考  - Friends&#39; Life and Work Space</title>
+  <title>从deepseek-3FS聊到AI存储 - Friends&#39; Life and Work Space</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="ceph-deep-dive" /><meta name="description" content="横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepSeek竟然把一向养在深闺无人识的分布式存储推到了台前" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="ceph-deep-dive" /><meta name="description" content="title: &amp;ldquo;3FS的一点思考 &amp;quot; date: 2025-05-30T14:17:59&#43;08:00 draft: false tags: [&amp;ldquo;ceph&amp;rdquo;, &amp;ldquo;3FS&amp;rdquo;] categories: [&amp;ldquo;ceph&amp;rdquo;] 横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepS" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="3FS的一点思考 " />
-<meta property="og:description" content="横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepSeek竟然把一向养在深闺无人识的分布式存储推到了台前" />
+<meta property="og:title" content="从deepseek-3FS聊到AI存储" />
+<meta property="og:description" content="title: &ldquo;3FS的一点思考 &quot; date: 2025-05-30T14:17:59&#43;08:00 draft: false tags: [&ldquo;ceph&rdquo;, &ldquo;3FS&rdquo;] categories: [&ldquo;ceph&rdquo;] 横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepS" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2025-05-30T14:17:59+08:00" />
-<meta property="article:modified_time" content="2025-05-30T14:17:59+08:00" />
+<meta property="article:published_time" content="2025-07-17T06:50:36+08:00" />
+<meta property="article:modified_time" content="2025-07-17T06:50:36+08:00" />
 
-<meta itemprop="name" content="3FS的一点思考 ">
-<meta itemprop="description" content="横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepSeek竟然把一向养在深闺无人识的分布式存储推到了台前"><meta itemprop="datePublished" content="2025-05-30T14:17:59+08:00" />
-<meta itemprop="dateModified" content="2025-05-30T14:17:59+08:00" />
-<meta itemprop="wordCount" content="3372">
-<meta itemprop="keywords" content="ceph,3FS," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="3FS的一点思考 "/>
-<meta name="twitter:description" content="横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepSeek竟然把一向养在深闺无人识的分布式存储推到了台前"/>
+<meta itemprop="name" content="从deepseek-3FS聊到AI存储">
+<meta itemprop="description" content="title: &ldquo;3FS的一点思考 &quot; date: 2025-05-30T14:17:59&#43;08:00 draft: false tags: [&ldquo;ceph&rdquo;, &ldquo;3FS&rdquo;] categories: [&ldquo;ceph&rdquo;] 横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepS"><meta itemprop="datePublished" content="2025-07-17T06:50:36+08:00" />
+<meta itemprop="dateModified" content="2025-07-17T06:50:36+08:00" />
+<meta itemprop="wordCount" content="3398">
+<meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="从deepseek-3FS聊到AI存储"/>
+<meta name="twitter:description" content="title: &ldquo;3FS的一点思考 &quot; date: 2025-05-30T14:17:59&#43;08:00 draft: false tags: [&ldquo;ceph&rdquo;, &ldquo;3FS&rdquo;] categories: [&ldquo;ceph&rdquo;] 横空出世: 3FS 近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepS"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -129,14 +129,14 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">3FS的一点思考 </h1>
+      <h1 class="post-title">从deepseek-3FS聊到AI存储</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2025-05-30 </span>
+        <span class="post-time"> 2025-07-17 </span>
         <div class="post-category">
             <a href="/categories/ceph/"> ceph </a>
             </div>
-          <span class="more-meta"> 3372 words </span>
+          <span class="more-meta"> 3398 words </span>
           <span class="more-meta"> 7 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -147,6 +147,15 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
+    <li>
+      <ul>
+        <li><a href="#categories-ceph">title: &ldquo;3FS的一点思考 &quot;
+date: 2025-05-30T14:17:59+08:00
+draft: false
+tags: [&ldquo;ceph&rdquo;, &ldquo;3FS&rdquo;]
+categories: [&ldquo;ceph&rdquo;]</a></li>
+      </ul>
+    </li>
     <li><a href="#横空出世-3fs">横空出世: 3FS</a></li>
     <li><a href="#ai-需要什么样的存储">AI 需要什么样的存储？</a></li>
     <li><a href="#ai训练框架--存储结合">AI训练框架 + 存储结合</a></li>
@@ -165,7 +174,13 @@
   </div>
 </div>
     <div class="post-content">
-      <h1 id="横空出世-3fs">横空出世: 3FS</h1>
+      <hr>
+<h2 id="categories-ceph">title: &ldquo;3FS的一点思考 &quot;
+date: 2025-05-30T14:17:59+08:00
+draft: false
+tags: [&ldquo;ceph&rdquo;, &ldquo;3FS&rdquo;]
+categories: [&ldquo;ceph&rdquo;]</h2>
+<h1 id="横空出世-3fs">横空出世: 3FS</h1>
 <p>近两个月，DeepSeek的热度值爆表。尤其令我们存储人欣喜的是，DeepSeek竟然把一向养在深闺无人识的分布式存储推到了台前。
 3FS的github关注度之大，在开源分布式存储项目算是前无古人了，估计也很难有来者。</p>
 <p>开源3天的star数就超过了一众已经耕耘数年的开源存储项目。朋友圈和各个技术交流群里也到处都是谈论3FS的声音。</p>
@@ -419,7 +434,7 @@ MDS处理io是一个单线程，收到的所有Client的元数据请求都会先
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2025-05-30
+        2025-07-17
         
     </span>
   </p>
@@ -429,16 +444,15 @@ MDS处理io是一个单线程，收到的所有Client的元数据请求都会先
 <footer class="post-footer">
       <div class="post-tags">
           <a href="/tags/ceph/">ceph</a>
-          <a href="/tags/3fs/">3FS</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/ceph-content/application-practice/zh-cn/ceph%E9%9B%86%E7%BE%A4io%E6%8F%90%E4%BA%A4%E5%BB%B6%E8%BF%9F%E7%BB%9F%E8%AE%A1%E8%B7%B3%E5%8F%98%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
+        <a class="prev" href="/post/ceph-content/architecture-analysis/zh-cn/osd/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Ceph集群IO提交延迟统计跳变问题分析</span>
+            <span class="prev-text nav-default">OSD</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/">
-            <span class="next-text nav-default">Thinking about 3FS </span>
+        <a class="next" href="/post/ceph-content/application-practice/en/analysis-of-io-commit-latency-spike-in-ceph-cluster/">
+            <span class="next-text nav-default">Analysis of IO Commit Latency Spike in Ceph Cluster</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

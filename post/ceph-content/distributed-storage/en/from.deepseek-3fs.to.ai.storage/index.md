@@ -1,3 +1,10 @@
+---
+title: "Thinking about 3FS "
+date: 2025-05-30T14:17:59+08:00
+draft: false
+tags: ["ceph", "3FS"]
+categories: ["ceph"]
+---
 # Rise to Prominence: 3FS
 
 In the past two months, DeepSeek's popularity has skyrocketed. What particularly delights us storage professionals is that DeepSeek has brought distributed storage, which has long been hidden away, to the forefront.
