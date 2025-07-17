@@ -93,6 +93,15 @@ Cluster Map Maintenance: Managing key mapping information including MonitorMap, 
     </item>
     
     <item>
+      <title>OSD</title>
+      <link>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/osd/</link>
+      <pubDate>Thu, 03 Jul 2025 18:17:59 +0800</pubDate>
+      
+      <guid>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/osd/</guid>
+      <description>经典OSD整体架构图 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 graph TB subgraph &amp;#34;</description>
+    </item>
+    
+    <item>
       <title>Analysis of IO Commit Latency Spike in Ceph Cluster</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/application-practice/en/analysis-of-io-commit-latency-spike-in-ceph-cluster/</link>
       <pubDate>Tue, 10 Jun 2025 15:17:59 +0800</pubDate>
@@ -272,15 +281,6 @@ Short-term Impact, but Not the End The discontinuation of Optane did have a sign
       
       <guid>http://YLShiJustFly.github.io/post/beamer/</guid>
       <description>beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，</description>
-    </item>
-    
-    <item>
-      <title>OSD</title>
-      <link>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/osd/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/osd/</guid>
-      <description>经典OSD整体架构图 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 graph TB subgraph &amp;#34;</description>
     </item>
     
   </channel>

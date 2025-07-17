@@ -107,6 +107,13 @@
   </url>
   
   <url>
+    <loc>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/osd/</loc>
+    <lastmod>2025-07-03T18:17:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://YLShiJustFly.github.io/post/ceph-content/application-practice/en/analysis-of-io-commit-latency-spike-in-ceph-cluster/</loc>
     <lastmod>2025-06-10T15:17:59+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -319,12 +326,6 @@
   <url>
     <loc>http://YLShiJustFly.github.io/post/beamer/</loc>
     <lastmod>2022-03-10T14:17:59+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/osd/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
