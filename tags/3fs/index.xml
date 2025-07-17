@@ -17,6 +17,15 @@
     </item>
     
     <item>
+      <title>DAOS文件系统：后Optane时代的凤凰涅槃</title>
+      <link>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/daos%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%90%8Eoptane%E6%97%B6%E4%BB%A3%E7%9A%84%E5%87%A4%E5%87%B0%E6%B6%85%E6%A7%83/</link>
+      <pubDate>Fri, 30 May 2025 14:17:59 +0800</pubDate>
+      
+      <guid>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/daos%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%90%8Eoptane%E6%97%B6%E4%BB%A3%E7%9A%84%E5%87%A4%E5%87%B0%E6%B6%85%E6%A7%83/</guid>
+      <description>前言：IO500上的屠榜 因为看到DAOS项目在IO500上的屠榜，所以一直对这个项目保持着关注(未深入)。 背景 在之前的文章中，简要介绍了DA</description>
+    </item>
+    
+    <item>
       <title>Thinking about 3FS </title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/</link>
       <pubDate>Fri, 30 May 2025 14:17:59 +0800</pubDate>

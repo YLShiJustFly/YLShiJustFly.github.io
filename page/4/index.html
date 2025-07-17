@@ -126,32 +126,12 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/distributed-storage/en/ceph-tentacle-erasure-coding-enhancements/"></a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/operation-skills/en/practical-guide-a-summary-of-commonly-used-tools-in-ceph/">Practical Guide: A Summary of Commonly Used Tools in Ceph</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-        <span class="more-meta"> 651 words </span>
-        <span class="more-meta"> 4 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Vision and Objectives Core Goal: Optimize I/O performance for Erasure Coded pools to be similar to Replicated Pools Primary Objectives:
-Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with block and file storage Enabling &ldquo;Optimised&rdquo; EC Important Considerations Default State: All optimizations are turned off by default Per-Pool Configuration: Optimizations can be enabled for each pool individually ⚠️ Irreversible Operation: OPTIMIZATIONS CANNOT BE SWITCHED OFF once enabled Version Requirements: All OSDs, MONs, and MGRs must be upgraded to Tentacle or later Backward Compatibility: Compatible with old clients Configuration Methods Enable optimizations for a specific pool 1 ceph osd pool set &lt;pool_name&gt; allow_ec_optimizations true Enable optimizations by default for new pools 1 2 [mon] osd_pool_default_flag_ec_optimizations = true Key Technical Features Previously Implemented Core Features Partial Reads Partial Writes Note: Partial metadata – unwritten shards have no processing Parity Delta Writes Per-IO auto-switch between write methods Larger Default Chunk Size Direct Read Direct Write New Important Features 1.
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/distributed-storage/en/ceph-tentacle-erasure-coding-enhancements/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/operation-skills/en/practical-guide-a-summary-of-commonly-used-tools-in-ceph/"></a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
+      <span class="post-time"> 2025-05-30 </span>
+      <div class="post-category">
+          <a href="/categories/ceph/"> ceph </a>
+          </div>
         <span class="more-meta"> 4423 words </span>
         <span class="more-meta"> 21 mins read </span>
     </div>
@@ -169,10 +149,35 @@ Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/operation-skills/zh-cn/%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97ceph%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/"></a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/">Thinking about 3FS </a></h1>
     <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
+      <span class="post-time"> 2025-05-30 </span>
+      <div class="post-category">
+          <a href="/categories/ceph/"> ceph </a>
+          </div>
+        <span class="more-meta"> 1577 words </span>
+        <span class="more-meta"> 8 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Rise to Prominence: 3FS In the past two months, DeepSeek&rsquo;s popularity has skyrocketed. What particularly delights us storage professionals is that DeepSeek has brought distributed storage, which has long been hidden away, to the forefront. The GitHub attention that 3FS has received is unprecedented among open-source distributed storage projects, and there probably won&rsquo;t be another like it. The star count in just 3 days after open-sourcing exceeded that of numerous open-source storage projects that have been cultivating for years.
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/operation-skills/zh-cn/%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97ceph%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/">实用指南：Ceph常用工具汇总</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2025-05-30 </span>
+      <div class="post-category">
+          <a href="/categories/ceph/"> ceph </a>
+          </div>
         <span class="more-meta"> 5658 words </span>
         <span class="more-meta"> 12 mins read </span>
     </div>
@@ -192,7 +197,7 @@ Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with
   <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/ceph-content/draft/casps/">casps</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
+      <span class="post-time"> 2025-05-27 </span>
       <div class="post-category">
           <a href="/categories/ceph/"> ceph </a>
           </div>
@@ -213,23 +218,23 @@ Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/architecture-analysis/zh-cn/ceph-mds-metadata-server-%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/">Ceph MDS (Metadata Server) 架构解析</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/draft/kcephfs-caps/">Ceph handle_cap_grant机制解析 </a></h1>
     <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
+      <span class="post-time"> 2025-05-27 </span>
       <div class="post-category">
           <a href="/categories/ceph/"> ceph </a>
           </div>
-        <span class="more-meta"> 1894 words </span>
-        <span class="more-meta"> 4 mins read </span>
+        <span class="more-meta"> 7663 words </span>
+        <span class="more-meta"> 16 mins read </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      MDS 系统架构概览 Ceph MDS是CephFS (Ceph File System) 的核心组件，负责处理所有文件系统元数据操作。MDS的设计采用分布式、可扩展的架构，支持多活MDS和
+      handle_cap_grant handle_cap_grant 是 Ceph 分布式一致性机制的核心实现，负责： 处理 MDS 发送的能力授权/撤销消息 维护客户端缓存一致性 管理文件元数据同步 协调分布式锁机制 完整的流程图 1
     </div>
     <div class="read-more">
-      <a href="/post/ceph-content/architecture-analysis/zh-cn/ceph-mds-metadata-server-%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" class="read-more-link">Read more...</a>
+      <a href="/post/ceph-content/draft/kcephfs-caps/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>

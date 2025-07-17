@@ -1,3 +1,4 @@
+
 This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
 ## Version Overview
 | Version | Codename | Release Date | Lifecycle Status |

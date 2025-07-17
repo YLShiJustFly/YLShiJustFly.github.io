@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title> - Friends&#39; Life and Work Space</title>
+  <title>Ceph Tentacle Erasure Coding Enhancements - Friends&#39; Life and Work Space</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -40,21 +40,21 @@ Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="" />
+<meta property="og:title" content="Ceph Tentacle Erasure Coding Enhancements" />
 <meta property="og:description" content="Vision and Objectives Core Goal: Optimize I/O performance for Erasure Coded pools to be similar to Replicated Pools Primary Objectives:
 Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with block and file storage Enabling &ldquo;Optimised&rdquo; EC Important Considerations Default State: All optimizations are turned off by default Per-Pool Configuration: Optimizations can be enabled for each pool individually ⚠️ Irreversible Operation: OPTIMIZATIONS CANNOT BE SWITCHED OFF once enabled Version Requirements: All OSDs, MONs, and MGRs must be upgraded to Tentacle or later Backward Compatibility: Compatible with old clients Configuration Methods Enable optimizations for a specific pool 1 ceph osd pool set &lt;pool_name&gt; allow_ec_optimizations true Enable optimizations by default for new pools 1 2 [mon] osd_pool_default_flag_ec_optimizations = true Key Technical Features Previously Implemented Core Features Partial Reads Partial Writes Note: Partial metadata – unwritten shards have no processing Parity Delta Writes Per-IO auto-switch between write methods Larger Default Chunk Size Direct Read Direct Write New Important Features 1." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/ceph-tentacle-erasure-coding-enhancements/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2025-05-20T14:17:59+08:00" />
+<meta property="article:modified_time" content="2025-05-20T14:17:59+08:00" />
 
-
-
-<meta itemprop="name" content="">
+<meta itemprop="name" content="Ceph Tentacle Erasure Coding Enhancements">
 <meta itemprop="description" content="Vision and Objectives Core Goal: Optimize I/O performance for Erasure Coded pools to be similar to Replicated Pools Primary Objectives:
-Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with block and file storage Enabling &ldquo;Optimised&rdquo; EC Important Considerations Default State: All optimizations are turned off by default Per-Pool Configuration: Optimizations can be enabled for each pool individually ⚠️ Irreversible Operation: OPTIMIZATIONS CANNOT BE SWITCHED OFF once enabled Version Requirements: All OSDs, MONs, and MGRs must be upgraded to Tentacle or later Backward Compatibility: Compatible with old clients Configuration Methods Enable optimizations for a specific pool 1 ceph osd pool set &lt;pool_name&gt; allow_ec_optimizations true Enable optimizations by default for new pools 1 2 [mon] osd_pool_default_flag_ec_optimizations = true Key Technical Features Previously Implemented Core Features Partial Reads Partial Writes Note: Partial metadata – unwritten shards have no processing Parity Delta Writes Per-IO auto-switch between write methods Larger Default Chunk Size Direct Read Direct Write New Important Features 1.">
-
+Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with block and file storage Enabling &ldquo;Optimised&rdquo; EC Important Considerations Default State: All optimizations are turned off by default Per-Pool Configuration: Optimizations can be enabled for each pool individually ⚠️ Irreversible Operation: OPTIMIZATIONS CANNOT BE SWITCHED OFF once enabled Version Requirements: All OSDs, MONs, and MGRs must be upgraded to Tentacle or later Backward Compatibility: Compatible with old clients Configuration Methods Enable optimizations for a specific pool 1 ceph osd pool set &lt;pool_name&gt; allow_ec_optimizations true Enable optimizations by default for new pools 1 2 [mon] osd_pool_default_flag_ec_optimizations = true Key Technical Features Previously Implemented Core Features Partial Reads Partial Writes Note: Partial metadata – unwritten shards have no processing Parity Delta Writes Per-IO auto-switch between write methods Larger Default Chunk Size Direct Read Direct Write New Important Features 1."><meta itemprop="datePublished" content="2025-05-20T14:17:59+08:00" />
+<meta itemprop="dateModified" content="2025-05-20T14:17:59+08:00" />
 <meta itemprop="wordCount" content="651">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ceph Tentacle Erasure Coding Enhancements"/>
 <meta name="twitter:description" content="Vision and Objectives Core Goal: Optimize I/O performance for Erasure Coded pools to be similar to Replicated Pools Primary Objectives:
 Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with block and file storage Enabling &ldquo;Optimised&rdquo; EC Important Considerations Default State: All optimizations are turned off by default Per-Pool Configuration: Optimizations can be enabled for each pool individually ⚠️ Irreversible Operation: OPTIMIZATIONS CANNOT BE SWITCHED OFF once enabled Version Requirements: All OSDs, MONs, and MGRs must be upgraded to Tentacle or later Backward Compatibility: Compatible with old clients Configuration Methods Enable optimizations for a specific pool 1 ceph osd pool set &lt;pool_name&gt; allow_ec_optimizations true Enable optimizations by default for new pools 1 2 [mon] osd_pool_default_flag_ec_optimizations = true Key Technical Features Previously Implemented Core Features Partial Reads Partial Writes Note: Partial metadata – unwritten shards have no processing Parity Delta Writes Per-IO auto-switch between write methods Larger Default Chunk Size Direct Read Direct Write New Important Features 1."/>
 
@@ -133,11 +133,13 @@ Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title"></h1>
+      <h1 class="post-title">Ceph Tentacle Erasure Coding Enhancements</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 0001-01-01 </span>
-        
+        <span class="post-time"> 2025-05-20 </span>
+        <div class="post-category">
+            <a href="/categories/ceph/"> ceph </a>
+            </div>
           <span class="more-meta"> 651 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
@@ -380,7 +382,7 @@ These improvements make Erasure Coded pools a compelling storage solution that a
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        0001-01-01
+        2025-05-20
         
     </span>
   </p>
@@ -388,15 +390,17 @@ These improvements make Erasure Coded pools a compelling storage solution that a
   
 </div>
 <footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/ceph/">ceph</a>
+          </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/ceph-content/architecture-analysis/zh-cn/ceph-mon%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/">
+        <a class="prev" href="/post/ceph-content/draft/kcephfs-caps/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default"></span>
+            <span class="prev-text nav-default">Ceph handle_cap_grant机制解析 </span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/operation-skills/en/practical-guide-a-summary-of-commonly-used-tools-in-ceph/">
-            <span class="next-text nav-default"></span>
+        <a class="next" href="/post/ceph-content/distributed-storage/en/daos-file-system-phoenix-rising-after-optanes-end/">
+            <span class="next-text nav-default">DAOS File System: Phoenix Rising After Optane&#39;s End</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title> - Friends&#39; Life and Work Space</title>
+  <title>Practical Guide: A Summary of Commonly Used Tools in Ceph - Friends&#39; Life and Work Space</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -39,19 +39,19 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="" />
+<meta property="og:title" content="Practical Guide: A Summary of Commonly Used Tools in Ceph" />
 <meta property="og:description" content="Practical Guide: Ceph Command Tools Summary 📋 Common Tools (Summary Overview) Function Category Main Commands Verification Status Usage Frequency Application Scenarios Risk Level Cluster Monitoring ceph -s, ceph health(detail), ceph df, ceph -w ✅ Verified ⭐⭐⭐⭐⭐ Daily monitoring, troubleshooting 🟢 No risk I/O Monitoring ceph iostat(version dependent,N&#43;), ceph -w, ceph status ✅ Verified ⭐⭐⭐⭐ Performance monitoring 🟢 No risk OSD Management ceph osd tree, ceph osd status, ceph osd out/in ✅ Verified ⭐⭐⭐⭐ OSD maintenance, capacity management 🟡 Medium risk (queries safe) Monitor Management ceph mon stat, ceph quorum_status, ceph mon add/remove ✅ Verified ⭐⭐⭐ Cluster management, high availability 🔴 High risk (queries safe) Manager Management ceph mgr module enable/disable, ceph mgr stat ✅ Verified ⭐⭐⭐ Feature management, dashboard 🟡 Medium risk (queries safe) Pool Management ceph osd pool create/delete, ceph osd pool set ✅ Verified ⭐⭐⭐⭐ Storage planning, quota management 🔴 High risk (queries safe) PG Management ceph pg stat, ceph pg repair, ceph pg scrub ✅ Verified ⭐⭐⭐⭐ Data integrity, fault repair 🟡 Medium risk (queries safe) Authentication Management ceph auth list/create/del ✅ Verified ⭐⭐⭐ Security management, access control 🔴 High risk (queries safe) CRUSH Management ceph osd crush tree, crushtool, ceph osd crush rule ✅ Verified ⭐⭐ Data distribution, failure domains 🔴 High risk (queries safe) RBD Management rbd create/rm, rbd snap create, rbd map/unmap ✅ Verified ⭐⭐⭐⭐ Block storage, snapshot management 🟡 Medium risk CephFS Management ceph fs status, ceph mds stat, ceph fs dump, ceph mds fail ✅ Verified ⭐⭐⭐ File system, metadata 🟡 Medium risk (queries safe) RGW Management radosgw-admin user create, radosgw-admin bucket ✅ Verified ⭐⭐⭐ Object storage, user management 🟡 Medium risk (queries safe) Configuration Management ceph config set/get, ceph tell Not verified ⭐⭐⭐⭐ Parameter tuning, fault handling 🟡 Medium risk (queries safe) Performance Analysis ceph osd perf,rbd perf image iostat, cephfs-top ✅ Verified ⭐⭐⭐ Performance testing, bottleneck analysis 🟢 No risk Specialized Tools ceph-objectstore-tool, ceph-bluestore-tool ✅ Verified ⭐⭐ Data recovery, deep diagnostics 🔴 High risk (queries safe) Troubleshooting journalctl, ceph daemon dump, log analysis ✅ Verified ⭐⭐⭐⭐ Problem diagnosis, root cause analysis 🟢 No risk Backup Recovery ceph mon getmap, ceph auth export, data export ✅ Verified ⭐⭐ Disaster recovery, migration 🟡 Medium risk (queries safe) 🔧 1." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/operation-skills/en/practical-guide-a-summary-of-commonly-used-tools-in-ceph/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2025-05-30T14:17:59+08:00" />
+<meta property="article:modified_time" content="2025-05-30T14:17:59+08:00" />
 
-
-
-<meta itemprop="name" content="">
-<meta itemprop="description" content="Practical Guide: Ceph Command Tools Summary 📋 Common Tools (Summary Overview) Function Category Main Commands Verification Status Usage Frequency Application Scenarios Risk Level Cluster Monitoring ceph -s, ceph health(detail), ceph df, ceph -w ✅ Verified ⭐⭐⭐⭐⭐ Daily monitoring, troubleshooting 🟢 No risk I/O Monitoring ceph iostat(version dependent,N&#43;), ceph -w, ceph status ✅ Verified ⭐⭐⭐⭐ Performance monitoring 🟢 No risk OSD Management ceph osd tree, ceph osd status, ceph osd out/in ✅ Verified ⭐⭐⭐⭐ OSD maintenance, capacity management 🟡 Medium risk (queries safe) Monitor Management ceph mon stat, ceph quorum_status, ceph mon add/remove ✅ Verified ⭐⭐⭐ Cluster management, high availability 🔴 High risk (queries safe) Manager Management ceph mgr module enable/disable, ceph mgr stat ✅ Verified ⭐⭐⭐ Feature management, dashboard 🟡 Medium risk (queries safe) Pool Management ceph osd pool create/delete, ceph osd pool set ✅ Verified ⭐⭐⭐⭐ Storage planning, quota management 🔴 High risk (queries safe) PG Management ceph pg stat, ceph pg repair, ceph pg scrub ✅ Verified ⭐⭐⭐⭐ Data integrity, fault repair 🟡 Medium risk (queries safe) Authentication Management ceph auth list/create/del ✅ Verified ⭐⭐⭐ Security management, access control 🔴 High risk (queries safe) CRUSH Management ceph osd crush tree, crushtool, ceph osd crush rule ✅ Verified ⭐⭐ Data distribution, failure domains 🔴 High risk (queries safe) RBD Management rbd create/rm, rbd snap create, rbd map/unmap ✅ Verified ⭐⭐⭐⭐ Block storage, snapshot management 🟡 Medium risk CephFS Management ceph fs status, ceph mds stat, ceph fs dump, ceph mds fail ✅ Verified ⭐⭐⭐ File system, metadata 🟡 Medium risk (queries safe) RGW Management radosgw-admin user create, radosgw-admin bucket ✅ Verified ⭐⭐⭐ Object storage, user management 🟡 Medium risk (queries safe) Configuration Management ceph config set/get, ceph tell Not verified ⭐⭐⭐⭐ Parameter tuning, fault handling 🟡 Medium risk (queries safe) Performance Analysis ceph osd perf,rbd perf image iostat, cephfs-top ✅ Verified ⭐⭐⭐ Performance testing, bottleneck analysis 🟢 No risk Specialized Tools ceph-objectstore-tool, ceph-bluestore-tool ✅ Verified ⭐⭐ Data recovery, deep diagnostics 🔴 High risk (queries safe) Troubleshooting journalctl, ceph daemon dump, log analysis ✅ Verified ⭐⭐⭐⭐ Problem diagnosis, root cause analysis 🟢 No risk Backup Recovery ceph mon getmap, ceph auth export, data export ✅ Verified ⭐⭐ Disaster recovery, migration 🟡 Medium risk (queries safe) 🔧 1.">
-
+<meta itemprop="name" content="Practical Guide: A Summary of Commonly Used Tools in Ceph">
+<meta itemprop="description" content="Practical Guide: Ceph Command Tools Summary 📋 Common Tools (Summary Overview) Function Category Main Commands Verification Status Usage Frequency Application Scenarios Risk Level Cluster Monitoring ceph -s, ceph health(detail), ceph df, ceph -w ✅ Verified ⭐⭐⭐⭐⭐ Daily monitoring, troubleshooting 🟢 No risk I/O Monitoring ceph iostat(version dependent,N&#43;), ceph -w, ceph status ✅ Verified ⭐⭐⭐⭐ Performance monitoring 🟢 No risk OSD Management ceph osd tree, ceph osd status, ceph osd out/in ✅ Verified ⭐⭐⭐⭐ OSD maintenance, capacity management 🟡 Medium risk (queries safe) Monitor Management ceph mon stat, ceph quorum_status, ceph mon add/remove ✅ Verified ⭐⭐⭐ Cluster management, high availability 🔴 High risk (queries safe) Manager Management ceph mgr module enable/disable, ceph mgr stat ✅ Verified ⭐⭐⭐ Feature management, dashboard 🟡 Medium risk (queries safe) Pool Management ceph osd pool create/delete, ceph osd pool set ✅ Verified ⭐⭐⭐⭐ Storage planning, quota management 🔴 High risk (queries safe) PG Management ceph pg stat, ceph pg repair, ceph pg scrub ✅ Verified ⭐⭐⭐⭐ Data integrity, fault repair 🟡 Medium risk (queries safe) Authentication Management ceph auth list/create/del ✅ Verified ⭐⭐⭐ Security management, access control 🔴 High risk (queries safe) CRUSH Management ceph osd crush tree, crushtool, ceph osd crush rule ✅ Verified ⭐⭐ Data distribution, failure domains 🔴 High risk (queries safe) RBD Management rbd create/rm, rbd snap create, rbd map/unmap ✅ Verified ⭐⭐⭐⭐ Block storage, snapshot management 🟡 Medium risk CephFS Management ceph fs status, ceph mds stat, ceph fs dump, ceph mds fail ✅ Verified ⭐⭐⭐ File system, metadata 🟡 Medium risk (queries safe) RGW Management radosgw-admin user create, radosgw-admin bucket ✅ Verified ⭐⭐⭐ Object storage, user management 🟡 Medium risk (queries safe) Configuration Management ceph config set/get, ceph tell Not verified ⭐⭐⭐⭐ Parameter tuning, fault handling 🟡 Medium risk (queries safe) Performance Analysis ceph osd perf,rbd perf image iostat, cephfs-top ✅ Verified ⭐⭐⭐ Performance testing, bottleneck analysis 🟢 No risk Specialized Tools ceph-objectstore-tool, ceph-bluestore-tool ✅ Verified ⭐⭐ Data recovery, deep diagnostics 🔴 High risk (queries safe) Troubleshooting journalctl, ceph daemon dump, log analysis ✅ Verified ⭐⭐⭐⭐ Problem diagnosis, root cause analysis 🟢 No risk Backup Recovery ceph mon getmap, ceph auth export, data export ✅ Verified ⭐⭐ Disaster recovery, migration 🟡 Medium risk (queries safe) 🔧 1."><meta itemprop="datePublished" content="2025-05-30T14:17:59+08:00" />
+<meta itemprop="dateModified" content="2025-05-30T14:17:59+08:00" />
 <meta itemprop="wordCount" content="4423">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Practical Guide: A Summary of Commonly Used Tools in Ceph"/>
 <meta name="twitter:description" content="Practical Guide: Ceph Command Tools Summary 📋 Common Tools (Summary Overview) Function Category Main Commands Verification Status Usage Frequency Application Scenarios Risk Level Cluster Monitoring ceph -s, ceph health(detail), ceph df, ceph -w ✅ Verified ⭐⭐⭐⭐⭐ Daily monitoring, troubleshooting 🟢 No risk I/O Monitoring ceph iostat(version dependent,N&#43;), ceph -w, ceph status ✅ Verified ⭐⭐⭐⭐ Performance monitoring 🟢 No risk OSD Management ceph osd tree, ceph osd status, ceph osd out/in ✅ Verified ⭐⭐⭐⭐ OSD maintenance, capacity management 🟡 Medium risk (queries safe) Monitor Management ceph mon stat, ceph quorum_status, ceph mon add/remove ✅ Verified ⭐⭐⭐ Cluster management, high availability 🔴 High risk (queries safe) Manager Management ceph mgr module enable/disable, ceph mgr stat ✅ Verified ⭐⭐⭐ Feature management, dashboard 🟡 Medium risk (queries safe) Pool Management ceph osd pool create/delete, ceph osd pool set ✅ Verified ⭐⭐⭐⭐ Storage planning, quota management 🔴 High risk (queries safe) PG Management ceph pg stat, ceph pg repair, ceph pg scrub ✅ Verified ⭐⭐⭐⭐ Data integrity, fault repair 🟡 Medium risk (queries safe) Authentication Management ceph auth list/create/del ✅ Verified ⭐⭐⭐ Security management, access control 🔴 High risk (queries safe) CRUSH Management ceph osd crush tree, crushtool, ceph osd crush rule ✅ Verified ⭐⭐ Data distribution, failure domains 🔴 High risk (queries safe) RBD Management rbd create/rm, rbd snap create, rbd map/unmap ✅ Verified ⭐⭐⭐⭐ Block storage, snapshot management 🟡 Medium risk CephFS Management ceph fs status, ceph mds stat, ceph fs dump, ceph mds fail ✅ Verified ⭐⭐⭐ File system, metadata 🟡 Medium risk (queries safe) RGW Management radosgw-admin user create, radosgw-admin bucket ✅ Verified ⭐⭐⭐ Object storage, user management 🟡 Medium risk (queries safe) Configuration Management ceph config set/get, ceph tell Not verified ⭐⭐⭐⭐ Parameter tuning, fault handling 🟡 Medium risk (queries safe) Performance Analysis ceph osd perf,rbd perf image iostat, cephfs-top ✅ Verified ⭐⭐⭐ Performance testing, bottleneck analysis 🟢 No risk Specialized Tools ceph-objectstore-tool, ceph-bluestore-tool ✅ Verified ⭐⭐ Data recovery, deep diagnostics 🔴 High risk (queries safe) Troubleshooting journalctl, ceph daemon dump, log analysis ✅ Verified ⭐⭐⭐⭐ Problem diagnosis, root cause analysis 🟢 No risk Backup Recovery ceph mon getmap, ceph auth export, data export ✅ Verified ⭐⭐ Disaster recovery, migration 🟡 Medium risk (queries safe) 🔧 1."/>
 
 <!--[if lte IE 9]>
@@ -129,11 +129,13 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title"></h1>
+      <h1 class="post-title">Practical Guide: A Summary of Commonly Used Tools in Ceph</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 0001-01-01 </span>
-        
+        <span class="post-time"> 2025-05-30 </span>
+        <div class="post-category">
+            <a href="/categories/ceph/"> ceph </a>
+            </div>
           <span class="more-meta"> 4423 words </span>
           <span class="more-meta"> 21 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
@@ -2122,7 +2124,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        0001-01-01
+        2025-05-30
         
     </span>
   </p>
@@ -2130,15 +2132,17 @@
   
 </div>
 <footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/ceph/">ceph</a>
+          </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/ceph-content/distributed-storage/en/ceph-tentacle-erasure-coding-enhancements/">
+        <a class="prev" href="/post/ceph-content/distributed-storage/zh-cn/daos%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%90%8Eoptane%E6%97%B6%E4%BB%A3%E7%9A%84%E5%87%A4%E5%87%B0%E6%B6%85%E6%A7%83/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default"></span>
+            <span class="prev-text nav-default">DAOS文件系统：后Optane时代的凤凰涅槃</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/operation-skills/zh-cn/%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97ceph%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/">
-            <span class="next-text nav-default"></span>
+        <a class="next" href="/post/ceph-content/distributed-storage/en/from.deepseek-3fs.to.ai.storage/">
+            <span class="next-text nav-default">Thinking about 3FS </span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
