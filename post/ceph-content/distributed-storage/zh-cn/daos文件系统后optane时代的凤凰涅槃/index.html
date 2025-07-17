@@ -50,7 +50,7 @@
 <meta itemprop="description" content="前言：IO500上的屠榜 因为看到DAOS项目在IO500上的屠榜，所以一直对这个项目保持着关注(未深入)。 背景 在之前的文章中，简要介绍了DA"><meta itemprop="datePublished" content="2025-05-30T14:17:59+08:00" />
 <meta itemprop="dateModified" content="2025-05-30T14:17:59+08:00" />
 <meta itemprop="wordCount" content="1743">
-<meta itemprop="keywords" content="ceph,3FS," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="DAOS文件系统：后Optane时代的凤凰涅槃"/>
 <meta name="twitter:description" content="前言：IO500上的屠榜 因为看到DAOS项目在IO500上的屠榜，所以一直对这个项目保持着关注(未深入)。 背景 在之前的文章中，简要介绍了DA"/>
 
@@ -183,37 +183,37 @@
 </div>
     <div class="post-content">
       <h2 id="前言io500上的屠榜">前言：IO500上的屠榜</h2>
-<p>因为看到DAOS项目在IO500上的屠榜，所以一直对这个项目保持着关注(未深入)。</p>
-<p><img src="../../image/io500.png" alt="image.png|IO500"></p>
+<p>因为看到DAOS项目在IO500上的屠榜，所以一直对这个项目保持着关注(未深入)。
+<img src="../../image/io500.png" alt="image.png|IO500"></p>
 <h2 id="背景">背景</h2>
-<p>在之前的文章中，简要介绍了DAOS分布式存储项目。</p>
-<p>然而，随着Intel在2022年终止Optane业务，很多童鞋都开始关心：<strong>DAOS在失去&quot;核心硬件支撑&quot;后，是否还能继续？它的未来在哪里？</strong></p>
+<p>在之前的文章中，简要介绍了DAOS分布式存储项目。
+然而，随着Intel在2022年终止Optane业务，很多童鞋都开始关心：<strong>DAOS在失去&quot;核心硬件支撑&quot;后，是否还能继续？它的未来在哪里？</strong></p>
 <h2 id="短期冲击但没有终结">短期冲击，但没有终结</h2>
 <p>Optane的停产确实对DAOS产生了不小影响，尤其是在元数据加速和持久性方面。但DAOS并没有被困于这场&quot;硬件地震&quot;，而是通过架构上的调整实现了&quot;再生&quot;：</p>
 <ul>
 <li><strong>引入写前日志机制（WAL）</strong>：通过将日志写入DRAM并同步到NVMe SSD，以替代原本依赖PMem的低延迟持久化路径</li>
-<li><strong>持续优化NVMe访问路径</strong>：使在没有Optane的环境下也能维持高IOPS和低延迟</li>
+<li><strong>持续优化NVMe访问路径</strong>：使在没有Optane的环境下也能维持高IOPS和低延迟
+<img src="../../image/daos01.png" alt="image.png|IO500"></li>
 </ul>
-<p><img src="../../image/daos01.png" alt="image.png|IO500"></p>
 <h2 id="开源社区的力量从intel主导到基金会治理">开源社区的力量：从Intel主导到基金会治理</h2>
-<p>2023年11月，<strong>DAOS基金会</strong>正式成立，由Argonne国家实验室、Enakta Labs、Google、HPE和Intel等机构联合支持。该基金会设有技术指导委员会，由HPE的高级技术专家Johann Lombardi担任主席，他是DAOS的长期开发者和倡导者。</p>
-<p>这一转变意味着：</p>
+<p>2023年11月，<strong>DAOS基金会</strong>正式成立，由Argonne国家实验室、Enakta Labs、Google、HPE和Intel等机构联合支持。该基金会设有技术指导委员会，由HPE的高级技术专家Johann Lombardi担任主席，他是DAOS的长期开发者和倡导者。
+这一转变意味着：</p>
 <ul>
 <li>DAOS从一个由Intel主导的项目，过渡为中立的开源生态</li>
 <li>吸引了更广泛的用户和贡献者，推动开发路线更加公开透明</li>
 <li>增强了对未来持续演进的信心</li>
 </ul>
 <h3 id="开源指标daos-vs-ceph">开源指标：DAOS vs. Ceph</h3>
-<p><img src="../../image/star.png" alt="image.png|IO500"></p>
-<p><img src="../../image/company.png" alt="image.png|IO500"></p>
+<p><img src="../../image/star.png" alt="image.png|IO500">
+<img src="../../image/company.png" alt="image.png|IO500"></p>
 <h2 id="面向未来28版与30路线图">面向未来：2.8版与3.0路线图</h2>
-<p><strong>DAOS v2.6</strong>在2024年7月Release，是最后一个英特尔发行版。</p>
-<p>根据最新发布信息：</p>
+<p><strong>DAOS v2.6</strong>在2024年7月Release，是最后一个英特尔发行版。
+根据最新发布信息：</p>
 <ul>
 <li><strong>DAOS 2.8版本</strong>（2025年底）：这是从Intel主导转为社区主导的第一个Release版本，持续增强NVMe适配、元数据引擎与K8s云原生支持</li>
-<li><strong>DAOS 3.0版本</strong>（预计2026年）：将带来更彻底的模块化设计，强化与AI和容器生态的集成</li>
+<li><strong>DAOS 3.0版本</strong>（预计2026年）：将带来更彻底的模块化设计，强化与AI和容器生态的集成
+<img src="../../image/roadmap.png" alt="image.png|IO500"></li>
 </ul>
-<p><img src="../../image/roadmap.png" alt="image.png|IO500"></p>
 <h2 id="daos典型用户案例">DAOS典型用户案例</h2>
 <h3 id="1-aurora-超级计算机美国能源部-argonne-国家实验室">1. Aurora 超级计算机（美国能源部 Argonne 国家实验室）</h3>
 <ul>
@@ -254,9 +254,9 @@
 <li><strong><a href="https://github.com/daos-stack/daos">DAOS Github</a></strong>：源代码仓库</li>
 </ul>
 <h2 id="总结">总结</h2>
-<p>DAOS并没有因Optane的终结而衰落，反而因&quot;断奶&quot;而加速独立。通过技术演进与社区支持，它正逐步摆脱对特定硬件的依赖，转向更普适、更强健的发展路径。</p>
-<p>不得不说DAOS还是一个非常年轻的项目，还有许多不足，比如用户规模还不够，功能还不够丰富等等。但是相比Ceph等系统，DAOS的架构和性能优势还是很明显的。</p>
-<p>DAOS的未来发展会怎么样呢？我们且骑驴看唱本……</p>
+<p>DAOS并没有因Optane的终结而衰落，反而因&quot;断奶&quot;而加速独立。通过技术演进与社区支持，它正逐步摆脱对特定硬件的依赖，转向更普适、更强健的发展路径。
+不得不说DAOS还是一个非常年轻的项目，还有许多不足，比如用户规模还不够，功能还不够丰富等等。但是相比Ceph等系统，DAOS的架构和性能优势还是很明显的。
+DAOS的未来发展会怎么样呢？我们且骑驴看唱本……</p>
 <h2 id="参考文献">参考文献</h2>
 <ol>
 <li><a href="https://daos-stack.github.io/">DAOS WIKI</a></li>
@@ -286,7 +286,6 @@
 <footer class="post-footer">
       <div class="post-tags">
           <a href="/tags/ceph/">ceph</a>
-          <a href="/tags/3fs/">3FS</a>
           </div>
       <nav class="post-nav">
         <a class="prev" href="/post/ceph-content/operation-skills/zh-cn/ceph%E9%9B%86%E7%BE%A4%E5%B7%A1%E6%A3%80%E8%84%9A%E6%9C%AC/">

@@ -126,6 +126,52 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/operation-skills/zh-cn/%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97ceph%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/">实用指南：Ceph常用工具汇总</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2025-05-30 </span>
+      <div class="post-category">
+          <a href="/categories/ceph/"> ceph </a>
+          </div>
+        <span class="more-meta"> 5658 words </span>
+        <span class="more-meta"> 12 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      📋 常用工具(汇总简略不全版) 功能分类 主要命令 验证状态 使用频率 适用场景 风险级别 集群监控 ceph -s, ceph health(detail), ceph df, ceph -w ✅ 已验证 ⭐⭐⭐⭐⭐ 日常监控、故障诊断 🟢 无
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/operation-skills/zh-cn/%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97ceph%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%B1%87%E6%80%BB/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/draft/casps/">casps</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2025-05-27 </span>
+      <div class="post-category">
+          <a href="/categories/ceph/"> ceph </a>
+          </div>
+        <span class="more-meta"> 3390 words </span>
+        <span class="more-meta"> 7 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      CephFS Caps 机制深度技术分析 🏗️ 核心架构概览 CephFS 的 capability (caps) 机制是一个复杂的分布式一致性系统，用于管理客户端对文件系统对象的访问权限。它结合了分布式锁、缓存
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/draft/casps/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/ceph-content/draft/kcephfs-caps/">Ceph handle_cap_grant机制解析 </a></h1>
     <div class="post-meta">
       <span class="post-time"> 2025-05-27 </span>
@@ -143,54 +189,6 @@
     </div>
     <div class="read-more">
       <a href="/post/ceph-content/draft/kcephfs-caps/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/distributed-storage/en/ceph-tentacle-erasure-coding-enhancements/">Ceph Tentacle Erasure Coding Enhancements</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2025-05-20 </span>
-      <div class="post-category">
-          <a href="/categories/ceph/"> ceph </a>
-          </div>
-        <span class="more-meta"> 651 words </span>
-        <span class="more-meta"> 4 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Vision and Objectives Core Goal: Optimize I/O performance for Erasure Coded pools to be similar to Replicated Pools Primary Objectives:
-Lower Total Cost of Ownership (TCO) Make Erasure Coded pools viable for use with block and file storage Enabling &ldquo;Optimised&rdquo; EC Important Considerations Default State: All optimizations are turned off by default Per-Pool Configuration: Optimizations can be enabled for each pool individually ⚠️ Irreversible Operation: OPTIMIZATIONS CANNOT BE SWITCHED OFF once enabled Version Requirements: All OSDs, MONs, and MGRs must be upgraded to Tentacle or later Backward Compatibility: Compatible with old clients Configuration Methods Enable optimizations for a specific pool 1 ceph osd pool set &lt;pool_name&gt; allow_ec_optimizations true Enable optimizations by default for new pools 1 2 [mon] osd_pool_default_flag_ec_optimizations = true Key Technical Features Previously Implemented Core Features Partial Reads Partial Writes Note: Partial metadata – unwritten shards have no processing Parity Delta Writes Per-IO auto-switch between write methods Larger Default Chunk Size Direct Read Direct Write New Important Features 1.
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/distributed-storage/en/ceph-tentacle-erasure-coding-enhancements/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/distributed-storage/en/daos-file-system-phoenix-rising-after-optanes-end/">DAOS File System: Phoenix Rising After Optane&#39;s End</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2025-05-20 </span>
-      <div class="post-category">
-          <a href="/categories/ceph/"> ceph </a>
-          </div>
-        <span class="more-meta"> 762 words </span>
-        <span class="more-meta"> 4 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &ldquo;core hardware support&rdquo;? Where is its future?
-Short-term Impact, but Not the End The discontinuation of Optane did have a significant impact on DAOS, especially in metadata acceleration and persistence.
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/distributed-storage/en/daos-file-system-phoenix-rising-after-optanes-end/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
