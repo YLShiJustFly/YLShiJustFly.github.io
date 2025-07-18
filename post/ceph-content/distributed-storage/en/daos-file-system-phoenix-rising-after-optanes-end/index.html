@@ -16,7 +16,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="ceph-deep-dive" /><meta name="description" content="title: &amp;ldquo;DAOS File System: Phoenix Rising After Optane&amp;rsquo;s End&amp;rdquo; date: 2025-07-07T18:18:09&#43;08:00 draft: false tags: [&amp;ldquo;ceph&amp;rdquo;] categories: [&amp;ldquo;ceph&amp;rdquo;] Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&amp;rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &amp;ldquo;core hardware support&amp;rdquo;?" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="ceph-deep-dive" /><meta name="description" content="Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&amp;rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &amp;ldquo;core hardware support&amp;rdquo;? Where is its future?
+Short-term Impact, but Not the End The discontinuation of Optane did have a significant impact on DAOS, especially in metadata acceleration and persistence." /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,19 +41,22 @@
 
 
 <meta property="og:title" content="DAOS File System: Phoenix Rising After Optane&#39;s End" />
-<meta property="og:description" content="title: &ldquo;DAOS File System: Phoenix Rising After Optane&rsquo;s End&rdquo; date: 2025-07-07T18:18:09&#43;08:00 draft: false tags: [&ldquo;ceph&rdquo;] categories: [&ldquo;ceph&rdquo;] Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &ldquo;core hardware support&rdquo;?" />
+<meta property="og:description" content="Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &ldquo;core hardware support&rdquo;? Where is its future?
+Short-term Impact, but Not the End The discontinuation of Optane did have a significant impact on DAOS, especially in metadata acceleration and persistence." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/daos-file-system-phoenix-rising-after-optanes-end/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2025-07-07T18:18:09+08:00" />
-<meta property="article:modified_time" content="2025-07-07T18:18:09+08:00" />
+<meta property="article:published_time" content="2025-07-18T03:30:41+00:00" />
+<meta property="article:modified_time" content="2025-07-18T03:30:41+00:00" />
 
 <meta itemprop="name" content="DAOS File System: Phoenix Rising After Optane&#39;s End">
-<meta itemprop="description" content="title: &ldquo;DAOS File System: Phoenix Rising After Optane&rsquo;s End&rdquo; date: 2025-07-07T18:18:09&#43;08:00 draft: false tags: [&ldquo;ceph&rdquo;] categories: [&ldquo;ceph&rdquo;] Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &ldquo;core hardware support&rdquo;?"><meta itemprop="datePublished" content="2025-07-07T18:18:09+08:00" />
-<meta itemprop="dateModified" content="2025-07-07T18:18:09+08:00" />
-<meta itemprop="wordCount" content="779">
+<meta itemprop="description" content="Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &ldquo;core hardware support&rdquo;? Where is its future?
+Short-term Impact, but Not the End The discontinuation of Optane did have a significant impact on DAOS, especially in metadata acceleration and persistence."><meta itemprop="datePublished" content="2025-07-18T03:30:41+00:00" />
+<meta itemprop="dateModified" content="2025-07-18T03:30:41+00:00" />
+<meta itemprop="wordCount" content="762">
 <meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="DAOS File System: Phoenix Rising After Optane&#39;s End"/>
-<meta name="twitter:description" content="title: &ldquo;DAOS File System: Phoenix Rising After Optane&rsquo;s End&rdquo; date: 2025-07-07T18:18:09&#43;08:00 draft: false tags: [&ldquo;ceph&rdquo;] categories: [&ldquo;ceph&rdquo;] Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &ldquo;core hardware support&rdquo;?"/>
+<meta name="twitter:description" content="Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &ldquo;core hardware support&rdquo;? Where is its future?
+Short-term Impact, but Not the End The discontinuation of Optane did have a significant impact on DAOS, especially in metadata acceleration and persistence."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -132,11 +136,11 @@
       <h1 class="post-title">DAOS File System: Phoenix Rising After Optane&#39;s End</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2025-07-07 </span>
+        <span class="post-time"> 2025-07-18 </span>
         <div class="post-category">
             <a href="/categories/ceph/"> ceph </a>
             </div>
-          <span class="more-meta"> 779 words </span>
+          <span class="more-meta"> 762 words </span>
           <span class="more-meta"> 4 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -149,11 +153,6 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#categories-ceph">title: &ldquo;DAOS File System: Phoenix Rising After Optane&rsquo;s End&rdquo;
-date: 2025-07-07T18:18:09+08:00
-draft: false
-tags: [&ldquo;ceph&rdquo;]
-categories: [&ldquo;ceph&rdquo;]</a></li>
         <li><a href="#preface-dominating-the-io500-rankings">Preface: Dominating the IO500 Rankings</a></li>
         <li><a href="#background">Background</a></li>
         <li><a href="#short-term-impact-but-not-the-end">Short-term Impact, but Not the End</a></li>
@@ -187,13 +186,7 @@ categories: [&ldquo;ceph&rdquo;]</a></li>
   </div>
 </div>
     <div class="post-content">
-      <hr>
-<h2 id="categories-ceph">title: &ldquo;DAOS File System: Phoenix Rising After Optane&rsquo;s End&rdquo;
-date: 2025-07-07T18:18:09+08:00
-draft: false
-tags: [&ldquo;ceph&rdquo;]
-categories: [&ldquo;ceph&rdquo;]</h2>
-<h2 id="preface-dominating-the-io500-rankings">Preface: Dominating the IO500 Rankings</h2>
+      <h2 id="preface-dominating-the-io500-rankings">Preface: Dominating the IO500 Rankings</h2>
 <p>Having seen the DAOS project dominating the IO500 rankings, I&rsquo;ve been keeping an eye on this project (though not diving deep into it).
 <img src="../../image/io500.png" alt="image.png|IO500"></p>
 <h2 id="background">Background</h2>
@@ -287,7 +280,7 @@ How will DAOS develop in the future? We&rsquo;ll just have to wait and see&helli
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2025-07-07
+        2025-07-18
         
     </span>
   </p>
@@ -299,13 +292,13 @@ How will DAOS develop in the future? We&rsquo;ll just have to wait and see&helli
           <a href="/tags/ceph/">ceph</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/ceph-content/architecture-analysis/en/cephfs-mds-system-architecture-overview/">
+        <a class="prev" href="/post/ceph-content/distributed-storage/zh-cn/ceph-tentacle%E7%89%88%E6%9C%AC%E7%BA%A0%E5%88%A0%E7%A0%81%E5%A2%9E%E5%BC%BA/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">CephFS-MDS System Architecture Overview</span>
+            <span class="prev-text nav-default">Ceph Tentacle版本纠删码增强</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/code-analysis/en/execution-flow-analysis-of-the-ceph-mgr-balancer-module-/">
-            <span class="next-text nav-default">Execution Flow Analysis of the Ceph mgr-balancer Module </span>
+        <a class="next" href="/post/ceph-content/distributed-storage/zh-cn/daos%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%90%8Eoptane%E6%97%B6%E4%BB%A3%E7%9A%84%E5%87%A4%E5%87%B0%E6%B6%85%E6%A7%83/">
+            <span class="next-text nav-default">DAOS文件系统：后Optane时代的凤凰涅槃</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

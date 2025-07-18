@@ -126,115 +126,111 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/draft/casps/">casps</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/plantuml/">vim&#43;plantuml-previewer绘制流程图</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2025-05-27 </span>
-      <div class="post-category">
-          <a href="/categories/ceph/"> ceph </a>
-          </div>
-        <span class="more-meta"> 3390 words </span>
-        <span class="more-meta"> 7 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      CephFS Caps 机制深度技术分析 🏗️ 核心架构概览 CephFS 的 capability (caps) 机制是一个复杂的分布式一致性系统，用于管理客户端对文件系统对象的访问权限。它结合了分布式锁、缓存
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/draft/casps/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/draft/kcephfs-caps/">Ceph handle_cap_grant机制解析 </a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2025-05-27 </span>
-      <div class="post-category">
-          <a href="/categories/ceph/"> ceph </a>
-          </div>
-        <span class="more-meta"> 7663 words </span>
-        <span class="more-meta"> 16 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      handle_cap_grant handle_cap_grant 是 Ceph 分布式一致性机制的核心实现，负责： 处理 MDS 发送的能力授权/撤销消息 维护客户端缓存一致性 管理文件元数据同步 协调分布式锁机制 完整的流程图 1
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/draft/kcephfs-caps/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/obsidian&#43;git-pages%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA/">Obsidian &#43; Git pages自动部署博客系统搭建 </a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-03-02 </span>
-      <div class="post-category">
-          <a href="/categories/obsidian/"> obsidian </a>
-          </div>
-        <span class="more-meta"> 710 words </span>
-        <span class="more-meta"> 2 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      为什么写这篇文章 我之前使用 neovim 写 markdown，hugo 管理博客静态站点，并写了一个编译 hugo，并发布到 github pages 的脚本。 最近开始迁到 obsidan 做笔记，
-    </div>
-    <div class="read-more">
-      <a href="/post/obsidian&#43;git-pages%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/markdown/">vim&#43;markdown-preview.nvim搭建markdown实时预览开发环境</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-04-19 </span>
+      <span class="post-time"> 2022-03-10 </span>
       <div class="post-category">
           <a href="/categories/neovim/"> neovim </a>
           </div>
-        <span class="more-meta"> 2199 words </span>
-        <span class="more-meta"> 5 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      为什么需要markdown markdown是一种语法极简单的标记语言，基于markdown的文本代码可以很方便的渲染成html文件， 在网站上
-    </div>
-    <div class="read-more">
-      <a href="/post/markdown/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/uniaccess/">mac版uniaccess卸载方法</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-03-22 </span>
-      <div class="post-category">
-          <a href="/categories/macos/"> MacOS </a>
-          </div>
-        <span class="more-meta"> 1249 words </span>
+        <span class="more-meta"> 1144 words </span>
         <span class="more-meta"> 3 mins read </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      为什么要卸载UniAcess? 很多公司用联软的UniAcess监控员工电脑，后台运行的时候占用大量CPU和网络资源， 上网速度受到很大影响，甚
+      传统画流程图的痛点 我们经常需要画流程图来表示代码逻辑或者基本框架等。但我们在绘画流程图的时候，经常会在对齐连接线这些和流程图表达的意义无关的
     </div>
     <div class="read-more">
-      <a href="/post/uniaccess/" class="read-more-link">Read more...</a>
+      <a href="/post/plantuml/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/beamer/">使用vim&#43;vimtex&#43;latex(beamer) 制作PPT</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-03-10 </span>
+      <div class="post-category">
+          <a href="/categories/neovim/"> neovim </a>
+          </div>
+        <span class="more-meta"> 1937 words </span>
+        <span class="more-meta"> 4 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      beamer和powerpoint的不同 我们经常需要用ppt这一形式来展示我们的工作成果，但众所周知，微软的powerpoint是收费软件，
+    </div>
+    <div class="read-more">
+      <a href="/post/beamer/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/"></a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 0001-01-01 </span>
+      
+        <span class="more-meta"> 4203 words </span>
+        <span class="more-meta"> 20 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
+Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus+ Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific+ Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus+ Recommended for new deployments cephadm Container Management Octopus Pacific+ Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific+ Basic support → production ready CephFS Mirroring/DR Octopus Pacific+ Feature introduction → production stable mclock QoS Scheduling Pacific Quincy+ Introduction → default enabled Full Containerized Deployment Pacific Quincy+ Basic support → complete ecosystem Advanced Dashboard Reef Squid+ Refactored → complete FileStore Replacement Any version Reef+ FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices.
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/"></a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 0001-01-01 </span>
+      
+        <span class="more-meta"> 11150 words </span>
+        <span class="more-meta"> 23 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Ceph 各版本特性对比与演进分析 本文档详细分析了Ceph从Nautilus (v14)到最新Squid (v19)版本的主要特性演进，为选择合适版本和
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/architecture-analysis/en/ceph-mon-system-architecture-overview/"></a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 0001-01-01 </span>
+      
+        <span class="more-meta"> 1219 words </span>
+        <span class="more-meta"> 6 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Ceph Monitor Architecture Analysis Monitor Overall Architecture Overview Core Functional Positioning Ceph Monitor serves as the control plane of the cluster, primarily responsible for the following core duties:
+Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp; Authorization: Managing CephX authentication system and user permissions Election &amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 graph TB subgraph &#34;Ceph Monitor Core Architecture&#34; A[Monitor Daemon] --&gt; B[MonitorStore] A --&gt; C[Paxos Engine] A --&gt; D[Election Module] A --&gt; E[Health Module] A --&gt; F[Config Module] A --&gt; G[Auth Module] B --&gt; B1[ClusterMap Storage] B --&gt; B2[Configuration DB] B --&gt; B3[Transaction Log] C --&gt; C1[Proposal Processing] C --&gt; C2[Leader Election] C --&gt; C3[Consensus Coordination] D --&gt; D1[Connectivity Strategy] D --&gt; D2[Quorum Management] D --&gt; D3[Split-brain Prevention] E --&gt; E1[Health Checks] E --&gt; E2[Status Reporting] E --&gt; E3[Alert Generation] F --&gt; F1[Config Key-Value Store] F --&gt; F2[Runtime Configuration] F --&gt; F3[Config Distribution] G --&gt; G1[CephX Authentication] G --&gt; G2[User Management] G --&gt; G3[Capability Control] end subgraph &#34;External Interactions&#34; H[OSD Daemons] --&gt; A I[MDS Daemons] --&gt; A J[Client Applications] --&gt; A K[Admin Tools] --&gt; A L[Dashboard/Grafana] --&gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata.
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/architecture-analysis/en/ceph-mon-system-architecture-overview/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>

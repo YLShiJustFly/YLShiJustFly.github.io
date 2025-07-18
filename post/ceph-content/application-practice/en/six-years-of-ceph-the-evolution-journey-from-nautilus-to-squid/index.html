@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Six Years of Ceph: The Evolution Journey from Nautilus to Squid - Friends&#39; Life and Work Space</title>
+  <title> - Friends&#39; Life and Work Space</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -40,21 +40,21 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Six Years of Ceph: The Evolution Journey from Nautilus to Squid" />
+<meta property="og:title" content="" />
 <meta property="og:description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
 Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2025-06-10T15:17:59+08:00" />
-<meta property="article:modified_time" content="2025-06-10T15:17:59+08:00" />
 
-<meta itemprop="name" content="Six Years of Ceph: The Evolution Journey from Nautilus to Squid">
+
+
+<meta itemprop="name" content="">
 <meta itemprop="description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
-Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices."><meta itemprop="datePublished" content="2025-06-10T15:17:59+08:00" />
-<meta itemprop="dateModified" content="2025-06-10T15:17:59+08:00" />
+Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices.">
+
 <meta itemprop="wordCount" content="4203">
-<meta itemprop="keywords" content="ceph," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Six Years of Ceph: The Evolution Journey from Nautilus to Squid"/>
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="This document provides a detailed analysis of the major feature evolution in Ceph from Nautilus (v14) to the latest Squid (v19) versions, offering guidance for selecting appropriate versions and developing upgrade strategies. (Organized with LLM assistance)
 Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus 2019 EOL v15.2.x Octopus 2020 EOL v16.2.x Pacific 2021 EOL v17.2.x Quincy 2022 EOL v18.2.x Reef 2023 Stable Maintenance v19.2.x Squid 2024 Current Stable Version Feature Comparison Summary Maturity-Driven Version Selection Guide Feature Nautilus Octopus Pacific Quincy Reef Squid Deployment Method ceph-deploy cephadm introduced cephadm cephadm mature cephadm cephadm Storage Engine BlueStore BlueStore BlueStore BlueStore FileStore removed BlueStore optimized Configuration Management Centralized introduced Centralized Centralized Centralized Centralized Centralized Network Protocol msgr2 introduced msgr2 stable msgr2 msgr2 msgr2 msgr2 PG Management autoscale introduced autoscale autoscale autoscale autoscale autoscale Scheduler Traditional Improved mclock introduced mclock default mclock mclock optimized CephFS Multi-FS First support Feature enhanced Mirroring perfected Management optimized Management optimized Dashboard integrated Multi-site Basic RBD mirroring CephFS mirroring Perfected Enhanced Enhanced Dashboard Basic Improved Improved Improved Refactored Refactored Containerization None cephadm preview cephadm mature cephadm complete cephadm cephadm Feature Maturity Marking Legend Bold text: Important milestones for features in this version (first introduction/stability achieved/major improvements) Normal text: Features remain stable or have minor improvements in this version Italic text: Features are deprecated or being prepared for removal in this version Feature-Driven Version Selection Guide Required Feature Minimum Version Stable Recommended Version Notes Centralized Configuration Management Nautilus Octopus&#43; Basic functionality available, upgrade recommended for stability PG autoscaling Nautilus Pacific&#43; Production environments recommend manual control msgr2 Security Protocol Nautilus Octopus&#43; Recommended for new deployments cephadm Container Management Octopus Pacific&#43; Tech preview → production ready CephFS Multi-filesystem Nautilus Pacific&#43; Basic support → production ready CephFS Mirroring/DR Octopus Pacific&#43; Feature introduction → production stable mclock QoS Scheduling Pacific Quincy&#43; Introduction → default enabled Full Containerized Deployment Pacific Quincy&#43; Basic support → complete ecosystem Advanced Dashboard Reef Squid&#43; Refactored → complete FileStore Replacement Any version Reef&#43; FileStore support removed after Reef Feature First Introduction and Maturity Analysis Important Feature Lifecycle Timeline This section details the first introduction version, stable version, and recommended production environment adoption timing for key features, helping users make informed version choices."/>
 
@@ -133,13 +133,11 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Six Years of Ceph: The Evolution Journey from Nautilus to Squid</h1>
+      <h1 class="post-title"></h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2025-06-10 </span>
-        <div class="post-category">
-            <a href="/categories/ceph/"> ceph </a>
-            </div>
+        <span class="post-time"> 0001-01-01 </span>
+        
           <span class="more-meta"> 4203 words </span>
           <span class="more-meta"> 20 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
@@ -1199,7 +1197,7 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2025-06-10
+        0001-01-01
         
     </span>
   </p>
@@ -1207,17 +1205,15 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
   
 </div>
 <footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/ceph/">ceph</a>
-          </div>
+      
       <nav class="post-nav">
-        <a class="prev" href="/post/ceph-content/application-practice/zh-cn/ceph%E9%9B%86%E7%BE%A4io%E6%8F%90%E4%BA%A4%E5%BB%B6%E8%BF%9F%E7%BB%9F%E8%AE%A1%E8%B7%B3%E5%8F%98%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
+        <a class="prev" href="/post/beamer/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Ceph集群IO提交延迟统计跳变问题分析</span>
+            <span class="prev-text nav-default">使用vim&#43;vimtex&#43;latex(beamer) 制作PPT</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/ceph-content/distributed-storage/zh-cn/%E4%BB%8Edeepseek-3fs%E8%81%8A%E5%88%B0ai%E5%AD%98%E5%82%A8/">
-            <span class="next-text nav-default">3FS的一点思考 </span>
+        <a class="next" href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/">
+            <span class="next-text nav-default"></span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

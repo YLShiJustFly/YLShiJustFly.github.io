@@ -1,10 +1,3 @@
----
-title: "DAOS File System: Phoenix Rising After Optane's End"
-date: 2025-07-07T18:18:09+08:00
-draft: false
-tags: ["ceph"]
-categories: ["ceph"]
----
 ## Preface: Dominating the IO500 Rankings
 Having seen the DAOS project dominating the IO500 rankings, I've been keeping an eye on this project (though not diving deep into it).
 ![image.png|IO500](../../image/io500.png)
