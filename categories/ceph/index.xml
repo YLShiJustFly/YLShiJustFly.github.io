@@ -102,15 +102,6 @@ This article analyzes the execution flow when using balancer upmap mode, based o
     </item>
     
     <item>
-      <title>Analysis of IO Commit Latency Spike in Ceph Cluster</title>
-      <link>http://YLShiJustFly.github.io/post/ceph-content/application-practice/en/analysis-of-io-commit-latency-spike-in-ceph-cluster/</link>
-      <pubDate>Tue, 10 Jun 2025 15:17:59 +0800</pubDate>
-      
-      <guid>http://YLShiJustFly.github.io/post/ceph-content/application-practice/en/analysis-of-io-commit-latency-spike-in-ceph-cluster/</guid>
-      <description>Symptom Environment: After abnormal node reboot in Ceph cluster Affected Metric: Prometheus rate value of ceph_osd_op_w_latency Behavior: Pre-reboot: Values showed normal increment (peak ~1M) Post-reboot: Started recording from 0 Spiked to 4.2B after 3 minutes (close to 2³²) Investigation Process Phase 1: Initial Hypotheses Hypothesis Verification Method Conclusion Prometheus calculation Reviewed rate() function Confirmed proper counter reset Ceph stat initialization Inspected OSD.cc init code Verified proper atomic init Phase 2: Deep Analysis Key Findings: 3-minute zero period before spike 4.</description>
-    </item>
-    
-    <item>
       <title>Ceph 各版本特性对比与演进分析</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/</link>
       <pubDate>Tue, 10 Jun 2025 15:17:59 +0800</pubDate>

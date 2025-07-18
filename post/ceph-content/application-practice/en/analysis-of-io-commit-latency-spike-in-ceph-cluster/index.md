@@ -1,3 +1,4 @@
+
 ## Symptom
 - **Environment**: After abnormal node reboot in Ceph cluster
 - **Affected Metric**: Prometheus rate value of `ceph_osd_op_w_latency`
