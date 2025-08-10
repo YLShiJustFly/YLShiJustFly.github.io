@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title> - Friends&#39; Life and Work Space</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="ceph-deep-dive" /><meta name="description" content="摘要 AI/ML 训练、推断等环节对存储提出了前所未有的高性能要求。本文结合 SNIA《Ceph Storage in a World of AI/ML Workloads》演示文稿内容，分析了 AI 存储" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.100.2 with theme even" />
+
+
+<link rel="canonical" href="http://YLShiJustFly.github.io/post/ceph-content/application-practice/zh-cn/aiml%E6%97%B6%E4%BB%A3%E7%9A%84%E5%AD%98%E5%82%A8%E5%88%A9%E5%99%A8ceph/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="摘要 AI/ML 训练、推断等环节对存储提出了前所未有的高性能要求。本文结合 SNIA《Ceph Storage in a World of AI/ML Workloads》演示文稿内容，分析了 AI 存储" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://YLShiJustFly.github.io/post/ceph-content/application-practice/zh-cn/aiml%E6%97%B6%E4%BB%A3%E7%9A%84%E5%AD%98%E5%82%A8%E5%88%A9%E5%99%A8ceph/" /><meta property="article:section" content="post" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="摘要 AI/ML 训练、推断等环节对存储提出了前所未有的高性能要求。本文结合 SNIA《Ceph Storage in a World of AI/ML Workloads》演示文稿内容，分析了 AI 存储">
+
+<meta itemprop="wordCount" content="1123">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="摘要 AI/ML 训练、推断等环节对存储提出了前所未有的高性能要求。本文结合 SNIA《Ceph Storage in a World of AI/ML Workloads》演示文稿内容，分析了 AI 存储"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Friends&#39; Life and Work Space</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Friends&#39; Life and Work Space</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title"></h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 0001-01-01 </span>
+        
+          <span class="more-meta"> 1123 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#aiml-训练推断等环节对存储提出了前所未有的高性能要求本文结合-sniaceph-storage-in-a-world-of-aiml-workloads演示文稿内容分析了-ai-存储的挑战ceph-的优势以及在实际部署中提升效率的关键方法"><strong>摘要</strong>
+AI/ML 训练、推断等环节对存储提出了前所未有的高性能要求。本文结合 SNIA《Ceph Storage in a World of AI/ML Workloads》演示文稿内容，分析了 AI 存储的挑战、Ceph 的优势，以及在实际部署中提升效率的关键方法。</a></li>
+        <li><a href="#aiml-工作负载生命周期">AI/ML 工作负载生命周期</a></li>
+        <li><a href="#检查点checkpointing挑战">检查点（Checkpointing）挑战</a></li>
+        <li><a href="#推断inference中的存储需求">推断（Inference）中的存储需求</a></li>
+        <li><a href="#为什么选择-ceph">为什么选择 Ceph？</a></li>
+        <li><a href="#提升-ceph-存储效率的策略">提升 Ceph 存储效率的策略</a></li>
+        <li><a href="#实际部署案例">实际部署案例</a></li>
+        <li><a href="#社区与活动">社区与活动</a></li>
+        <li><a href="#核心要点总结">核心要点总结</a></li>
+        <li><a href="#参考文献">参考文献</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="aiml-训练推断等环节对存储提出了前所未有的高性能要求本文结合-sniaceph-storage-in-a-world-of-aiml-workloads演示文稿内容分析了-ai-存储的挑战ceph-的优势以及在实际部署中提升效率的关键方法"><strong>摘要</strong>
+AI/ML 训练、推断等环节对存储提出了前所未有的高性能要求。本文结合 SNIA《Ceph Storage in a World of AI/ML Workloads》演示文稿内容，分析了 AI 存储的挑战、Ceph 的优势，以及在实际部署中提升效率的关键方法。</h2>
+<h2 id="aiml-工作负载生命周期">AI/ML 工作负载生命周期</h2>
+<p>一个典型的 AI/ML 生命周期通常包括：</p>
+<blockquote>
+<p>原始数据 → 训练数据 → 模型 → 结果 → 再训练
+在训练过程中，网络带宽、数据预处理能力、模型规模都会影响整体性能。
+在实际案例中，推荐的存储吞吐量为 <strong>5 GB/s</strong>，高性能参考系统可达 <strong>20 GB/s</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="检查点checkpointing挑战">检查点（Checkpointing）挑战</h2>
+<p>检查点保存是 AI 模型训练的关键步骤，其数据量会随着模型规模迅速增加：</p>
+<ul>
+<li>Granite 13b：170 GiB，约 5 秒</li>
+<li>Llama3 70b：913 GiB，约 28 秒</li>
+<li>GPT-3 175b：2.28 TiB，约 70 秒</li>
+<li>Llama3 405b：5.28 TiB，约 162 秒
+存储系统性能直接决定了保存检查点的速度，从而影响整体训练效率和成本。</li>
+</ul>
+<hr>
+<h2 id="推断inference中的存储需求">推断（Inference）中的存储需求</h2>
+<p>在推荐系统或事件驱动的推断场景中（如 Facebook 数据中心）：</p>
+<ul>
+<li>深度推荐模型占推断计算使用 <strong>80%+</strong></li>
+<li>占训练计算使用 <strong>50%+</strong>
+这类场景需要存储系统具备<strong>高并发 I/O</strong>和<strong>低延迟响应</strong>的能力。</li>
+</ul>
+<hr>
+<h2 id="为什么选择-ceph">为什么选择 Ceph？</h2>
+<p>Ceph 在 AI/ML 存储场景中有明显优势：</p>
+<ul>
+<li><strong>多协议支持</strong>：同时提供 Block、File、Object（如 S3、NFS、SMB）</li>
+<li><strong>硬件中立</strong>：无厂商锁定，可自由搭配 CPU、内存、网络、存储介质</li>
+<li><strong>可扩展性强</strong>：从小规模部署扩展到数百节点，读吞吐可从 20 GB/s 提升至 160 GB/s</li>
+<li><strong>开源生态完善</strong>：生产环境验证成熟，社区活跃，厂商支持广泛</li>
+</ul>
+<hr>
+<h2 id="提升-ceph-存储效率的策略">提升 Ceph 存储效率的策略</h2>
+<ul>
+<li><strong>压缩与硬件加速</strong>
+Ceph RGW 与 Bluestore 支持数据压缩。
+例如 S3 对象压缩，可使写入吞吐提升 <strong>250%+</strong>，读取提升 <strong>180%+</strong>。</li>
+<li><strong>合理架构设计</strong>
+在系统初期规划好压缩策略、硬件加速方式，可显著降低 TCO（总体拥有成本）。</li>
+</ul>
+<hr>
+<h2 id="实际部署案例">实际部署案例</h2>
+<p>SNIA 提供的参考部署案例：</p>
+<ul>
+<li><strong>4 节点 Ceph 集群</strong>
+<ul>
+<li>每节点：2×32 核 CPU、512 GB 内存、2×100 GbE 网络</li>
+<li>存储：24 块 TLC NVMe SSD</li>
+<li>加速：4× GPU</li>
+</ul>
+</li>
+<li><strong>性能表现</strong>：读取 30 GB/s，写入 4.66 GB/s
+该结果展示了 Ceph 在高性能硬件条件下，完全可以胜任 AI/ML 训练与推断的存储需求。</li>
+</ul>
+<hr>
+<h2 id="社区与活动">社区与活动</h2>
+<ul>
+<li><strong>Ceph Days</strong>：2025 年在班加罗尔、圣何塞、伦敦等地举办</li>
+<li><strong>Cephalocon</strong>：2024 年在 CERN 举办，2025 年活动正在筹备中</li>
+<li><strong>SNIA 教育库</strong>：提供大量 Ceph 与 AI/ML 相关技术资料</li>
+</ul>
+<hr>
+<h2 id="核心要点总结">核心要点总结</h2>
+<ol>
+<li><strong>高效 GPU 利用率</strong> 需要存储系统匹配足够带宽与吞吐能力</li>
+<li><strong>网络规划</strong> 是扩展的基础，确保 AI/ML 吞吐需求得到满足</li>
+<li><strong>开源灵活性</strong> 让 Ceph 能快速整合加速与优化功能</li>
+</ol>
+<hr>
+<h2 id="参考文献">参考文献</h2>
+<ul>
+<li>SNIA：《Ceph Storage in a World of AI/ML Workloads》
+<a href="https://snia.org/sites/default/files/CSI/Ceph%20Storage%20in%20a%20World%20of%20AI_ML%20Workloads.pdf">https://snia.org/sites/default/files/CSI/Ceph%20Storage%20in%20a%20World%20of%20AI_ML%20Workloads.pdf</a></li>
+<li>Ceph 官方文档：<a href="https://docs.ceph.com">https://docs.ceph.com</a></li>
+<li>SNIA 教育库：<a href="https://snia.org/education">https://snia.org/education</a></li>
+<li>Facebook AI Research：Deep Learning Recommendation Models (DLRM) 研究</li>
+<li>Cephalocon 大会官网：<a href="https://cephalocon.org">https://cephalocon.org</a></li>
+</ul>
+<hr>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">ceph-deep-dive</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        0001-01-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default"></span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/">
+            <span class="next-text nav-default"></span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="YLShiJustFly/YLShiJustFly.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:youseeicanfly@126.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.zhihu.com/people/tan-xi-liu-nian" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://YLShiJustFly.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2022 - 
+    2025<span class="heart"><i class="iconfont icon-heart"></i></span><span>ceph-deep-dive</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.191509a5c8442abdb6eb5020a332fd59bdd83a7e78a2d2241108df9113504292.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

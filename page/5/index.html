@@ -172,6 +172,30 @@
 
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/application-practice/en/ceph-storage-the-storage-powerhouse-in-the-era-of-aiml-workloads/"></a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 0001-01-01 </span>
+      
+        <span class="more-meta"> 466 words </span>
+        <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Ceph Storage: The Storage Powerhouse in the Era of AI/ML Workloads Abstract
+AI/ML training, inference, and related processes place unprecedented demands on storage performance.
+This article, based on the SNIA presentation &ldquo;Ceph Storage in a World of AI/ML Workloads&rdquo;, analyzes the challenges of AI storage, the advantages of Ceph, and key methods to improve efficiency in real deployments. AI/ML Workload Lifecycle A typical AI/ML lifecycle includes:
+Raw Data → Training Data → Model → Results → Retraining During training, network bandwidth, data preprocessing capability, and model size all affect overall performance.
+    </div>
+    <div class="read-more">
+      <a href="/post/ceph-content/application-practice/en/ceph-storage-the-storage-powerhouse-in-the-era-of-aiml-workloads/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/ceph-content/application-practice/en/six-years-of-ceph-the-evolution-journey-from-nautilus-to-squid/"></a></h1>
     <div class="post-meta">
       <span class="post-time"> 0001-01-01 </span>
@@ -194,43 +218,21 @@ Version Overview Version Codename Release Date Lifecycle Status v14.2.x Nautilus
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/"></a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/application-practice/zh-cn/aiml%E6%97%B6%E4%BB%A3%E7%9A%84%E5%AD%98%E5%82%A8%E5%88%A9%E5%99%A8ceph/"></a></h1>
     <div class="post-meta">
       <span class="post-time"> 0001-01-01 </span>
       
-        <span class="more-meta"> 11150 words </span>
-        <span class="more-meta"> 23 mins read </span>
+        <span class="more-meta"> 1123 words </span>
+        <span class="more-meta"> 3 mins read </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      Ceph 各版本特性对比与演进分析 本文档详细分析了Ceph从Nautilus (v14)到最新Squid (v19)版本的主要特性演进，为选择合适版本和
+      摘要 AI/ML 训练、推断等环节对存储提出了前所未有的高性能要求。本文结合 SNIA《Ceph Storage in a World of AI/ML Workloads》演示文稿内容，分析了 AI 存储
     </div>
     <div class="read-more">
-      <a href="/post/ceph-content/application-practice/zh-cn/ceph-%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94%E4%B8%8E%E6%BC%94%E8%BF%9B%E5%88%86%E6%9E%90/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/ceph-content/architecture-analysis/en/ceph-mon-system-architecture-overview/"></a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-        <span class="more-meta"> 1219 words </span>
-        <span class="more-meta"> 6 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Ceph Monitor Architecture Analysis Monitor Overall Architecture Overview Core Functional Positioning Ceph Monitor serves as the control plane of the cluster, primarily responsible for the following core duties:
-Cluster Map Maintenance: Managing key mapping information including MonitorMap, OSDMap, CRUSHMap, MDSMap, PGMap, etc. Status Monitoring &amp; Health Checks: Real-time monitoring of cluster status and generating health reports Distributed Consistency Guarantee: Ensuring cluster metadata consistency across all nodes based on Paxos algorithm Authentication &amp; Authorization: Managing CephX authentication system and user permissions Election &amp; Arbitration: Maintaining Monitor quorum and handling failure recovery Monitor Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 graph TB subgraph &#34;Ceph Monitor Core Architecture&#34; A[Monitor Daemon] --&gt; B[MonitorStore] A --&gt; C[Paxos Engine] A --&gt; D[Election Module] A --&gt; E[Health Module] A --&gt; F[Config Module] A --&gt; G[Auth Module] B --&gt; B1[ClusterMap Storage] B --&gt; B2[Configuration DB] B --&gt; B3[Transaction Log] C --&gt; C1[Proposal Processing] C --&gt; C2[Leader Election] C --&gt; C3[Consensus Coordination] D --&gt; D1[Connectivity Strategy] D --&gt; D2[Quorum Management] D --&gt; D3[Split-brain Prevention] E --&gt; E1[Health Checks] E --&gt; E2[Status Reporting] E --&gt; E3[Alert Generation] F --&gt; F1[Config Key-Value Store] F --&gt; F2[Runtime Configuration] F --&gt; F3[Config Distribution] G --&gt; G1[CephX Authentication] G --&gt; G2[User Management] G --&gt; G3[Capability Control] end subgraph &#34;External Interactions&#34; H[OSD Daemons] --&gt; A I[MDS Daemons] --&gt; A J[Client Applications] --&gt; A K[Admin Tools] --&gt; A L[Dashboard/Grafana] --&gt; A end Monitor Core Submodule Analysis MonitorStore Storage Engine Functional Overview: MonitorStore is the persistent storage engine of Monitor, implemented based on RocksDB, responsible for storing all critical cluster metadata.
-    </div>
-    <div class="read-more">
-      <a href="/post/ceph-content/architecture-analysis/en/ceph-mon-system-architecture-overview/" class="read-more-link">Read more...</a>
+      <a href="/post/ceph-content/application-practice/zh-cn/aiml%E6%97%B6%E4%BB%A3%E7%9A%84%E5%AD%98%E5%82%A8%E5%88%A9%E5%99%A8ceph/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>

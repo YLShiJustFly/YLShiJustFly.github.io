@@ -6,11 +6,11 @@
     <description>Recent content in ceph on Friends&#39; Life and Work Space</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 03 Aug 2025 03:48:10 +0000</lastBuildDate><atom:link href="http://YLShiJustFly.github.io/categories/ceph/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 10 Aug 2025 03:41:06 +0000</lastBuildDate><atom:link href="http://YLShiJustFly.github.io/categories/ceph/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>casps</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/draft/casps/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/draft/casps/</guid>
       <description>CephFS Caps 机制深度技术分析 🏗️ 核心架构概览 CephFS 的 capability (caps) 机制是一个复杂的分布式一致性系统，用于管理客户端对文件系统对象的访问权限。它结合了分布式锁、缓存</description>
@@ -19,7 +19,7 @@
     <item>
       <title>Ceph MDS (Metadata Server) 架构解析</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/ceph-mds-metadata-server-%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/ceph-mds-metadata-server-%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/</guid>
       <description>MDS 系统架构概览 Ceph MDS是CephFS (Ceph File System) 的核心组件，负责处理所有文件系统元数据操作。MDS的设计采用分布式、可扩展的架构，支持多活MDS和</description>
@@ -28,7 +28,7 @@
     <item>
       <title>ceph mgr-balancer模块执行流程分析</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/code-analysis/zh-cn/ceph-mgr-balancer%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/code-analysis/zh-cn/ceph-mgr-balancer%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/</guid>
       <description>随着OSD的更替和集群的扩缩容，PG在OSD的分布会逐渐变的不均衡，导致各OSD的实际容量使用率出现差异，集群整体使用率降低。ceph bal</description>
@@ -37,7 +37,7 @@
     <item>
       <title>Ceph Tentacle版本纠删码增强</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/ceph-tentacle%E7%89%88%E6%9C%AC%E7%BA%A0%E5%88%A0%E7%A0%81%E5%A2%9E%E5%BC%BA/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/ceph-tentacle%E7%89%88%E6%9C%AC%E7%BA%A0%E5%88%A0%E7%A0%81%E5%A2%9E%E5%BC%BA/</guid>
       <description>项目愿景与目标 核心目标：优化纠删码（EC）池的I/O性能，使其接近复制池的性能表现 主要目标： 降低总体拥有成本（TCO） 让纠删码池在块存储和文</description>
@@ -46,7 +46,7 @@
     <item>
       <title>CephFS-MDS System Architecture Overview</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/en/cephfs-mds-system-architecture-overview/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/en/cephfs-mds-system-architecture-overview/</guid>
       <description>MDS System Architecture Overview Ceph MDS is the core component of CephFS (Ceph File System), responsible for handling all file system metadata operations. MDS adopts a distributed, scalable architecture that supports multi-active MDS and dynamic load balancing.
@@ -56,7 +56,7 @@ MDS Position in Ceph Ecosystem 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 2
     <item>
       <title>ceph集群巡检脚本</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/operation-skills/zh-cn/ceph%E9%9B%86%E7%BE%A4%E5%B7%A1%E6%A3%80%E8%84%9A%E6%9C%AC/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/operation-skills/zh-cn/ceph%E9%9B%86%E7%BE%A4%E5%B7%A1%E6%A3%80%E8%84%9A%E6%9C%AC/</guid>
       <description>🛠️ 脚本功能特点 全面的检查项目 ✅ 集群连接状态 - 验证Ceph集群可达性 ✅ 健康状态分析 - HEALTH_OK/WARN/ERR详细分析 ✅ Monit</description>
@@ -65,7 +65,7 @@ MDS Position in Ceph Ecosystem 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 2
     <item>
       <title>DAOS File System: Phoenix Rising After Optane&#39;s End</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/daos-file-system-phoenix-rising-after-optanes-end/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/en/daos-file-system-phoenix-rising-after-optanes-end/</guid>
       <description>Preface: Dominating the IO500 Rankings Having seen the DAOS project dominating the IO500 rankings, I&amp;rsquo;ve been keeping an eye on this project (though not diving deep into it). Background In previous articles, I briefly introduced the DAOS distributed storage project. However, with Intel terminating the Optane business in 2022, many people began to wonder: Can DAOS continue after losing its &amp;ldquo;core hardware support&amp;rdquo;? Where is its future?
@@ -75,7 +75,7 @@ Short-term Impact, but Not the End The discontinuation of Optane did have a sign
     <item>
       <title>DAOS文件系统：后Optane时代的凤凰涅槃</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/daos%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%90%8Eoptane%E6%97%B6%E4%BB%A3%E7%9A%84%E5%87%A4%E5%87%B0%E6%B6%85%E6%A7%83/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/distributed-storage/zh-cn/daos%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%90%8Eoptane%E6%97%B6%E4%BB%A3%E7%9A%84%E5%87%A4%E5%87%B0%E6%B6%85%E6%A7%83/</guid>
       <description>前言：IO500上的屠榜 因为看到DAOS项目在IO500上的屠榜，所以一直对这个项目保持着关注(未深入)。 背景 在之前的文章中，简要介绍了DA</description>
@@ -84,7 +84,7 @@ Short-term Impact, but Not the End The discontinuation of Optane did have a sign
     <item>
       <title>Execution Flow Analysis of the Ceph mgr-balancer Module </title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/code-analysis/en/execution-flow-analysis-of-the-ceph-mgr-balancer-module-/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/code-analysis/en/execution-flow-analysis-of-the-ceph-mgr-balancer-module-/</guid>
       <description>As OSD are replaced and the cluster scales in and out, the distribution of PGs across OSDs becomes increasingly unbalanced. This leads to discrepancies in actual usage rates of individual OSDs, reducing the overall utilization rate of cluster. The ceph balancer module addresses this by adjusting weights or specifying PG mappings via upmap to redistribute PGs evently.
@@ -94,7 +94,7 @@ This article analyzes the execution flow when using balancer upmap mode, based o
     <item>
       <title>OSD</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/en/osd/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/en/osd/</guid>
       <description>Classical OSD Overall Architecture Diagram 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 graph TB subgraph &amp;#34;OSD Process Architecture&amp;#34; OSD[OSD Main Class] OSDService[OSDService&amp;lt;br/&amp;gt;Core Service] ShardedOpWQ[ShardedOpWQ&amp;lt;br/&amp;gt;Sharded Operation Queue] Messenger[Messenger&amp;lt;br/&amp;gt;Message System] end subgraph &amp;#34;PG Management Subsystem&amp;#34; PGMap[pg_map&amp;lt;br/&amp;gt;PG Mapping Table] PG[PG Class&amp;lt;br/&amp;gt;Placement Group] PGBackend[PGBackend&amp;lt;br/&amp;gt;Backend Implementation] ReplicatedBackend[ReplicatedBackend] ECBackend[ECBackend] end subgraph &amp;#34;Object Storage Subsystem&amp;#34; ObjectStore[ObjectStore&amp;lt;br/&amp;gt;Storage Abstraction Layer] FileStore[FileStore&amp;lt;br/&amp;gt;Filesystem Storage] BlueStore[BlueStore&amp;lt;br/&amp;gt;Raw Device Storage] ObjectContext[ObjectContext&amp;lt;br/&amp;gt;Object Context] end subgraph &amp;#34;Recovery Subsystem&amp;#34; RecoveryState[RecoveryState&amp;lt;br/&amp;gt;Recovery State Machine] PeeringState[PeeringState&amp;lt;br/&amp;gt;Peering State] BackfillState[BackfillState&amp;lt;br/&amp;gt;Backfill State] RecoveryWQ[RecoveryWQ&amp;lt;br/&amp;gt;Recovery Work Queue] end subgraph &amp;#34;Monitoring &amp;amp; Statistics&amp;#34; PGStats[PGStats&amp;lt;br/&amp;gt;PG Statistics] OSDStats[OSDStats&amp;lt;br/&amp;gt;OSD Statistics] PerfCounters[PerfCounters&amp;lt;br/&amp;gt;Performance Counters] Logger[Logger&amp;lt;br/&amp;gt;Logging System] end OSD --&amp;gt; OSDService OSD --&amp;gt; ShardedOpWQ OSD --&amp;gt; Messenger OSD --&amp;gt; PGMap PGMap --&amp;gt; PG PG --&amp;gt; PGBackend PGBackend --&amp;gt; ReplicatedBackend PGBackend --&amp;gt; ECBackend PG --&amp;gt; ObjectStore ObjectStore --&amp;gt; FileStore ObjectStore --&amp;gt; BlueStore PG --&amp;gt; ObjectContext PG --&amp;gt; RecoveryState RecoveryState --&amp;gt; PeeringState RecoveryState --&amp;gt; BackfillState OSD --&amp;gt; RecoveryWQ PG --&amp;gt; PGStats OSD --&amp;gt; OSDStats OSD --&amp;gt; PerfCounters OSD --&amp;gt; Logger OSD Core Class Structure Details 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 classDiagram class OSD { -int whoami -Messenger* cluster_messenger -Messenger* client_messenger -MonClient* monc -MgrClient* mgrc -ObjectStore* store -OSDService service -map~spg_t,PG*~ pg_map -RWLock pg_map_lock -OSDMapRef osdmap -epoch_t up_epoch -ThreadPool op_tp -ShardedOpWQ op_sharded_wq -RecoveryWQ recovery_wq -SnapTrimWQ snap_trim_wq -ScrubWQ scrub_wq +handle_osd_op(MOSDOp* op) +handle_replica_op(MOSDSubOp* op) +handle_pg_create(MOSDPGCreate* m) +handle_osd_map(MOSDMap* m) +process_peering_events() +start_boot() +shutdown() } class OSDService { -OSD* osd -CephContext* cct -ObjectStore* store -LogClient* log_client -PGRecoveryStats recovery_stats -Throttle recovery_ops_throttle -Throttle recovery_bytes_throttle -ClassHandler* class_handler -map~hobject_t,ObjectContext*~ object_contexts -LRUExpireMap object_context_lru +get_object_context(hobject_t oid) +release_object_context(ObjectContext* obc) +queue_for_recovery(PG* pg) +queue_for_scrub(PG* pg) } class ShardedOpWQ { -vector~OpWQ*~ shards -atomic~uint32_t~ next_shard +queue(OpRequestRef op) +dequeue(OpWQ* shard) +process_batch() } class OpWQ { -ThreadPool::TPHandle* handle -list~OpRequestRef~ ops -Mutex ops_lock +enqueue_front(OpRequestRef op) +enqueue_back(OpRequestRef op) +dequeue() +process() } OSD --&amp;gt; OSDService OSD --&amp;gt; ShardedOpWQ ShardedOpWQ --&amp;gt; OpWQ PG Class Detailed Structure 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 classDiagram class PG { -spg_t pg_id -OSDService* osd -CephContext* cct -PGBackend* pgbackend -ObjectStore::CollectionHandle ch -RecoveryState recovery_state -PGLog pg_log -IndexedLog projected_log -eversion_t last_update -epoch_t last_epoch_started -set~pg_shard_t~ up -set~pg_shard_t~ acting -map~hobject_t,ObjectContext*~ object_contexts -Mutex pg_lock -Cond pg_cond -list~OpRequestRef~ waiting_for_peered -list~OpRequestRef~ waiting_for_active -map~eversion_t,list~OpRequestRef~~ waiting_for_ondisk +do_request(OpRequestRef op) +do_op(OpRequestRef op) +do_sub_op(OpRequestRef op) +execute_ctx(OpContext* ctx) +issue_repop(RepGather* repop) +eval_repop(RepGather* repop) +start_recovery_ops() +recover_object() +on_change(ObjectStore::Transaction* t) +activate() +clean_up_local() } class RecoveryState { -PG* pg -RecoveryMachine machine -boost::statechart::state_machine base +handle_event(const boost::statechart::event_base&amp;amp; evt) +process_peering_events() +advance_map() +need_up_thru() } class PGLog { -IndexedLog log -eversion_t tail -eversion_t head -list~pg_log_entry_t~ pending_log -set~eversion_t~ pending_dups +add(pg_log_entry_t&amp;amp; entry) +trim(eversion_t trim_to) +merge_log(ObjectStore::Transaction* t) +write_log_and_missing() } class PGBackend { -PG* parent -ObjectStore* store -CephContext* cct +submit_transaction() +objects_list_partial() +objects_list_range() +objects_get_attr() +objects_read_sync() +be_deep_scrub() } PG --&amp;gt; RecoveryState PG --&amp;gt; PGLog PG --&amp;gt; PGBackend Read/Write IO Processing Detailed Flow Write Operation Complete Flow 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 sequenceDiagram participant Client participant OSD participant PG participant OpWQ participant ObjectStore participant Journal participant Replica Client-&amp;gt;&amp;gt;OSD: MOSDOp(write) OSD-&amp;gt;&amp;gt;OSD: handle_osd_op() Note right of OSD: 1.</description>
@@ -103,7 +103,7 @@ This article analyzes the execution flow when using balancer upmap mode, based o
     <item>
       <title>OSD</title>
       <link>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/osd/</link>
-      <pubDate>Sun, 03 Aug 2025 03:48:10 +0000</pubDate>
+      <pubDate>Sun, 10 Aug 2025 03:41:06 +0000</pubDate>
       
       <guid>http://YLShiJustFly.github.io/post/ceph-content/architecture-analysis/zh-cn/osd/</guid>
       <description>经典OSD整体架构图 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 graph TB subgraph &amp;#34;</description>
